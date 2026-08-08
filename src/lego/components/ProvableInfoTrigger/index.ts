@@ -1,0 +1,1 @@
+export { ProvableInfoTrigger } from './ProvableInfoTrigger';

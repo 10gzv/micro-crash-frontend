@@ -1,0 +1,40 @@
+.Lego {
+  &-Badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    height: 20px;
+    padding: 0 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-main);
+    background: rgb(32, 32, 32);
+    user-select: none;
+    line-height: normal;
+
+    &_blue {
+      background: rgba(12, 86, 103, 0.4);
+      border: 1px solid rgba(26, 159, 188, 0.4);
+      box-shadow: 0px 4px 12px 4px rgba(26, 159, 188, 0.1);
+    }
+
+    &_green {
+      background-color: rgba(26, 188, 123, 0.4);
+      border: 1px solid rgba(26, 188, 123, 0.4);
+      box-shadow: 0px 4px 12px 4px rgba(26, 188, 123, 0.1);
+    }
+
+    &_yellow {
+      background: rgba(237, 143, 75, 0.4);
+      border: 1px solid rgba(237, 143, 75, 0.4);
+      box-shadow: 0px 4px 12px 4px rgba(237, 143, 75, 0.1);
+    }
+
+    &_red {
+      background-color: rgb(71, 60, 135);
+      box-shadow: 0px 4px 12px 4px rgba(186, 54, 54, 0.1);
+    }
+  }
+}

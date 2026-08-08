@@ -1,0 +1,172 @@
+.Pusula-GameRulesPanel-Backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-index-header) - 1);
+  background: rgba(8, 15, 32, 0.55);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.Pusula-GameRulesPanel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  z-index: calc(var(--z-index-dropdown) + 1);
+  display: flex;
+  flex-direction: column;
+  width: min(393px, calc(100vw - 24px));
+  max-height: min(586px, calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)));
+  background: rgba(27, 30, 48, 1);
+  border-radius: 16px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%) scale(0.96);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.28s ease,
+    opacity 0.28s ease;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  &_open {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.Pusula-GameRulesPanel-Header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  padding: 0 16px;
+  border-bottom: 1px solid rgba(46, 51, 80, 1);
+  box-sizing: border-box;
+}
+
+.Pusula-GameRulesPanel-Title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  color: rgba(250, 250, 250, 1);
+
+  img {
+    display: block;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.Pusula-GameRulesPanel-Close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(46, 51, 80, 1);
+  background: linear-gradient(180deg, rgba(38, 42, 65, 1) 0%, rgba(27, 30, 48, 1) 100%);
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.Pusula-GameRulesPanel-Body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.Pusula-GameRulesPanel-List {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 361px;
+  margin: 0 auto;
+}
+
+.Pusula-GameRulesPanel-Item {
+  border-radius: 16px;
+  border: 1px solid rgba(58, 67, 102, 1);
+  background: rgba(43, 48, 74, 1);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.Pusula-GameRulesPanel-ItemHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 8px 8px 16px;
+  box-sizing: border-box;
+}
+
+.Pusula-GameRulesPanel-ItemTitle {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  color: rgba(250, 250, 250, 1);
+}
+
+.Pusula-GameRulesPanel-ItemToggle {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.Pusula-GameRulesPanel-ItemToggleIcon {
+  display: block;
+  width: 32px;
+  height: 32px;
+  transform: rotate(90deg);
+  transition: transform 0.2s ease;
+
+  &_up {
+    transform: rotate(-90deg);
+  }
+}
+
+.Pusula-GameRulesPanel-ItemBody {
+  padding: 0 16px 16px;
+  border-top: 1px solid rgba(58, 67, 102, 1);
+  box-sizing: border-box;
+}
+
+.Pusula-GameRulesPanel-ItemText {
+  margin: 12px 0 0;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  color: rgba(250, 250, 250, 1);
+}

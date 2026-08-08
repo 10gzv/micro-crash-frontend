@@ -1,0 +1,96 @@
+.Lego {
+  &-HowToPlay {
+    height: 400px;
+    position: relative;
+
+    &-Tabs {
+      position: sticky;
+      top: 0;
+    }
+
+    &-SeedWrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    &-Input {
+      width: 100%;
+      display: flex;
+      gap: 3px;
+
+      & .Lego-InputContainer {
+        width: 80%;
+      }
+
+      & input {
+        margin: 0;
+        line-height: normal;
+        padding: 9px 10px;
+        width: 100%;
+        background: linear-gradient(180deg, #44b3f2 0%, #2d7ba7 100%);
+        border-radius: 8px;
+      }
+    }
+
+    &-Title {
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    &-Caption {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--color-main-active);
+    }
+
+    &-Highlight {
+      color: var(--color-main-active);
+    }
+
+    &-Text {
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      text-wrap: balance;
+    }
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    @include s {
+      width: 400px;
+    }
+
+    @include m {
+      width: 500px;
+    }
+
+    &-Copy {
+      display: flex;
+
+      &-Button {
+        width: 40px;
+        border-radius: 8px;
+        cursor: pointer;
+        background: linear-gradient(180deg, #44b3f2 0%, #2d7ba7 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & .Lego-Button-Inner {
+          padding: 0;
+        }
+
+        &-Svg {
+          width: 15px;
+          height: 15px;
+          fill: white;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+@import '@styles/breakpoints.scss';
+
+/* jugu-like shell: game-container (row) → game-play (column: history, stage, bets) */
+.Lego-GameContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+
+  @include l {
+    flex: 1 1 auto;
+    min-height: 0;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+}
+
+.Lego-GamePlay {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+
+  @include l {
+    position: relative;
+    flex: 1 1 0;
+    min-height: 0;
+    padding: 8px;
+    overflow: hidden;
+    background: rgba(19, 33, 59, 1);
+
+    // Chat overlays history + stage; ends above the bet panel (see --pusula-chat-clearance-bottom).
+    > .Lego-RightSection {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: var(--pusula-chat-clearance-bottom, 168px);
+      left: auto;
+      width: var(--right-section-width);
+      height: auto;
+      transform: translateX(calc(100% + 8px));
+      z-index: var(--z-index-chat);
+      pointer-events: none;
+
+      &.Lego-RightSection_open {
+        transform: translateX(0);
+        pointer-events: auto;
+      }
+    }
+  }
+}

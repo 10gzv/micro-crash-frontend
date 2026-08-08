@@ -1,0 +1,23 @@
+.Lego {
+  &-ProvableInfoTrigger {
+    padding-left: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: all;
+
+    &-Button {
+      &:hover {
+        & svg {
+          transform: scale(1.1);
+        }
+      }
+
+      & svg {
+        transition: 0.3s all;
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+}

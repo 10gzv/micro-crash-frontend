@@ -1,0 +1,82 @@
+/* Figma person avatars — colored disc + icons/avatars/person.svg */
+.Pusula-PersonAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(8, 15, 32, 0.45);
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-left: -5px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &_a {
+    background-color: #e0b13a;
+  }
+
+  &_b {
+    background-color: #7c5cff;
+  }
+
+  &_c {
+    background-color: #4aa3ff;
+  }
+
+  &_d {
+    background-color: #e08f4b;
+  }
+
+  /* Coefficient tiers (bet list + cashout) */
+  &_pending {
+    background-color: #4aa3ff;
+  }
+
+  &_low {
+    background-color: #7b88a8;
+  }
+
+  &_mid {
+    background-color: #ffac2c;
+  }
+
+  &_high {
+    background-color: #ff7a45;
+  }
+}
+
+.Pusula-PersonAvatar-Icon {
+  display: block;
+  width: 55%;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Pending rows — decorative cycle when no cashout yet */
+.Lego-Bet-List-Item_pending:nth-child(3n + 1) .Pusula-PersonAvatar_pending {
+  background-color: #e0b13a;
+}
+
+.Lego-Bet-List-Item_pending:nth-child(3n + 2) .Pusula-PersonAvatar_pending {
+  background-color: #7c5cff;
+}
+
+.Lego-Bet-List-Item_pending:nth-child(3n + 3) .Pusula-PersonAvatar_pending {
+  background-color: #4aa3ff;
+}
+
+.Lego-Avatar.Pusula-PersonAvatar {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  margin-left: 0;
+}

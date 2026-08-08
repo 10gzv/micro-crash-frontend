@@ -1,0 +1,174 @@
+@import '@styles/breakpoints.scss';
+
+.Lego {
+  &-ProvableInfo {
+    &-Title {
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+    }
+
+    &-ProvableText {
+      display: flex;
+      align-items: center;
+      color: rgb(31, 226, 109);
+
+      margin-left: 10px;
+    }
+
+    &-ProvableIcon {
+      width: 20px;
+      height: 20px;
+
+      margin-right: 2px;
+    }
+  }
+}
+
+.popup-validity {
+  display: flex;
+  transform: translate(-50%, -150%);
+  max-width: 550px;
+  width: 90%;
+  max-height: 94%;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  background-color: rgba(var(--rocket-black6), 1);
+  overflow: hidden;
+  transition: transform 0.2s;
+  z-index: 14;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('../../img/stars-z1.png');
+    opacity: 0.5;
+    z-index: -1;
+  }
+}
+
+.popup-validity.active {
+  top: 50%;
+  transform: translate(-50%, -53%);
+}
+
+.popup-validity__header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-size: 14px;
+  background-color: rgba(var(--rocket-gray2), 0.05);
+  font-weight: 700;
+  color: rgba(var(--rocket-gray2), 0.8);
+}
+
+.popup-validity__header-left {
+  display: flex;
+  align-items: center;
+}
+
+.popup-validity__question {
+  padding-right: 10px;
+}
+
+.popup-validity__close {
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  margin-left: auto;
+}
+
+.popup-validity__close-svg {
+  width: 14px;
+  height: 14px;
+  fill: rgba(var(--rocket-green1), 1);
+}
+
+.validity__link-text {
+  color: rgba(var(--rocket-green1), 1);
+}
+
+.popup-validity__body {
+  overflow-y: scroll;
+
+  @include s {
+    width: 400px;
+  }
+
+  @include m {
+    width: 500px;
+  }
+}
+
+.popup-validity__body-img {
+  width: 100%;
+  height: auto;
+}
+
+.popup-validity__body-text {
+  font-size: 13px;
+  color: rgba(var(--rocket-gray1), 1);
+  margin: 0 0 10px;
+
+  & b {
+    color: rgba(var(--rocket-gray2), 0.6);
+  }
+}
+
+.popup-validity__body-title {
+  font-size: 14px;
+  color: lightblue;
+  text-align: center;
+  margin: 5px 0;
+}
+
+.popup-validity__check-top {
+  display: flex;
+  margin: 5px 0;
+}
+
+.popup-validity__check-img {
+  width: 100%;
+  height: auto;
+}
+
+.popup-validity__check-left {
+  // width: 35%;
+  // border-radius: 6px;
+  // background-image: url('/corgi.png');
+  // background-position: center;
+  // background-size: contain;
+}
+
+.popup-validity__check-right {
+  // width: 65%;
+  // margin-left: 10px;
+}
+
+.popup-validity__footer {
+  padding: 5px 0;
+  text-align: center;
+  font-size: 12px;
+}
+
+.popup-validity__footer-top {
+  color: lightblue;
+}
+
+.popup-validity__footer-bottom {
+  user-select: all;
+  a {
+    color: lightblue;
+  }
+}

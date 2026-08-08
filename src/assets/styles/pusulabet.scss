@@ -1,0 +1,348 @@
+/* Pusulabet skin — Figma Crash file, Pusulabet Crash */
+@import '@styles/breakpoints.scss';
+
+:root {
+  --color-background: rgba(26, 41, 71, 1);
+  --color-section: rgba(27, 30, 48, 1);
+
+  --header-height: 42px;
+  --left-section-width: 301px;
+  --right-section-width: 393px;
+  /* bet panel 160px + GamePlay gap to bets (8px) */
+  --pusula-chat-clearance-bottom: 168px;
+  --radius-section: 14px;
+  --radius-button: 8px;
+  --font-main: Helvetica, Arial, sans-serif;
+  --font-secondary: Helvetica, Arial, sans-serif;
+}
+
+body,
+#root {
+  background: #080f20;
+}
+
+.Lego-Core {
+  background: rgba(26, 41, 71, 1);
+
+  @include l {
+    background: #080f20;
+  }
+}
+
+/* Figma Top-Bar — flat text + icons, no Button / ButtonGroup chrome */
+.Lego-Header {
+  height: 42px;
+  padding: 0 16px;
+  border: 0.75px solid rgba(46, 51, 80, 1);
+  background: linear-gradient(180deg, #262a41 0%, #1b1e30 100%);
+  box-shadow: none;
+  box-sizing: border-box;
+
+  &-Left {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  &-Logo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  &-LogoImage {
+    height: 22px;
+    width: auto;
+    max-width: 140px;
+    object-fit: contain;
+  }
+
+  &-Right {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* Balance: 14/700 #FFAC2C + USD 10/400 #93A0BE — no pill */
+  &-Balance {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    white-space: nowrap;
+  }
+
+  &-BalanceAmount {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: #ffac2c;
+  }
+
+  &-BalanceCurrency {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: 0;
+    color: #93a0be;
+    text-transform: uppercase;
+  }
+
+  &-Actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  &-ChatAnchor {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &-IconBtn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    cursor: pointer;
+    color: #fff;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background: transparent;
+      box-shadow: none;
+      outline: none;
+    }
+  }
+
+  &-IconImg {
+    display: block;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    pointer-events: none;
+
+    &_list {
+      width: 22px;
+      height: 22px;
+    }
+  }
+}
+
+/* Desktop: history → stage → bets inside game-play (jugu game-play column) */
+@include l {
+  .Lego-GameSection {
+    background: rgba(26, 41, 71, 1);
+  }
+
+  .Lego-GameSection-Content {
+    background: rgba(26, 41, 71, 1);
+  }
+
+  .Lego-GameSection-Content-Chart {
+    order: 2;
+    flex: 1 1 0;
+    min-height: 0;
+    border-radius: 0;
+    overflow: hidden;
+    // background: #1a2947;
+  }
+
+  .Lego-GamePlay .Lego-DrawHistory {
+    order: 0;
+    flex: 0 0 20px;
+    min-height: 20px;
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    width: 100%;
+    margin: 0 0 12px;
+    padding: 12px 0 0;
+    gap: 8px;
+    pointer-events: auto;
+    z-index: 2;
+    box-sizing: border-box;
+  }
+
+  .Lego-GamePlay .Lego-GameSection {
+    order: 1;
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  .Lego-GamePlay .Lego-BettingSection {
+    order: 2;
+    flex: 0 0 auto;
+    position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    width: 100%;
+    margin: 8px 0 0;
+    padding: 0;
+    pointer-events: auto;
+  }
+}
+
+.Lego-DrawHistory-NextOdd {
+  display: none;
+}
+
+.Lego-DrawHistory-EndBadge {
+  display: none;
+}
+
+.Lego-DrawHistory-List {
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+
+  @include l {
+    margin: 0;
+    padding: 4px;
+  }
+}
+
+.Lego-DrawHistory .Lego-Odd,
+.Lego-DrawHistory .Lego-Badge {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  min-width: 0;
+  height: auto;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: -0.2px;
+}
+
+/* Figma coefficient tiers: <2 gray / <10 gold / ≥10 coral */
+.Lego-DrawHistory .Lego-Odd_tier-low,
+.Lego-DrawHistory .Lego-Badge_blue.Lego-Odd_tier-low {
+  color: #7b88a8 !important;
+}
+
+.Lego-DrawHistory .Lego-Odd_tier-mid,
+.Lego-DrawHistory .Lego-Badge_yellow.Lego-Odd_tier-mid {
+  color: #ffac2c !important;
+}
+
+.Lego-DrawHistory .Lego-Odd_tier-high,
+.Lego-DrawHistory .Lego-Badge_red.Lego-Odd_tier-high {
+  color: #ff7a45 !important;
+}
+
+.Lego-DrawHistory .Lego-Odd-Rate {
+  margin-right: 1px;
+  color: inherit;
+}
+
+.Lego-RoundOdd_pusula {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 12;
+  pointer-events: none;
+
+  .Lego-RoundOdd-Text {
+    text-align: center;
+    width: auto;
+    height: auto;
+    font-size: inherit;
+    text-shadow: none;
+    flex-direction: column;
+  }
+
+  .Lego-RoundOdd-Text-Inner {
+    width: auto;
+    font-family: Inter, Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-size: clamp(52px, 8.5vw, 94px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: #f0f2f5;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
+  }
+}
+
+.Lego-RoundOdd_crashed {
+  .Lego-RoundOdd-Text {
+    gap: 10px;
+    align-items: center;
+  }
+
+  .Lego-RoundOdd-Text-Inner {
+    /* Figma: белая заливка + красный контур букв (не box-border) */
+    display: inline-block;
+    padding: 0;
+    border: none;
+    font-family: Inter, Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-size: clamp(48px, 8vw, 94px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: rgba(240, 242, 245, 1);
+    -webkit-text-stroke: 2px rgba(236, 35, 65, 1);
+    paint-order: stroke fill;
+    text-shadow: none;
+  }
+
+  .Lego-RoundOdd-Crashed {
+    /* Figma: Inter 500 / 24 / 150% / -3% / red gradient */
+    font-family: Inter, Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: clamp(18px, 2.4vw, 24px);
+    line-height: 1.5;
+    letter-spacing: -0.03em;
+    text-align: center;
+    text-transform: none;
+    background: linear-gradient(
+      180deg,
+      rgba(236, 35, 65, 1) 0%,
+      rgba(236, 35, 97, 1) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.Lego-Timer {
+  z-index: 12;
+}
+
+.Lego-Popup-Content {
+  background: #0b1428;
+  border: 1px solid #2a3a5c;
+  border-radius: 14px;
+}
+
+.Lego-Popup {
+  background-color: rgba(8, 15, 32, 0.72);
+}
+
+.Lego-BetList-Item,
+.Lego-BetCard {
+  background: transparent;
+  border-radius: 0;
+}

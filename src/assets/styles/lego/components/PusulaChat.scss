@@ -1,0 +1,548 @@
+@import '@styles/breakpoints.scss';
+
+$pusula-chat-bg: rgba(27, 30, 48, 1);
+$pusula-chat-border: rgba(46, 51, 80, 1);
+$pusula-chat-surface: rgba(43, 48, 74, 1);
+$pusula-chat-text: rgba(250, 250, 250, 1);
+$pusula-chat-muted: rgba(147, 160, 190, 1);
+$pusula-chat-gold: rgba(255, 172, 44, 1);
+$pusula-chat-green: rgba(40, 184, 88, 1);
+$pusula-chat-blue: rgba(88, 201, 255, 1);
+
+$pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
+
+.Lego-RightSection {
+  background: $pusula-chat-bg;
+  border-left: none;
+
+  @include l {
+    border-left: 1px solid $pusula-chat-border;
+  }
+
+  .Pusula-ChatRoot {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .Lego-ChatSheet {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    background: $pusula-chat-bg;
+
+    &::before {
+      display: none;
+    }
+
+    @include l {
+      margin: 0;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+  }
+
+  .Lego-Chat {
+    background: $pusula-chat-bg;
+  }
+
+  /* —— Header: group chat cont 393×72 —— */
+  .Lego-Chat-Header {
+    flex-shrink: 0;
+    background: $pusula-chat-bg;
+  }
+
+  .Lego-Chat-Header-Main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 72px;
+    min-height: 72px;
+    padding: 16px 8px;
+    box-sizing: border-box;
+    border-bottom: 1px solid $pusula-chat-border;
+    background: $pusula-chat-bg;
+  }
+
+  .Lego-Chat-Header-Left {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    background: url('#{$pusula-chat-icon-base}group-bubble.png') center / contain no-repeat;
+  }
+
+  .Lego-Chat-Header-Title {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1;
+    color: $pusula-chat-text;
+  }
+
+  .Lego-Chat-Header-Close {
+    flex-shrink: 0;
+    width: auto;
+    min-width: 64px;
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: $pusula-chat-surface;
+    border: 1px solid $pusula-chat-border;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    svg,
+    .Lego-Svg {
+      display: none;
+    }
+
+    &::after {
+      content: 'Close';
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1;
+      color: $pusula-chat-text;
+    }
+  }
+
+  /* —— Players online cont 393×60 —— */
+  .Lego-Chat-Header-Status {
+    padding: 0;
+    background: $pusula-chat-bg;
+    border-bottom: 1px solid $pusula-chat-border;
+  }
+
+  .Lego-Chat-Header-Online {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: none;
+    height: 60px;
+    min-height: 60px;
+    padding: 0 10px;
+    gap: 10px;
+    box-sizing: border-box;
+    background: $pusula-chat-bg;
+    border: none;
+    border-radius: 0;
+
+    &::before {
+      content: '';
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      background: url('#{$pusula-chat-icon-base}players-online.png') center / contain no-repeat;
+    }
+
+    &::after {
+      content: 'Players online';
+      flex: 1;
+      min-width: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 1;
+      color: $pusula-chat-muted;
+    }
+  }
+
+  .Lego-Chat-Header-Online-Dot {
+    order: 3;
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    margin-left: auto;
+    background: $pusula-chat-green;
+    box-shadow: none;
+  }
+
+  /* Core: "{count} / Players" — Figma: only the number on the right */
+  .Pusula-ChatRoot .Lego-Chat-Header-Online-Text {
+    order: 4;
+    flex: 0 0 auto;
+    font-size: 0;
+    line-height: 0;
+    max-width: none;
+    overflow: visible;
+    color: transparent;
+    user-select: none;
+
+    &::after {
+      content: var(--pusula-chat-online-count, '0');
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1;
+      color: $pusula-chat-text;
+    }
+  }
+
+  /* —— Messages —— */
+  .Lego-Chat-Messages {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 8px 8px 12px;
+    background: $pusula-chat-bg;
+  }
+
+  .Lego-Chat-Message {
+    margin: 0 0 12px;
+    list-style: none;
+  }
+
+  .Lego-Chat-Message-Header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    padding: 0 4px 6px;
+  }
+
+  .Lego-Chat-Message-Nickname {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.2;
+    color: $pusula-chat-muted;
+  }
+
+  .Lego-Chat-Message-Date {
+    flex-shrink: 0;
+    padding: 0;
+    font-size: 12px;
+    color: $pusula-chat-muted;
+  }
+
+  .Lego-Chat-Message-Like {
+    flex-shrink: 0;
+    margin-left: auto;
+    padding: 0;
+
+    .Lego-Svg {
+      width: 16px;
+      height: 16px;
+      fill: $pusula-chat-muted;
+    }
+  }
+
+  .Lego-Chat-Message-SharedText {
+    margin-left: 4px;
+    color: $pusula-chat-text;
+    font-weight: 400;
+  }
+
+  .Lego-Chat-Message-Body {
+    padding: 0 4px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.35;
+    color: $pusula-chat-text;
+  }
+
+  .Lego-Chat-Message_share_bet {
+    .Lego-Chat-Message-Body {
+      padding: 0 4px;
+    }
+
+    .Lego-BetCard {
+      margin: 0;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: $pusula-chat-surface;
+      border: 1px solid $pusula-chat-border;
+      align-items: flex-start;
+    }
+
+    .Lego-BetCard-User {
+      display: none;
+    }
+
+    .Lego-BetCard-Info {
+      flex: 1 1 auto;
+      width: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 14px;
+    }
+
+    .Lego-BetCard-Info-Item {
+      flex: 0 1 auto;
+      height: auto;
+      min-height: 0;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      border-radius: 0;
+      font-size: 12px;
+      line-height: 1.2;
+      gap: 4px;
+
+      &-Label {
+        margin: 0;
+        color: $pusula-chat-muted;
+        font-weight: 400;
+      }
+
+      &-Value {
+        color: $pusula-chat-text;
+        font-weight: 700;
+      }
+
+      &.Odd .Lego-Odd,
+      &.Odd .Lego-Badge {
+        color: $pusula-chat-green !important;
+      }
+
+      &.win .Lego-BetCard-Info-Item-Value {
+        color: $pusula-chat-text;
+      }
+    }
+  }
+
+  .Lego-Chat-Message:not(.Lego-Chat-Message_freebets_giveaway) .Lego-Avatar {
+    display: none;
+  }
+
+  .Lego-Chat-Message_freebets_giveaway {
+    .Lego-Chat-Message-Nickname {
+      color: $pusula-chat-gold;
+      font-weight: 700;
+    }
+  }
+
+  /* —— Footer: chat cont 393×72 —— */
+  .Lego-Chat-Footer {
+    position: relative;
+    flex-shrink: 0;
+    display: grid;
+    /* Input + GIF only (no third “magic” slot from Figma) */
+    grid-template-columns: minmax(0, 1fr) 40px;
+    grid-template-rows: auto auto;
+    column-gap: 6px;
+    row-gap: 8px;
+    align-items: center;
+    min-height: 72px;
+    margin: 0;
+    padding: 16px 8px;
+    box-sizing: border-box;
+    background: $pusula-chat-bg;
+    border: none;
+    border-top: 1px solid $pusula-chat-border;
+    border-radius: 0;
+  }
+
+  .Lego-Chat-Footer-Form {
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .Lego-Chat-Footer-InputWrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    min-height: 40px;
+    padding: 0 40px 0 12px;
+    gap: 8px;
+    background: $pusula-chat-surface;
+    border: 1px solid $pusula-chat-border;
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+
+  .Lego-Chat-Footer-Input {
+    width: 100%;
+    min-width: 0;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1;
+    color: $pusula-chat-text;
+
+    &::placeholder {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: $pusula-chat-muted;
+    }
+
+    &:placeholder-shown {
+      /* Figma copy when core/i18n still serves the default string */
+      &::placeholder {
+        color: transparent;
+      }
+    }
+  }
+
+  .Lego-Chat-Footer-InputWrap:has(.Lego-Chat-Footer-Input:placeholder-shown)::before {
+    content: 'Chat..';
+    position: absolute;
+    left: 12px;
+    pointer-events: none;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1;
+    color: $pusula-chat-muted;
+  }
+
+  .Lego-Chat-Footer-Send {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .Lego-Chat-Footer-Bottom {
+    display: contents;
+  }
+
+  .Lego-Chat-Footer-Actions {
+    display: contents;
+  }
+
+  .Lego-Chat-Footer-ActionBtn {
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    border-radius: 10px;
+    background: $pusula-chat-surface;
+    border: 1px solid $pusula-chat-border;
+    box-shadow: none;
+    color: $pusula-chat-text;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 1;
+    text-transform: uppercase;
+
+    .Lego-Svg,
+    svg {
+      display: none;
+    }
+
+    &:hover {
+      transform: none;
+      filter: brightness(1.06);
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+
+    &.active:not(:first-child) {
+      background: rgba(255, 172, 44, 0.12);
+      border-color: rgba(255, 172, 44, 0.35);
+      color: $pusula-chat-gold;
+    }
+  }
+
+  /* Emoji — inside input (right), Figma 24×24 */
+  .Lego-Chat-Footer-ActionBtn:first-child {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: end;
+    align-self: center;
+    z-index: 2;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    border: none;
+    background: transparent;
+    background-image: url('#{$pusula-chat-icon-base}smile-circle.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    &.active {
+      background-color: transparent;
+      box-shadow: none;
+    }
+  }
+
+  /* GIF — 40×40 @ col 2 */
+  .Lego-Chat-Footer-ActionBtn:last-child {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .Lego-Chat-Footer-Counter {
+    display: none;
+  }
+
+  /* Giphy root is `.Lego-Giphy`; `Lego-Chat-Footer-GIF` is only on the inner grid */
+  .Lego-Chat-Footer-EmojiWrapper,
+  .Lego-Giphy {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .Lego-Chat-Footer-GIF {
+    width: 100% !important;
+    max-width: 100%;
+    height: min(280px, 36vh);
+    overflow: auto;
+    margin: 0;
+  }
+
+  .Lego-Giphy-Input {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 0 8px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid $pusula-chat-border;
+    background: $pusula-chat-surface;
+    color: $pusula-chat-text;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+
+    &::placeholder {
+      color: $pusula-chat-muted;
+    }
+  }
+
+  .Lego-Giphy-Grid {
+    width: 100% !important;
+    max-width: 100%;
+  }
+
+  .Lego-Chat-Magic {
+    background: $pusula-chat-surface;
+    border: 1px solid $pusula-chat-border;
+    border-radius: 10px;
+  }
+
+  .Lego-Chat-MagicItem {
+    background: rgba(11, 20, 40, 0.65);
+    border: 1px solid $pusula-chat-border;
+    box-shadow: none;
+  }
+
+  .Lego-Chat-MagicItem-ClaimButton {
+    background: linear-gradient(180deg, #ffac2c 0%, #e8870c 100%);
+  }
+}

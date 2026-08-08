@@ -1,0 +1,52 @@
+@import '@styles/breakpoints.scss';
+$gap: 10px;
+
+.Lego {
+  &-DrawHistory {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $gap;
+    margin-bottom: var(--section-gap);
+
+    width: 100%;
+    @include l {
+      flex: 0 0 20px;
+      min-height: 20px;
+      align-items: center;
+      padding: 0;
+      margin-bottom: 0;
+    }
+
+    &-NextOdd {
+      width: 76px;
+      margin-right: 4px;
+    }
+
+    &-List {
+      display: flex;
+      flex: 1;
+      overflow: auto;
+      align-items: center;
+      gap: $gap;
+
+      @include hideScrollbar;
+    }
+
+ 
+    &-EndBadge {
+      height: 20px;
+      width: 20px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgb(32, 32, 32);
+    }
+
+    &-ClockIcon {
+      width: 12px;
+      height: 12px;
+    }
+  }
+}

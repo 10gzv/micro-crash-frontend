@@ -1,0 +1,57 @@
+.Lego {
+  &-Switcher {
+    font-size: 12px;
+    font-family: var(--font-secondary);
+    position: relative;
+    display: inline-block;
+    width: 28px;
+    height: 16px;
+
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+
+      &:checked + .Lego-Switcher-Slider {
+        background-color: #21cc4c;
+      }
+
+      &:focus + .Lego-Switcher-Slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+
+      &:checked + .Lego-Switcher-Slider::before {
+        transform: translateX(12px);
+      }
+    }
+
+    &-Slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgb(182, 182, 182);
+      transition: .4s;
+      border-radius: 4px;
+
+      &::before {
+        position: absolute;
+        content: "";
+        height: 12px;
+        width: 12px;
+        border-radius: 3px;
+        left: 2px;
+        bottom: 2px;
+        transform: rotate(270deg);
+        background-color: rgb(255, 255, 255);
+        transition: .4s;
+      }
+    }
+
+    input:checked + .slider {
+      background-color: #21cc4c;
+    }
+  }
+}

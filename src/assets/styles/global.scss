@@ -1,0 +1,61 @@
+@import '@styles/breakpoints.scss';
+@import '@styles/mixins.scss';
+
+* {
+  box-sizing: border-box;
+  line-height: normal;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-core);
+  overflow-x: hidden;
+  font-family: var(--font-main);
+  user-select: none;
+
+  @include hideScrollbar;
+
+  @include l {
+    height: 100dvh;
+    overflow: hidden;
+  }
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+.transition {
+  transition: all 0.2s ease-out;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0.25rem;
+  background-color: gray;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+.svg-sprite {
+  position: fixed;
+  width: 0;
+  height: 0;
+  z-index: -1;
+}

@@ -1,0 +1,51 @@
+.Lego {
+  &-BurgerMenu {
+    width: 210px;
+    background-color: rgba(23, 23, 23, 1);
+    border: 1px solid rgba(32, 32, 32, 1);
+    border-radius: 8px;
+    padding: 3px;
+    &-Item {
+      padding: 0 6px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      font-family: var(--font-secondary);
+      font-size: 12px;
+
+      &.Freebets_active {
+        color: yellow;
+
+        border: 2px solid yellow;
+
+        .Lego-Svg {
+          fill: yellow;
+        }
+      }
+
+
+      &:hover {
+        background-color: rgba(32, 32, 32, 1);
+        cursor: pointer;
+      }
+
+      &-Icon {
+        margin-right: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        fill: white;
+
+        .Lego-Svg {
+          width: 14px;
+          height: 14px;
+        }
+      }
+
+      &-Text {
+        flex: 1;
+      }
+    }
+  }
+}

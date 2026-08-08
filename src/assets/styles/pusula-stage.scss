@@ -1,0 +1,482 @@
+@import '@styles/breakpoints.scss';
+
+.PusulaStage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid #2a3a5c;
+  background: #0d1730;
+}
+
+.PusulaStage-Canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #0d1730;
+}
+
+/* Figma waiting + crashed: plain navy, no decor */
+.PusulaStage-Canvas_flat {
+  background: #080f20;
+}
+
+/*
+ * Stage rays — circular sun burst, pivot at stage bottom-left.
+ */
+.PusulaStage-Rays {
+  position: absolute;
+  top: -300%;
+  left: -300%;
+  width: 600%;
+  height: 800%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center center;
+  transform-origin: 50% 50%;
+  transform: scale(0.92);
+  pointer-events: none;
+  z-index: 0;
+  animation: pusula-rays-rotate 30s linear infinite;
+}
+
+@keyframes pusula-rays-rotate {
+  100% {
+    transform: scale(0.92) rotate(360deg);
+  }
+}
+
+/* Figma Canvas-Glow — cool blue radial wash */
+.PusulaStage-Glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 72% 68% at 46% 42%,
+    rgba(31, 60, 122, 0.75) 0%,
+    rgba(23, 43, 88, 0.38) 40%,
+    rgba(13, 23, 48, 0) 70%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Above Flight-Line — curve passes under the rings (Figma) */
+.PusulaStage-CompassWrap {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: min(340px, 42%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  z-index: 8;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.PusulaStage-CompassWrap_hidden {
+  opacity: 0;
+}
+
+.PusulaStage-Compass {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Figma: cooler / subtler than raw bronze PNG */
+  opacity: 0.78;
+  filter: saturate(0.75) brightness(0.92);
+}
+
+.PusulaStage-Marker {
+  position: absolute;
+  z-index: 15;
+  transition: none;
+  object-fit: contain;
+  pointer-events: none;
+  will-change: transform;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
+}
+
+.PusulaStage-Canvas_roundOver .PusulaStage-Marker {
+  transition: 1s transform cubic-bezier(0, 1.27, 0.81, 0.83);
+}
+
+/* Below compass — line arcs under rings, rises on the right */
+.PusulaStage-Chart {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.PusulaStage-ChartCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.PusulaStage-Players {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 26px;
+  padding: 0 10px 0 6px;
+  border-radius: 22px;
+  background: #0d1730;
+  border: 1px solid #2a3a5c;
+}
+
+.PusulaStage-PlayersAvatars {
+  display: flex;
+  align-items: center;
+
+  .Pusula-PersonAvatar {
+    margin-left: -6px;
+    border-color: #0d1730;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+
+.PusulaStage-PlayersCount {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 10px;
+  color: #fff;
+  line-height: 1;
+}
+
+/* Figma stage toasts — top-right; notificationStore (crash) */
+.Pusula-StageNotice {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  left: auto;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 361px;
+  max-width: min(371px, calc(100% - 24px));
+  height: 60px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  border-radius: 600px;
+  border: 1px solid rgba(46, 51, 80, 1);
+  background: linear-gradient(
+    180deg,
+    rgba(38, 42, 65, 1) 0%,
+    rgba(27, 30, 48, 1) 100%
+  );
+  box-shadow: 0 0 24px 0 rgba(14, 14, 15, 1);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(8px, -8px);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease;
+  visibility: hidden;
+}
+
+.Pusula-StageNotice_betAccepted {
+  gap: 13px;
+  padding-right: 20px;
+}
+
+.Pusula-StageNotice_cashout {
+  gap: 8px;
+  padding-right: 12px;
+
+  .Pusula-StageNotice-IconWrap {
+    width: 24px;
+    height: 24px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .Pusula-StageNotice-Label {
+    flex: 0 0 auto;
+  }
+
+  .Pusula-StageNotice-At {
+    flex: 0 0 auto;
+    margin-right: 0;
+  }
+
+  .Pusula-StageNotice-AmountPill {
+    margin-left: auto;
+  }
+}
+
+.Pusula-StageNotice_visible {
+  opacity: 1;
+  transform: translate(0, 0);
+  visibility: visible;
+}
+
+.Pusula-StageNotice-IconWrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(46, 51, 80, 1);
+  background: linear-gradient(
+    180deg,
+    rgba(38, 42, 65, 1) 0%,
+    rgba(27, 30, 48, 1) 100%
+  );
+}
+
+.Pusula-StageNotice_betAccepted .Pusula-StageNotice-IconWrap {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+.Pusula-StageNotice-Icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.Pusula-StageNotice-Text {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  color: rgba(250, 250, 250, 1);
+  white-space: nowrap;
+}
+
+.Pusula-StageNotice-Label {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  color: rgba(250, 250, 250, 1);
+  white-space: nowrap;
+}
+
+.Pusula-StageNotice-At {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  color: rgba(115, 115, 115, 1);
+  white-space: nowrap;
+}
+
+.Pusula-StageNotice-AmountPill {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 108px;
+  height: 32px;
+  padding: 0 14px;
+  box-sizing: border-box;
+  border-radius: 600px;
+  border: 1px solid rgba(46, 51, 80, 1);
+  background: linear-gradient(
+    180deg,
+    rgba(38, 42, 65, 1) 0%,
+    rgba(27, 30, 48, 1) 100%
+  );
+  box-shadow: 0 0 24px 0 rgba(14, 14, 15, 1);
+}
+
+.Pusula-StageNotice-Amount {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  background: linear-gradient(180deg, #28b858 0%, #caff6d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (max-width: #{$screen-l-min - 1px}) {
+  /* Mobile: both toasts — inset pill like Bet accepted (Figma) */
+  .Pusula-StageNotice {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    height: 60px;
+    padding: 0 12px;
+    gap: 10px;
+    border-radius: 600px;
+    border: 1px solid rgba(46, 51, 80, 1);
+    box-shadow: 0 0 24px 0 rgba(14, 14, 15, 1);
+    transform: translate(0, -10px);
+  }
+
+  .Pusula-StageNotice_visible {
+    transform: translate(0, 0);
+  }
+
+  .Pusula-StageNotice_betAccepted {
+    padding: 0 20px 0 12px;
+    gap: 13px;
+  }
+
+  .Pusula-StageNotice_betAccepted .Pusula-StageNotice-Text {
+    flex: 0 1 auto;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .Pusula-StageNotice_cashout {
+    height: 56px;
+    padding: 0 12px;
+    gap: 8px;
+
+    .Pusula-StageNotice-Label {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .Pusula-StageNotice-At {
+      display: block;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .Pusula-StageNotice-AmountPill {
+      min-width: 108px;
+      height: 32px;
+      padding: 0 16px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .Pusula-StageNotice-Amount {
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1;
+    }
+  }
+}
+
+/* Copy toast — portal to body; top/right from JS (stage anchor), above Pusula modals */
+.Pusula-CopyNotice {
+  position: fixed;
+  z-index: calc(var(--z-index-dropdown) + 50);
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  max-width: min(371px, calc(100% - 24px));
+  min-width: 361px;
+  height: 60px;
+  padding: 0 20px 0 12px;
+  box-sizing: border-box;
+  border-radius: 600px;
+  border: 1px solid rgba(46, 51, 80, 1);
+  background: linear-gradient(
+    180deg,
+    rgba(38, 42, 65, 1) 0%,
+    rgba(27, 30, 48, 1) 100%
+  );
+  box-shadow: 0 0 24px 0 rgba(14, 14, 15, 1);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(8px, -8px);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease;
+  visibility: hidden;
+}
+
+.Pusula-CopyNotice_visible {
+  opacity: 1;
+  transform: translate(0, 0);
+  visibility: visible;
+}
+
+.Pusula-CopyNotice-IconWrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+.Pusula-CopyNotice-Icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.Pusula-CopyNotice-Text {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: -0.03em;
+  vertical-align: middle;
+  color: rgba(250, 250, 250, 1);
+  white-space: nowrap;
+}
+
+@media (max-width: #{$screen-l-min - 1px}) {
+  .Pusula-CopyNotice {
+    min-width: 0;
+    max-width: none;
+    width: auto;
+    height: 60px;
+    padding: 0 20px 0 12px;
+    gap: 13px;
+    border-radius: 600px;
+    border: 1px solid rgba(46, 51, 80, 1);
+    box-shadow: 0 0 24px 0 rgba(14, 14, 15, 1);
+    transform: translate(0, -10px);
+  }
+
+  .Pusula-CopyNotice_visible {
+    transform: translate(0, 0);
+  }
+
+  .Pusula-CopyNotice-Text {
+    flex: 0 1 auto;
+    min-width: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

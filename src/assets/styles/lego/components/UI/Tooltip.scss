@@ -1,0 +1,14 @@
+.Lego {
+  &-Tooltip {
+    z-index: var(--z-index-tooltip);
+
+
+    &-Inner {
+      background-color: rgb(45, 122, 167);
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: white;
+      font-size: 12px;
+    }
+  }
+}

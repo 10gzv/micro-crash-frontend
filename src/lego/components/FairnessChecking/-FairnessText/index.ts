@@ -1,0 +1,1 @@
+export { FairnessText } from './FairnessText';

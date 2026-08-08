@@ -1,0 +1,32 @@
+.Lego {
+  &-InputContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &_Disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+  }
+
+  &-Input {
+    background-color: transparent;
+    color: white;
+    border: none;
+    outline: none;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--font-secondary);
+
+
+
+    &-AddonBefore {
+      margin-right: 4px;
+    }
+
+    &-AddonAfter {
+      margin-left: 4px;
+    }
+  }
+}

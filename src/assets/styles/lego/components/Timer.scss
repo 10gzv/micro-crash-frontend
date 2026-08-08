@@ -1,0 +1,69 @@
+@import "@styles/breakpoints.scss";
+
+.Lego {
+  &-Timer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    // transform: translate(-50%, -50%);
+    font-size: 50px;
+    font-weight: 900;
+    color: white;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: radial-gradient(
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0.1),
+      rgba(0, 0, 0, 0.5)
+    );
+    // backdrop-filter: blur(1px);
+    transition: 0.3s all;
+    border-radius: 8px;
+
+    &-WaitingImage {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 5px;
+
+      @include l {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 10px;
+      }
+    }
+
+    &-Text {
+      font-size: 16px;
+      font-weight: 600;
+      // letter-spacing: 1px;
+      // font-weight: bold;
+      // color: #944ef5;
+      color: #fff;
+
+      @include l {
+        font-size: 20px;
+      }
+    }
+
+    &-Progress {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 200px;
+      font-size: 38px;
+
+      &-Elapsed {
+        width: 56px;
+      }
+
+      @include l {
+        margin-top: 15px;
+      }
+    }
+  }
+}

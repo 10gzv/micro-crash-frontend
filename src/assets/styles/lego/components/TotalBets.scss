@@ -1,0 +1,68 @@
+@import '@styles/breakpoints.scss';
+
+.Lego {
+  &-TotalBets {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    height: 32px;
+
+    &-Block {
+      display: flex;
+      flex-direction: column;
+
+      &-OddWrapper {
+        height: 20px;
+        width: 100%;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(32, 32, 32);
+        color: white;
+      }
+
+      &-Odd {
+        height: 100%;
+        width: 100%;
+        font-size: 10px;
+
+        .Logo-Odd-Rate {
+          font-size: 12px;
+        }
+      }
+    }
+    .Center {
+      & > span {
+        font-size: 10px;
+        line-height: 16px;
+      }
+      & > span:nth-child(1) {
+        color: #b8b8b8;
+      }
+    }
+    .Left {
+      & span {
+        &:nth-child(1) {
+          color: #b8b8b8;
+          font-size: 10px;
+          line-height: 16px;
+        }
+        &:nth-child(2) {
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 16px;
+          font-family: var(--font-secondary);
+        }
+      }
+    }
+    .Right {
+      .Lego-Svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+}

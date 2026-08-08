@@ -1,0 +1,138 @@
+@import "@styles/breakpoints.scss";
+
+.Lego {
+  &-GameSection {
+    position: sticky;
+    top: -1px;
+    padding-top: calc(var(--header-height) + 1px);
+    height: 322px;
+    z-index: var(--z-index-game-section);
+
+    margin-bottom: var(--section-gap);
+
+    pointer-events: none;
+
+    @include l {
+      position: unset;
+      top: unset;
+      pointer-events: unset;
+      padding-top: 0;
+      margin-bottom: 0;
+      flex: 1 1 0;
+      min-width: 0;
+      min-height: 0;
+      height: auto;
+      max-height: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-Content {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      // border-radius: var(--radius-section);
+      background-color: #0f212e;
+
+      // background-image: url('/background.png');
+      // background-size: cover;
+      // background-repeat: no-repeat;
+      // background-position: center;
+      // animation: 3s animate-bg linear infinite;
+      // background-color: black;
+
+      overflow: hidden;
+
+      @include l {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        min-height: 0;
+        height: auto;
+      }
+
+      &-Canvas {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+
+        @include l {
+          align-items: center;
+        }
+
+        canvas {
+          scale: 1.2;
+          height: 120% !important;
+          width: 100% !important;
+          object-fit: cover;
+          image-rendering: pixelated;
+
+          @include l {
+            scale: 1;
+            height: 100% !important;
+            width: 100% !important;
+          }
+        }
+      }
+
+      &-Chart {
+        position: relative;
+        height: 100%;
+        width: 100%;
+
+        @include l {
+          flex: 1 1 0;
+          min-height: 0;
+          height: auto !important;
+        }
+      }
+    }
+
+    &_stickyActive {
+      .Lego-GameSection-Content {
+        min-height: 120px;
+      }
+
+      .Lego-DrawHistory {
+        visibility: hidden;
+      }
+    }
+
+    .Lego-DrawHistory {
+      position: absolute;
+      bottom: 10px;
+    }
+
+    .Lego-BettingSection {
+      @media (max-width: #{$screen-l-min - 1px}) {
+        position: absolute;
+        bottom: 44px;
+      }
+
+      @include l {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        width: 100%;
+        pointer-events: auto;
+      }
+    }
+  }
+}
+
+@keyframes animate-bg {
+  0% {
+    background: #4a1f0c;
+  }
+
+  50% {
+    background: #af4a1e;
+  }
+
+  100% {
+    background: #4a1f0c;
+  }
+}

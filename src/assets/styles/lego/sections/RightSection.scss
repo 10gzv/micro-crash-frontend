@@ -1,0 +1,39 @@
+@import '@styles/breakpoints.scss';
+
+.Lego {
+  &-RightSection {
+    position: fixed;
+    width: 100vw;
+    height: calc(100dvh - var(--header-height) + 1px);
+    top: calc(var(--header-height) - 1px);
+    right: 0;
+    background-color: var(--color-section);
+    transform: translateX(100vw);
+    transition: transform var(--transition-medium);
+    z-index: var(--z-index-chat);
+
+    // Desktop overlay geometry is set on `.Lego-GamePlay > .Lego-RightSection` (GameLayout.scss).
+    @include l {
+      top: auto;
+      height: auto;
+      border-radius: 16px;
+    }
+
+    &_open {
+      transform: translateX(0);
+    }
+
+    // The RightSection has a `transform`, so it becomes the containing block for
+    // the core chat sheet's `position: fixed`. Drop the sheet's top margin on
+    // mobile so it opens flush under the header.
+    // Sheet layout + Pusula skin: `PusulaChat.scss`
+    @include l {
+      .Lego-ChatSheet {
+        left: 0;
+        right: 0;
+        width: auto;
+        max-width: none;
+      }
+    }
+  }
+}

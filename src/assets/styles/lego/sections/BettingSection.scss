@@ -1,0 +1,17 @@
+@import '@styles/breakpoints.scss';
+
+.Lego {
+  &-BettingSection {
+    width: 100%;
+
+    @include s {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @include l {
+      // padding: 0 12px;
+    }
+  }
+}

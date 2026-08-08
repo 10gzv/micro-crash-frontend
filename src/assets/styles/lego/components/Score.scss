@@ -1,0 +1,102 @@
+@import "@styles/breakpoints.scss";
+
+.Lego {
+  &-Score {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    @include l {
+      height: 73%;
+    }
+
+    opacity: 0;
+    transition: 0.5s ease;
+    transition-property: opacity, transform;
+    z-index: var(--z-index-game-section);
+    pointer-events: none;
+
+    &_startAnimation {
+      animation: score-animation 2.5s ease;
+    }
+
+    &-Content {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &-Svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &-Close {
+      position: absolute;
+      top: 34px;
+      right: 247px;
+      cursor: pointer;
+      font-size: 20px;
+      color: white;
+      font-weight: bold;
+      pointer-events: all;
+    }
+
+    &-Odd {
+      font-family: var(--font-secondary);
+      font-weight: bold;
+      color: white;
+      margin-top: 10px;
+
+      font-size: 70px;
+      @include l {
+        font-size: 100px;
+      }
+    }
+  }
+}
+
+@keyframes score-animation {
+  0% {
+    opacity: 0;
+    // top: 50%;
+    transform: translate(0, 0) scale(0);
+  }
+
+  10% {
+    opacity: 1;
+    // top: 50%;
+    transform: translate(0, 0) scale(1);
+  }
+
+  40% {
+    opacity: 1;
+    // top: 50%;
+    transform: translate(0, 0) scale(1);
+  }
+
+  60% {
+    opacity: 1;
+    // top: 18%;
+    transform: translate(0, -30%) scale(0.5);
+  }
+
+  80% {
+    opacity: 1;
+    // top: 30%;
+    transform: translate(0, -30%) scale(0.5);
+  }
+
+  100% {
+    opacity: 0;
+    // top: 30%;
+    transform: translate(0, -30%) scale(0);
+  }
+}

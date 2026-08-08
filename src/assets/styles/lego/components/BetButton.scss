@@ -1,0 +1,35 @@
+@import '@styles/breakpoints.scss';
+
+.Lego {
+  &-BetButton {
+    background: linear-gradient(180deg, #49FC7D 0%, #25833F 100%);
+
+    &_cashout {
+      background: linear-gradient(180deg, #FFAE02 0%, #996D0E 100%);
+
+      @include l {
+        &:hover {
+          background: linear-gradient(180deg, #FFB310 0%, #F2A400 100%);
+        }
+      }
+    }
+
+    &_cancel {
+      background: linear-gradient(180deg, #44B3F2 0%, #243B50 100%);
+
+      @include l {
+        &:hover {
+          background: linear-gradient(180deg, #44B3F2 0%, #29739C 100%);
+        }
+      }
+    }
+
+    &_pending {
+      @include l {
+        &:hover {
+          background: linear-gradient(180deg, #44b3f2 0%, #29739c 100%);
+        }
+      }
+    }
+  }
+}

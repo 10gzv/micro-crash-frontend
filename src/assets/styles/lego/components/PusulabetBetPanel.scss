@@ -1,0 +1,583 @@
+@import '@styles/breakpoints.scss';
+
+/* Figma Bet part — Pusulabet Crash */
+.Lego-BettingSection {
+  display: flex;
+  gap: 10px;
+  padding: 0;
+  background: transparent;
+}
+
+.Pusula-BetPanel {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 556px;
+  height: 160px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 20px;
+  background: rgba(26, 41, 71, 1);
+  box-sizing: border-box;
+
+  font-family: var(--font-pusula, Rogan, Clash, Helvetica, Arial, sans-serif);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgba(239, 255, 244, 1);
+
+  button,
+  input,
+  span,
+  .Lego-BetButton,
+  .Lego-BetButton .Lego-Button-Inner,
+  .Lego-BetButton button {
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 0;
+    text-align: center;
+    text-transform: uppercase;
+    color: rgba(239, 255, 244, 1);
+  }
+}
+
+.Pusula-BetPanel-Col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+.Pusula-BetPanel-Col_right {
+  .Pusula-BetPanel-BetButton {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+}
+
+/* AUTOPLAY / AUTO CASHOUT — Figma 182×38 (in row), #656976, r8, shadow */
+.Pusula-BetPanel-Toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  width: 100%;
+  padding: 0 8px 0 22px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(101, 105, 118, 1);
+  box-shadow: none;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  &_cashout {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+    height: 38px;
+  }
+
+  &_on .Pusula-BetPanel-SwitchKnob {
+    top: 4px;
+    background: rgba(224, 149, 39, 1);
+  }
+}
+
+.Pusula-BetPanel-ToggleLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Vertical switch — Figma track 14×34 @ left 3 top 2, r30, #0B1428 */
+.Pusula-BetPanel-Switch {
+  position: absolute;
+  left: 3px;
+  top: 2px;
+  width: 14px;
+  height: 34px;
+  border-radius: 30px;
+  background: rgba(11, 20, 40, 1);
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+/* Knob — 10×16, r5.2 @ left 5 top 4 (on); off at bottom of track */
+.Pusula-BetPanel-SwitchKnob {
+  position: absolute;
+  left: 2px;
+  top: 16px;
+  width: 10px;
+  height: 16px;
+  border-radius: 5.2px;
+  background: rgba(101, 105, 118, 1);
+  transition: top 0.32s cubic-bezier(0.33, 1, 0.68, 1),
+    background 0.32s ease;
+}
+
+/* Dark inset row — AUTOPLAY / AUTO CASHOUT (Figma 263×42, #0B1428, r10) */
+.Pusula-BetPanel-ToggleRow,
+.Pusula-BetPanel-CashoutRow {
+  display: flex;
+  align-items: center;
+  flex: 0 0 42px;
+  height: 42px;
+  padding: 2px;
+  border-radius: 10px;
+  background: rgba(11, 20, 40, 1);
+  box-sizing: border-box;
+}
+
+.Pusula-BetPanel-ToggleRow {
+  .Pusula-BetPanel-Toggle {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 38px;
+  }
+}
+
+.Pusula-BetPanel-CashoutRow {
+  gap: 6px;
+}
+
+.Pusula-BetPanel-OddWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex: 0 0 64px;
+  width: 64px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(11, 20, 40, 1);
+  box-sizing: border-box;
+}
+
+.Pusula-BetPanel-OddPrefix {
+  opacity: 0.95;
+}
+
+.Pusula-BetPanel-Odd {
+  width: 28px;
+  border: none;
+  border-bottom: 2px solid #4aa3ff;
+  border-radius: 0;
+  background: transparent;
+  outline: none;
+  padding: 0 0 1px;
+
+  &:disabled {
+    opacity: 0.45;
+    border-bottom-color: rgba(74, 163, 255, 0.35);
+  }
+}
+
+/* Amount − value + — Figma 263×42, #0B1428, r10 */
+.Pusula-BetPanel-Amount {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 0 0 42px;
+  height: 42px;
+  padding: 4px 6px;
+  border-radius: 10px;
+  background: rgba(11, 20, 40, 1);
+  box-sizing: border-box;
+}
+
+.Pusula-BetPanel-Step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.Pusula-BetPanel-StepIcon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.Pusula-BetPanel-AmountValue {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  min-width: 0;
+  padding: 0;
+  font-family: var(--font-pusula, Rogan, Clash, Helvetica, Arial, sans-serif);
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgba(239, 255, 244, 1);
+
+  &:disabled {
+    opacity: 0.55;
+  }
+}
+
+/* 1/2 · X2 — Figma frame 263×44 #0B1428; buttons 123×40 #656976 */
+.Pusula-BetPanel-Quick {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 0 0 44px;
+  height: 44px;
+  padding: 2px;
+  border-radius: 10px;
+  background: rgba(11, 20, 40, 1);
+  box-sizing: border-box;
+}
+
+.Pusula-BetPanel-QuickDivider {
+  flex: 0 0 1px;
+  align-self: center;
+  width: 1px;
+  height: 22px;
+  margin: 0 10px;
+  background: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+.Pusula-BetPanel-QuickBtn {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(101, 105, 118, 1);
+  box-shadow: none;
+  cursor: pointer;
+  padding: 10px 36px;
+  box-sizing: border-box;
+  font-family: var(--font-pusula, Rogan, Clash, Helvetica, Arial, sans-serif);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgba(239, 255, 244, 1);
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+/* PLACE BET / CASHOUT / CANCEL — fills remaining (~93px), r8 */
+.Pusula-BetPanel-BetButton {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+
+  .Lego-BetButton,
+  .Lego-BetButton .Lego-Button-Inner,
+  button {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border: none !important;
+    border-radius: 8px !important;
+    background: linear-gradient(
+      180deg,
+      #fbb03b 0%,
+      #f7931e 50%,
+      #d98a18 100%
+    ) !important;
+    color: rgba(239, 255, 244, 1) !important;
+    font-family: var(--font-pusula, Rogan, Clash, Helvetica, Arial, sans-serif) !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    letter-spacing: 0 !important;
+    text-transform: uppercase !important;
+    box-shadow: none !important;
+  }
+
+  /* CASHOUT — green */
+  .Lego-BetButton_cashout,
+  .Lego-BetButton_cashout .Lego-Button-Inner,
+  .Lego-BetButton_cashout button {
+    background: linear-gradient(180deg, #28b858 0%, #187838 100%) !important;
+    box-shadow: none !important;
+
+    &:hover {
+      background: linear-gradient(180deg, #2fc964 0%, #1a8a40 100%) !important;
+    }
+  }
+
+  /* CANCEL — bright cyan → blue */
+  .Lego-BetButton_cancel,
+  .Lego-BetButton_cancel .Lego-Button-Inner,
+  .Lego-BetButton_cancel button {
+    background: linear-gradient(180deg, #5ec8f5 0%, #2b8fd9 45%, #1a6bb5 100%) !important;
+    box-shadow: none !important;
+  }
+}
+
+@include l {
+  .Lego-BettingSection {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: stretch;
+    gap: 10px;
+    width: 100%;
+    max-width: none;
+  }
+
+  .Pusula-BetPanel {
+    flex: 1 1 0;
+    max-width: none;
+    width: auto;
+    height: 160px;
+  }
+}
+
+@media (max-width: #{$screen-l-min - 1px}) {
+  .Lego-BettingSection {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  /* Figma mobile Bet part — 373×126, pad 6, row gap 6, each row 36px (6+36×3+6×3+6=126) */
+  .Pusula-BetPanel {
+    width: 100%;
+    max-width: none;
+    padding: 6px;
+    gap: 6px;
+    border-radius: 12px;
+    background: rgba(26, 41, 71, 1);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: stretch;
+    box-sizing: border-box;
+    font-size: 12px;
+
+    button,
+    input,
+    span,
+    .Lego-BetButton,
+    .Lego-BetButton .Lego-Button-Inner,
+    .Lego-BetButton button {
+      font-size: 12px;
+    }
+  }
+
+  .Pusula-BetPanel-Col {
+    gap: 6px;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .Pusula-BetPanel-Col_right {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 0;
+
+    .Pusula-BetPanel-BetButton {
+      flex: 1 1 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+  }
+
+  .Pusula-BetPanel-ToggleRow,
+  .Pusula-BetPanel-CashoutRow,
+  .Pusula-BetPanel-Amount,
+  .Pusula-BetPanel-Quick {
+    flex: 0 0 36px;
+    height: 36px;
+    min-height: 36px;
+    max-height: 36px;
+    box-sizing: border-box;
+  }
+
+  .Pusula-BetPanel-ToggleRow,
+  .Pusula-BetPanel-CashoutRow {
+    padding: 2px;
+    border-radius: 4px;
+    background: rgba(11, 20, 40, 1);
+  }
+
+  .Pusula-BetPanel-ToggleRow .Pusula-BetPanel-Toggle {
+    height: 32px;
+    box-shadow: none;
+  }
+
+  .Pusula-BetPanel-Amount,
+  .Pusula-BetPanel-Quick {
+    padding: 2px 4px;
+    border-radius: 4px;
+    background: rgba(11, 20, 40, 1);
+  }
+
+  .Pusula-BetPanel-Toggle {
+    height: 32px;
+    border-radius: 4px;
+    padding: 0 6px 0 16px;
+    box-shadow: none;
+
+    &_cashout {
+      height: 32px;
+      padding: 0 4px 0 14px;
+      border-radius: 4px;
+      background: rgba(101, 105, 118, 1);
+      box-shadow: none;
+    }
+
+    &_on .Pusula-BetPanel-SwitchKnob {
+      top: 2px;
+      background: rgba(224, 149, 39, 1);
+    }
+  }
+
+  .Pusula-BetPanel-Switch {
+    left: 1.82px;
+    top: 2px;
+    width: 12px;
+    height: 28px;
+    border-radius: 26px;
+  }
+
+  .Pusula-BetPanel-SwitchKnob {
+    left: 2px;
+    top: 13px;
+    width: 8px;
+    height: 13px;
+    border-radius: 4.59px;
+  }
+
+  .Pusula-BetPanel-CashoutRow {
+    gap: 4px;
+    box-shadow: none;
+  }
+
+  .Pusula-BetPanel-OddWrap {
+    flex: 0 0 52px;
+    height: 32px;
+    min-width: 52px;
+    margin: 0;
+    padding: 0 4px;
+    border-radius: 4px;
+    background: rgba(11, 20, 40, 1);
+    font-size: 12px;
+  }
+
+  .Pusula-BetPanel-Odd {
+    width: 22px;
+    font-size: 12px;
+    border-bottom-width: 1px;
+  }
+
+  .Pusula-BetPanel-Step {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  .Pusula-BetPanel-AmountValue {
+    font-size: 12px;
+  }
+
+  .Pusula-BetPanel-Quick {
+    gap: 6px;
+  }
+
+  .Pusula-BetPanel-QuickBtn {
+    height: 32px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    box-shadow: none;
+  }
+
+  .Pusula-BetPanel-BetButton {
+    flex: 1 1 0;
+    min-height: 0;
+
+    .Lego-BetButton,
+    .Lego-BetButton .Lego-Button-Inner,
+    button {
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: 0;
+      height: 100%;
+      border-radius: 4px !important;
+      font-size: 14px !important;
+      line-height: 1.15 !important;
+      box-shadow: none !important;
+    }
+
+    .Lego-BetButton_cashout,
+    .Lego-BetButton_cashout .Lego-Button-Inner,
+    .Lego-BetButton_cashout button {
+      box-shadow: none !important;
+    }
+  }
+}
+
+/* Desktop: AUTO CASHOUT — одна серая кнопка, множитель в тёмном inset справа */
+@include l {
+  .Pusula-BetPanel-CashoutRow {
+    position: relative;
+    gap: 0;
+    height: 38px;
+    flex: 0 0 38px;
+    padding: 0;
+    background: transparent;
+  }
+
+  .Pusula-BetPanel-Toggle_cashout {
+    width: 100%;
+    padding-right: 68px;
+  }
+
+  .Pusula-BetPanel-CashoutRow .Pusula-BetPanel-OddWrap {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    flex: none;
+    width: 64px;
+    height: 34px;
+    background: rgba(11, 20, 40, 1);
+    border-radius: 6px;
+    z-index: 1;
+  }
+}

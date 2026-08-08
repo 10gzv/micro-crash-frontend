@@ -1,0 +1,1 @@
+export { SoundConfirm } from './SoundConfirm';

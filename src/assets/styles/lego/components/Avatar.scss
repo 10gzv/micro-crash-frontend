@@ -1,0 +1,35 @@
+.Lego {
+  &-Avatar {
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    &-Icon {
+      width: 11px;
+      height: 11px;
+    }
+
+    &:nth-child(4n-3) {
+      background-color: rgb(68, 111, 242);
+    }
+
+    &:nth-child(4n-2) {
+      background-color: rgb(20, 192, 191);
+    }
+
+    &:nth-child(4n-1) {
+      background-color: rgb(237, 143, 75);
+    }
+
+    &:nth-child(4n) {
+      background-color: rgb(223, 42, 164);
+    }
+
+
+  }
+}

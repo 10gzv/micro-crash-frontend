@@ -1,0 +1,74 @@
+@import "@styles/breakpoints.scss";
+
+.Lego {
+  &-LeftSection {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-section);
+    order: 2;
+    min-height: 300px;
+
+    margin-top: 8px;
+
+    flex-shrink: 0;
+
+    border-radius: var(--radius-section);
+    box-shadow: 0px -1px 8px 2px #0f212e50 inset;
+
+    @include l {
+      order: unset;
+      flex: 0 0 var(--left-section-width);
+      width: var(--left-section-width);
+      min-height: 0;
+      height: auto;
+      align-self: stretch;
+      max-height: none;
+      margin-top: 0;
+    }
+
+    &-Header {
+      padding: 14px;
+      border-bottom: 1px solid #202020;
+    }
+
+    &-Body {
+      flex: 1;
+      overflow: hidden;
+
+      .Lego-PreRoundResult {
+        height: 100%;
+      }
+    }
+
+    &_tabNotReady {
+      .Lego-AllBets {
+        .Lego-Bet-List-Item {
+          // need for animation in all bets
+          transform: none !important;
+
+          &_won {
+            // need for animation in all bets
+            transform: none !important;
+          }
+        }
+      }
+    }
+
+    &_pusula {
+      background-color: #101c38;
+      box-shadow: none;
+      border: none;
+      border-radius: 0;
+      outline: none;
+
+      @include l {
+        margin-top: 0;
+      }
+
+      .Lego-LeftSection-Header {
+        border-bottom: none;
+      }
+    }
+  }
+}

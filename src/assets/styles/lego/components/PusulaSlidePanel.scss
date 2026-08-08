@@ -1,0 +1,57 @@
+@import '@styles/breakpoints.scss';
+
+/* Settings — slide from right; centered modals (limits, rules, fair…) — separate */
+.Pusula-SettingsMenu-Body {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+@media (max-width: 1024px) {
+  .Pusula-SettingsMenu {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .Pusula-SettingsMenu-Header {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  .Pusula-SettingsMenu-Body {
+    padding-left: max(12px, env(safe-area-inset-left, 0px));
+    padding-right: max(12px, env(safe-area-inset-right, 0px));
+  }
+
+  .Pusula-SettingsMenu-Footer {
+    flex-wrap: wrap;
+    row-gap: 8px;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  .Pusula-SettingsMenu-Powered {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .Pusula-SettingsMenu-Row {
+    min-height: 56px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .Pusula-SettingsMenu-UserName {
+    max-width: 120px;
+  }
+
+  .Pusula-SettingsMenu-UserId {
+    font-size: 12px;
+  }
+
+  .Pusula-SettingsMenu-HomeLink {
+    font-size: 13px;
+  }
+}

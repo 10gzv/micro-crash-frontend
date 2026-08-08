@@ -1,0 +1,151 @@
+.Lego {
+  &-Header {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: var(--header-height);
+
+    background-color: var(--color-background);
+
+    padding: 0 4px;
+
+    @include m {
+      padding: 0 24px;
+    }
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: var(--z-index-header);
+
+    &-Right {
+      display: flex;
+      align-items: center;
+    }
+
+    &-HomeButton {
+      width: 32px;
+      margin-right: 4px;
+
+      @include m {
+        margin-right: 12px;
+      }
+
+      .Lego-Svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    &-ChatAnchor {
+      // Anchor for the MagicAlert banner (absolutely positioned). The banner
+      // stays out of the normal flow so it never shifts the chat button when
+      // it appears/disappears.
+      position: relative;
+      display: flex;
+      overflow: visible;
+
+      // Drop the core MagicAlert banner below the chat button, right-aligned.
+      .Lego-MagicAlert {
+        top: calc(100% + 12px);
+        right: 2px;
+      }
+    }
+
+    &-ChatButton {
+      width: 32px;
+      margin-left: 4px;
+
+      @include m {
+        margin-left: 12px;
+      }
+
+      .Lego-Svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    &-BurgerButton {
+      width: 28px;
+      .Lego-Svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    &-WalletButton {
+      white-space: nowrap;
+      .Lego-Svg {
+        width: 14px;
+        height: 12px;
+      }
+    }
+    &-InfoButtonGroup {
+      margin-left: 12px;
+    }
+
+    &-InfoButton {
+      .Lego-Svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    &-SoundButton {
+      width: 28px;
+      .Lego-Svg {
+        width: 14px;
+        height: 12px;
+      }
+    }
+
+    &-MusicButton {
+      width: 28px;
+      .Lego-Svg {
+        width: 9px;
+        height: 12px;
+      }
+    }
+
+    &-Logo {
+      display: flex;
+      align-items: center;
+    }
+
+    &-LogoImage {
+      width: 100px;
+      height: 50px;
+      flex-shrink: 0;
+
+      @include l {
+        width: 150px;
+      }
+    }
+
+    &-LogoText {
+      margin-left: 0px;
+
+      font-size: 24px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+  }
+}
+
+.AlertBadge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: red;
+  border-radius: 50%;
+  z-index: 1;
+  font-size: 10px;
+}

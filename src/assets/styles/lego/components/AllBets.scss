@@ -1,0 +1,37 @@
+.Lego {
+  &-AllBets {
+    .Lego-Bet-List-Item {
+      transform: translateX(-1000px);
+      animation: bet-init-animation 0.3s ease forwards;
+      will-change: transform background-color;
+
+      &_won {
+        animation: win-animation 0.5s ease forwards;
+      }
+    }
+  }
+}
+
+@keyframes bet-init-animation {
+    0% {
+        transform: translateX(-1000px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes win-animation {
+    0% {
+        transform: translateY(0) rotateX(70deg);
+    }
+
+    50% {
+        transform: translateY(0) rotateX(-50deg);
+    }
+
+    100% {
+        transform: translateY(0) rotateX(0deg);
+        background-color: #0f212e;
+    }
+}

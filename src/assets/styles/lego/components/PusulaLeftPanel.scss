@@ -1,0 +1,510 @@
+@import '@styles/breakpoints.scss';
+@import '@styles/mixins.scss';
+
+/* Left panel — Figma visuals; layout width from LeftSection (in-flow, jugu bets-widget) */
+.Lego-LeftSection.Lego-LeftSection_pusula {
+  background-color: #101c38;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+
+  @include l {
+    padding-top: 10px;
+    box-sizing: border-box;
+  }
+
+  .Lego-LeftSection-Header {
+    padding: 0 10px 0;
+    border-bottom: none;
+  }
+
+  .Lego-LeftSection-Body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    padding: 0 5px;
+    overflow: hidden;
+    transition: opacity 0.22s ease;
+  }
+
+  &.Lego-LeftSection_tabNotReady .Lego-LeftSection-Body {
+    opacity: 0.45;
+  }
+
+  .Lego-Bet-List {
+    padding: 0;
+
+    &::after {
+      display: none;
+    }
+  }
+
+  .Lego-Bet-List-Header {
+    padding: 10px 5px 6px;
+  }
+
+  .Lego-Bet-List-Header-Item {
+    flex: none;
+    color: #5f6c8c;
+    font-size: 10px;
+    font-weight: 500;
+
+    &:nth-child(1) {
+      width: 84px;
+      padding-left: 0;
+    }
+
+    &:nth-child(2) {
+      width: 73px;
+    }
+
+    &:nth-child(3) {
+      width: 67px;
+    }
+
+    &:nth-child(4) {
+      flex: 1;
+      width: auto;
+      justify-content: flex-end;
+    }
+  }
+
+  .Lego-AllBets .Lego-Bet-List-Item {
+    &_won {
+      animation: bet-init-animation 0.3s ease forwards;
+    }
+  }
+
+  .Lego-Bet-List-Item {
+    height: 32px;
+    padding: 0 10px;
+    margin-top: 1px;
+    border-radius: 8px;
+    color: #d3daea;
+    font-size: 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &::before {
+      display: none;
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 3px;
+      height: 22px;
+      transform: translateY(-50%);
+      border-radius: 999px;
+      background: #4aa3ff;
+      pointer-events: none;
+    }
+
+    &_tier-low::before {
+      display: block;
+      background: #7b88a8;
+    }
+
+    &_tier-mid::before {
+      display: block;
+      background: linear-gradient(180deg, #ffd68a 0%, #d98a18 100%);
+    }
+
+    &_tier-high::before {
+      display: block;
+      background: linear-gradient(180deg, #ffb08a 0%, #ff7a45 100%);
+    }
+
+    &_won {
+      background: rgba(28, 42, 74, 1);
+      border: 1px solid rgba(51, 69, 110, 1);
+    }
+
+    .Lego-Bet-List-Item-Cell {
+      flex: none;
+
+      &:nth-child(1) {
+        width: 84px;
+        padding-left: 0;
+
+        &::before {
+          display: none;
+          content: none;
+        }
+      }
+
+      &:nth-child(2) {
+        width: 73px;
+      }
+
+      &:nth-child(3) {
+        width: 67px;
+      }
+
+      &:nth-child(4) {
+        flex: 1;
+        width: auto;
+        justify-content: flex-end;
+        padding-right: 0;
+      }
+
+      &.Actions {
+        display: none;
+      }
+
+      &.Odd {
+        font-weight: 700;
+
+        .Lego-Bet-List-Item-Cell-OddWrapper {
+          background: transparent;
+          border-radius: 0;
+          height: auto;
+          width: auto;
+          justify-content: flex-start;
+        }
+
+        .Lego-Odd,
+        .Lego-Badge {
+          background: transparent;
+          border: none;
+          box-shadow: none;
+          padding: 0;
+          min-width: 0;
+          height: auto;
+          font-size: 12px;
+          font-weight: 700;
+          line-height: 1;
+        }
+
+        .Lego-Odd_tier-low {
+          color: #7b88a8;
+        }
+
+        .Lego-Odd_tier-mid {
+          color: #ffac2c;
+        }
+
+        .Lego-Odd_tier-high {
+          color: #ff7a45;
+        }
+
+        .Lego-Odd-Rate {
+          color: inherit;
+          margin-right: 1px;
+        }
+      }
+
+      &.Win {
+        color: #fff;
+        font-weight: 600;
+      }
+    }
+
+    .Lego-Avatar.Pusula-PersonAvatar {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      min-height: 18px;
+    }
+  }
+}
+
+/* Figma tabs track */
+.Lego-Tabs,
+.Lego-UI-Tabs {
+  --tabs-gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: var(--tabs-gap);
+  width: 100%;
+  max-width: none;
+  height: 27px;
+  padding: 2px;
+  margin: 0;
+  list-style: none;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 20px;
+  background: rgba(11, 20, 40, 1);
+
+  @include l {
+    max-width: 281px;
+  }
+}
+
+.Lego-Tabs-Highlight,
+.Lego-UI-Tabs-Highlight {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: calc(100% - 4px);
+  width: calc(
+    (100% - (var(--tabs-count, 1) - 1) * var(--tabs-gap, 10px)) /
+      var(--tabs-count, 1)
+  );
+  transform: translateX(
+    calc(var(--tabs-active-index, 0) * (100% + var(--tabs-gap, 10px)))
+  );
+  transition: transform 0.34s cubic-bezier(0.33, 1, 0.68, 1);
+  border-radius: 15px;
+  background: #253357;
+  border: 1px solid #3b4e7a;
+  box-sizing: border-box;
+  box-shadow: none;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.Lego-Tab,
+.Lego-UI-Tab {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 15px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: rgba(255, 255, 255, 0.55);
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  cursor: pointer;
+  box-shadow: none;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+  transition: color 0.28s ease;
+
+  &_active,
+  &[data-active='true'],
+  &.active {
+    background: transparent;
+    border-color: transparent;
+    color: #ffffff;
+  }
+}
+
+.Pusula-TotalBets {
+  margin-top: 5px;
+  width: 100%;
+  max-width: none;
+  padding: 8px 10px 6px;
+  border-radius: 10px;
+  background: #0b1428;
+  border: 1px solid #1a2947;
+  box-sizing: border-box;
+
+  @include l {
+    max-width: 281px;
+  }
+}
+
+.Pusula-TotalBets-Row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.Pusula-TotalBets-Left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.Pusula-TotalBets-Avatars {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.Pusula-TotalBets-BetsMeta {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.Pusula-TotalBets-BetsCount {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 1;
+  color: #fff;
+}
+
+.Pusula-TotalBets-BetsLabel {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 9px;
+  line-height: 1;
+  color: #5f6c8c;
+}
+
+.Pusula-TotalBets-Right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.Pusula-TotalBets-WinValue {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #ffac2c;
+  line-height: 1;
+}
+
+.Pusula-TotalBets-WinLabel {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 9px;
+  line-height: 1;
+  color: #5f6c8c;
+}
+
+.Pusula-TotalBets-Progress {
+  margin-top: 6px;
+  height: 4px;
+  border-radius: 20px;
+  background: #1a2947;
+  overflow: hidden;
+}
+
+.Pusula-TotalBets-ProgressFill {
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #d98a18 0%, #ffac2c 100%);
+  transition: width 0.25s ease;
+}
+
+.Pusula-TotalBets-SrOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.Pusula-PoweredBy {
+  margin-top: auto;
+  width: 100%;
+  max-width: none;
+  height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-sizing: border-box;
+  background: rgba(11, 20, 40, 1);
+  border-top: 1px solid rgba(42, 58, 92, 1);
+  flex-shrink: 0;
+}
+
+.Pusula-PoweredBy-Label {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0;
+  color: rgba(95, 108, 140, 1);
+  white-space: nowrap;
+}
+
+.Pusula-PoweredBy-Mark {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+  display: block;
+}
+
+.Pusula-PoweredBy-Brand {
+  height: 12px;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+}
+
+
+/* Waiting timer — Figma style linear bar */
+.Lego-Timer {
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  z-index: 12;
+  background: transparent;
+}
+
+.Lego-Timer-Progress {
+  display: none;
+}
+
+/* Waiting — centered on flat stage (Figma), no dim overlay */
+.Pusula-Timer {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  pointer-events: none;
+  background: transparent;
+}
+
+.Pusula-Timer-Seconds {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: clamp(40px, 6vw, 56px);
+  line-height: 1;
+  letter-spacing: -1px;
+  color: #f0f2f5;
+}
+
+.Pusula-Timer-Label {
+  font-family: Inter, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #f0f2f5;
+  text-align: center;
+}
+
+.Pusula-Timer-Bar {
+  width: min(240px, 42%);
+  height: 6px;
+  margin-top: 4px;
+  border-radius: 999px;
+  background: rgba(26, 41, 71, 0.9);
+  overflow: hidden;
+}
+
+.Pusula-Timer-BarFill {
+  height: 100%;
+  border-radius: 999px;
+  background: #ffac2c;
+  transition: width 0.1s linear;
+}

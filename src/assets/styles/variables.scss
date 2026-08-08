@@ -1,0 +1,58 @@
+:root {
+  --left-section-width: 320px;
+  --right-section-width: 270px;
+
+  --header-height: 72px;
+
+  --color-core: rgb(0, 0, 0);
+  --color-main: rgba(68, 179, 242, 0.4);
+  --color-main-hover: rgba(68, 179, 242, 0.7);
+  --color-main-active: rgb(42, 116, 159);
+  --color-secondary: rgba(45, 123, 167, 0.4);
+  --color-main-light: #3d586d;
+  --color-main-light-hover: rgb(76, 98, 163);
+  --color-main-light-active: rgb(99, 137, 255);
+  --color-section: #223644;
+  --color-section-light: rgba(32, 32, 32);
+  --color-action: rgb(68, 179, 242);
+  --color-action-07: rgba(68, 179, 242, 0.7);
+  --color-action-04: rgba(68, 179, 242, 0.4);
+
+  --color-background: #0f212e;
+  --color-background-section: rgb(0, 31, 31);
+  --color-background-header: rgb(0, 4, 4);
+  --color-background-button: rgb(19, 61, 65);
+  --color-background-button-hover: rgb(31, 98, 105);
+  --color-background-button-border: rgba(19, 32, 34, 1);
+
+  --core-padding: 24px;
+
+  --color-text-main: rgb(255, 255, 255);
+  --color-button: rgb(255, 255, 255);
+
+  --radius-section: 12px;
+  --radius-left-section: 16px;
+  --radius-button: 8px;
+
+  --z-index-game-section: 3;
+  --z-index-chat: 4;
+  --z-index-header: 5;
+  --z-index-popup: 5;
+  --z-index-dropdown: 6;
+  --z-index-tooltip: 6;
+
+  --font-main: 'SFProText';
+  --font-secondary: 'Clash';
+
+  --gradient-main: linear-gradient(0, #17393D 8.02%, #29909B 49.92%, #17393D 92.21%), linear-gradient(90deg, #1C4448, #1C4448);
+
+  --border-button: 2px solid var(--color-background-button-border);
+
+  --shadow-button: 0 2px 8px rgba(0, 0, 0, 0.12);
+
+  --section-gap: 10px;
+
+  --transition-fast: 0.2s ease-in-out;
+  --transition-medium: 0.4s ease-in-out;
+  --transition-slow: 1s ease-in-out;
+}

@@ -1,0 +1,11 @@
+.Lego {
+  &-Odd {
+    &-Rate {
+      margin-right: 3px;
+    }
+
+    &_active {
+      cursor: pointer;
+    }
+  }
+}

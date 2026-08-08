@@ -1,0 +1,161 @@
+.Pusula-GameLimitsPanel-Backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-index-header) - 1);
+  background: rgba(8, 15, 32, 0.55);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.Pusula-GameLimitsPanel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  z-index: calc(var(--z-index-dropdown) + 1);
+  display: flex;
+  flex-direction: column;
+  width: min(393px, calc(100vw - 24px));
+  background: rgba(27, 30, 48, 1);
+  border-radius: 16px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%) scale(0.96);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.28s ease,
+    opacity 0.28s ease;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  &_open {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.Pusula-GameLimitsPanel-Header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  padding: 0 16px;
+  border-bottom: 1px solid rgba(46, 51, 80, 1);
+  box-sizing: border-box;
+}
+
+.Pusula-GameLimitsPanel-Title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  color: rgba(250, 250, 250, 1);
+
+  img {
+    display: block;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.Pusula-GameLimitsPanel-Close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(46, 51, 80, 1);
+  background: linear-gradient(180deg, rgba(38, 42, 65, 1) 0%, rgba(27, 30, 48, 1) 100%);
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.Pusula-GameLimitsPanel-Body {
+  flex-shrink: 0;
+  overflow: hidden;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* Figma Container — 361×490: border shell + inner surface + RTP footer */
+.Pusula-GameLimitsPanel-Frame {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 361px;
+  margin: 0 auto;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(58, 67, 102, 1);
+  background: rgba(43, 48, 74, 1);
+  box-sizing: border-box;
+}
+
+/* Dark block — cards only */
+.Pusula-GameLimitsPanel-FrameInner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(27, 30, 48, 1);
+  box-sizing: border-box;
+}
+
+.Pusula-GameLimitsPanel-Card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 118px;
+  padding: 24px 16px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(58, 67, 102, 1);
+  background: rgba(43, 48, 74, 1);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.Pusula-GameLimitsPanel-CardValue {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  color: rgba(250, 250, 250, 1);
+}
+
+.Pusula-GameLimitsPanel-CardLabel {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  color: rgba(165, 170, 185, 1);
+}
+
+.Pusula-GameLimitsPanel-Rtp {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 16px 8px 0;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+  text-align: center;
+  color: rgba(250, 250, 250, 0.45);
+  background: rgba(43, 48, 74, 1);
+  box-sizing: border-box;
+}

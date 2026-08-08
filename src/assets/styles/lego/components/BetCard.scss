@@ -1,0 +1,110 @@
+.Lego {
+  &-BetCard {
+    padding: 5px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    background: #0f212e;
+    // background-color: rgb(32, 32, 32);
+    margin: 8px 0;
+
+    &-User {
+      flex: 1 0;
+      padding-right: 10px;
+      margin-left: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      max-width: fit-content;
+      margin-right: 20%;
+      @include l {
+        margin-right: 10%;
+      }
+
+      &-Name {
+        font-size: 12px;
+        margin-top: 5px;
+        margin-left: 2px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+
+    &-Info {
+      flex: 2.5 0;
+      margin-right: 8px;
+
+      &-Item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 12px;
+        height: 30px;
+        background-color: #2f4454;
+        border-radius: 6px;
+        padding: 0 8px;
+
+        &-Label {
+          margin-right: 10px;
+        }
+        
+        &:not(:first-child) {
+          margin-top: 4px;
+        }
+
+        .Lego-Odd {
+          margin-right: -3px;
+        }
+      }
+    }
+
+    &-Actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      align-self: stretch;
+
+      .Lego-Svg {
+        cursor: pointer;
+      }
+
+      .Lego-Svg-Provable {
+        width: 20px;
+        height: 20px;
+      }
+
+      .Lego-Svg-Share {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+
+      &:nth-child(4n-3) {
+        .Lego-Avatar {
+          background-color: rgb(68, 111, 242);
+        }
+      }
+
+      &:nth-child(4n-2) {
+        .Lego-Avatar {
+          background-color: rgb(20, 192, 191);
+        }
+      }
+
+      &:nth-child(4n-1) {
+        .Lego-Avatar {
+          background-color: rgb(237, 143, 75);
+        }
+      }
+
+      &:nth-child(4n) {
+        .Lego-Avatar {
+          background-color: rgb(223, 42, 164);
+        }
+      }
+  }
+}

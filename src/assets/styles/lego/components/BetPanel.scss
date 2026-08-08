@@ -1,0 +1,188 @@
+@import '@styles/breakpoints.scss';
+
+.Lego {
+  &-BetPanel {
+    flex: 1 0;
+
+    &:not(:first-child) {
+      margin-top: 8px;
+
+      @include s {
+        margin-top: 0;
+        margin-left: 8px;
+      }
+    }
+
+    &-Header {
+      background-color: rgb(23, 23, 23);
+      padding: 8px;
+      border-radius: 10px;
+    }
+
+    &-Divider {
+      height: 1px;
+      background-color: rgb(32, 32, 32);
+      margin: 0 auto;
+      width: calc(100% - 12px);
+    }
+
+    &-Body {
+      padding: 8px;
+      background-color: rgb(23, 23, 23);
+      border-radius: 10px;
+      display: flex;
+    }
+
+    &-Actions {
+      display: flex;
+      align-items: center;
+    }
+
+    &-BetTabs, &-Autobet {
+      width: 50%;
+    }
+
+    &-Autobet {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-secondary);
+
+      @include l {
+        gap: 6px;
+      }
+
+      .Lego-Button {
+        flex: 1;
+        max-width: 32px;
+
+        @include m {
+          max-width: none;
+        }
+
+        &:not(:first-child) {
+          margin-left: 2px;
+        }
+      }
+
+      &-Reset {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    &-Cashout {
+      width: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-secondary);
+      padding-left: 8px;
+    }
+
+    &-CashoutInputContainer {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background-color: rgb(32, 32, 32);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 500;
+
+      @include m {
+        width: fit-content;
+        margin-left: 12px;
+        align-items: center;
+      }
+
+      & > * {
+        line-height: normal;
+        font-size: 10px;
+
+        @include m {
+          font-size: 11px;
+        }
+      }
+
+      & > .Lego-Input-AddonBefore {
+        margin-right: 0;
+      }
+    }
+
+    &-CashoutInput {
+      font-weight: 500;
+      text-align: left;
+      padding: 0;
+      width: 20px;
+
+      @include m {
+        width: 28px;
+      }
+    }
+
+    &-Amount {
+      width: 50%;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+
+    &-AmountInputContainer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .Lego-Button {
+        width: 32px;
+      }
+
+      .Lego-InputContainer {
+        flex: 1;
+
+        & > input {
+          width: 100%;
+        }
+      }
+
+      .Lego-Input {
+        text-align: center;
+      }
+    }
+
+    &-AmountSteps {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+
+      @include l {
+        gap: 6px;
+      }
+
+      &Reset {
+        width: 16px;
+        height: 16px;
+      }
+
+      .Lego-Button {
+        flex: 1;
+        max-width: 32px;
+        font-weight: 400;
+
+        &:not(:first-child) {
+          margin-left: 2px;
+        }
+
+        @include m {
+          max-width: none;
+        }
+      }
+    }
+
+    &-BetButton[class] {
+      width: 50%;
+      text-wrap: balance;
+    }
+  }
+}

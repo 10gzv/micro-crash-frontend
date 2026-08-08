@@ -1,0 +1,56 @@
+.Lego {
+  &-SoundConfirm {
+
+    width: 180px;
+
+    &-Actions {
+      display: flex;
+      .Lego-Button {
+        flex: 1;
+
+        &:not(:first-child) {
+          margin-left: 8px;
+        }
+      }
+    }
+
+    &-Icons {
+      margin-top: 6px;
+      display: flex;
+      justify-content: center;
+    }
+
+    &-DontAsk {
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+
+    &-Icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: rgba(68, 179, 242);
+
+      border: 1px solid rgba(45, 123, 167);
+
+      .Lego-Svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      &:not(:first-child) {
+        margin-left: -14px;
+      }
+    }
+
+    &-Text {
+      font-size: 16px;
+      margin: 10px 4px;
+      text-align: center;
+    }
+
+  }
+}

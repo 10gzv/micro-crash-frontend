@@ -1,0 +1,60 @@
+@import '@styles/breakpoints.scss';
+
+/* Centered Pusula modals — Game limits (+ rules / provably fair later) */
+@media (max-width: 1024px) {
+  .Pusula-GameLimitsPanel {
+    width: min(393px, calc(100vw - 16px));
+    border-radius: 14px;
+  }
+
+  .Pusula-GameRulesPanel {
+    width: min(393px, calc(100vw - 16px));
+    max-height: calc(
+      100dvh - 16px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+    );
+    border-radius: 14px;
+  }
+
+  .Pusula-GameRulesPanel-Body {
+    padding-left: max(12px, env(safe-area-inset-left, 0px));
+    padding-right: max(12px, env(safe-area-inset-right, 0px));
+  }
+
+  .Pusula-GameLimitsPanel-Header {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  .Pusula-GameLimitsPanel-Body {
+    padding-left: max(12px, env(safe-area-inset-left, 0px));
+    padding-right: max(12px, env(safe-area-inset-right, 0px));
+  }
+
+  .Pusula-GameLimitsPanel-Frame {
+    max-width: none;
+    padding: 12px;
+  }
+
+  .Pusula-GameLimitsPanel-FrameInner {
+    padding: 12px;
+  }
+
+  .Pusula-GameLimitsPanel-Card {
+    min-height: 100px;
+    padding: 24px 12px 20px;
+  }
+
+  .Pusula-GameLimitsPanel-CardValue {
+    font-size: 18px;
+    word-break: break-word;
+  }
+
+  .Pusula-GameLimitsPanel-CardLabel {
+    font-size: 14px;
+  }
+
+  .Pusula-GameLimitsPanel-Rtp {
+    font-size: 16px;
+    padding: 12px 8px 4px;
+  }
+}

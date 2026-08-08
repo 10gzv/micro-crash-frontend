@@ -1,0 +1,248 @@
+{
+  "translation": {
+    "shared": {
+      "bet": "Bet",
+      "id": "ID",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "header": {
+      "home": "Home",
+      "balance": "Balance",
+      "chat": "Chat",
+      "menu": "Menu"
+    },
+    "tabs": {
+      "allBets": "All bets",
+      "history": "History",
+      "topWins": "Top wins",
+      "topBets": "Top"
+    },
+    "headerNames": {
+      "user": "User",
+      "bet": "Bet",
+      "Multiplier": "Multiplier",
+      "win": "Win"
+    },
+    "gamePart": {
+      "waitNextRound": "Waiting for the next round",
+      "crashed": "Crashed"
+    },
+    "betPanel": {
+      "autoBet": "AUTOPLAY",
+      "autoplay": "Auto play",
+      "stopAutoplay": "Stop Autoplay ({{count}})",
+      "cashout": "Cashout",
+      "cancel": "Cancel",
+      "next": "Bet for next",
+      "bet": "Place bet",
+      "autoCashout": "AUTO CASHOUT",
+      "minOdd": "Min Odd",
+      "confirm": "Confirm",
+      "decreaseBet": "Decrease bet",
+      "increaseBet": "Increase bet"
+    },
+    "betCard": {
+      "winning": "Winning",
+      "odd": "Odd"
+    },
+    "notification": {
+      "shared": "Shared",
+      "ctc": "Copied to clipboard",
+      "dataCopied": "Data successfully copied!",
+      "setNumberOfRounds": "Please, set number of rounds",
+      "cantSetZero": "Can't set 0.00 as stop point",
+      "reset": "Reset",
+      "start": "Start",
+      "numberOfRounds": "Number of Rounds",
+      "youWon": "You won",
+      "placingBet": "Placing your bet...",
+      "betAccepted": "Bet accepted!",
+      "insufficientBalance": "Please top up your balance.",
+      "wentWrong": "Something went wrong.",
+      "noFreebetsRemaining": "No freebets remaining",
+      "waitingNextRound": "Waiting for the next round"
+    },
+    "pusula": {
+      "cashoutAt": "at x{{odd}}",
+      "settings": {
+        "title": "Settings",
+        "close": "Close",
+        "defaultUser": "demo_user",
+        "noId": "—",
+        "musicSound": "Music & Sound",
+        "provablyFair": "Provably fair",
+        "gameRules": "Game rules",
+        "gameLimits": "Game limits",
+        "backToHome": "Back to Home",
+        "poweredBy": "Powered by"
+      },
+      "limits": {
+        "minBet": "Minimum bet",
+        "maxBet": "Maximum bet",
+        "maxPayout": "Maximum payout",
+        "rtpDefault": "RTP 92.10 - 97.50%"
+      },
+      "rules": {
+        "expand": "Expand section",
+        "collapse": "Collapse section",
+        "sections": {
+          "intro": "Crash Original",
+          "chooseBet": "1. Choose Your Bet",
+          "cashout": "2. Cashout",
+          "auto": "3. Auto bet & Auto Cashout",
+          "outcome": "4. Await the Outcome"
+        },
+        "chooseBetBody": "The Pusulabet Crash takes off, and the coefficient begins to rise in parallel. The Gamer needs to place a BET(s) before the round starts, otherwise, the placed bets during the started round will participate for the next round.",
+        "cashoutBody": "Once the round started the Gamer should click on the Cashout button whenever wanted but before the round finishes.",
+        "autoBody": "The Gamer can use Auto Bet and/or Auto Cashout features to place the same amount bets and make the same amount cashouts automatically until switching off the auto modes.",
+        "outcomeBody": "The Gamer wins in case the Cashout is done before the chart and the coefficient stops to grow. The Gamer loses if the Cashout has not been done before the round finishes. The winning amount is calculated by multiplying the coefficient by the bet's amount. After Cashout, the won amount will be reflected on the Gamer's balance instantly."
+      },
+      "fairnessCheck": {
+        "title": "Fairness Check",
+        "serverSeedHint": "(generated on our side)",
+        "clientSeedHint": "(generated on players side)",
+        "combinedHashHint": "(your game result)",
+        "instructionsCheck": "For instruction check"
+      },
+      "fairness": {
+        "whatIsTitle": "What is provably fair?",
+        "whatIsBody": "Crash utilizes a cryptographic system known as Provably Fair to ensure 100% fairness in game outcomes. This system prevents any external interference in the game.",
+        "moreDetails": "More details",
+        "howToVerify": "How to verify?",
+        "tabs": "Provably fair sections",
+        "tabGeneral": "General",
+        "tabSettings": "Settings",
+        "newServerSeed": "New server seed",
+        "enterManually": "Enter manually"
+      }
+    },
+    "burgerMenu": {
+      "animation": "Animation",
+      "sound": "Sound",
+      "music": "Music",
+      "fairness": "Fairness settings",
+      "rules": "Game rules",
+      "limits": "Limits",
+      "limitsTab": {
+        "rtp": "RTP"
+      }
+    },
+    "chat": {
+      "group_chat": "Group chat",
+      "maxCharacters": "max {{count}} characters",
+      "gif": "GIF",
+      "playersOnline": "Players online",
+      "sharedBet": "Shared a bet",
+      "searchGifs": "Search GIFs...",
+      "enterMessage": "Chat.."
+    },
+    "fairnessCheckPopup": {
+      "instructionsCheck": "For Instructions check",
+      "whatIs": "What is Provable Fairness?",
+      "serverSeed": "Server seed",
+      "clientSeed": "Client Seed",
+      "genOnPlayersSide": "Generated on players side. Gamer (1) (2) (3)",
+      "genOnOurSide": "Generated on our side",
+      "noSeed": "No seed",
+      "gamer": "Gamer",
+      "combinedSha": "Combined SHA512 Hash",
+      "combinedShaInfo": "Above Seeds combined and converted to SHA512 Hash. This is your Game Result",
+      "gamersSeed": "Gamer {{count}} seed",
+      "combinedSeed": "Combined Seed"
+    },
+    "freeBet": {
+      "claim": "Claim",
+      "amount": "Amount",
+      "leftCount": "Left count",
+      "Freebets": "Freebets",
+      "FreebetForNext": "Freebet for next",
+      "newBonus": "New bonus!",
+      "congratulationsYouHaveFreeBet": "Congratulations! You have Free Bet",
+      "claimBonus": "Claim bonus",
+      "playWithCash": "Play with cash",
+      "unfinishedBonus": "Unfinished bonus!",
+      "unfinishedFreebet": "You have an unfinished Free Bets",
+      "viewFreebetList": "VIEW FREEBET LIST",
+      "freeBetCard": {
+        "nominalAmount": "Nominal amount",
+        "totalFreeBets": "Total free bets",
+        "playedFreeBets": "Played free bets",
+        "validTill": "Valid till",
+        "cashoutMinCoefficient": "Cashout min. coefficient"
+      },
+      "freeBetResult": {
+        "youWon": "You won",
+        "freebetsCompleted": "Freebets Completed!",
+        "freebetCampaignComplete": "Freebet campaign complete!",
+        "continue": "Continue",
+        "byContinuingYouWillPlayWithRealMoney": "By continuing you will play with real money"
+      }
+    },
+    "htpPopup": {
+      "gameSettings": "Game settings",
+      "fairness": "Fairness",
+      "rules": "Rules",
+      "limits": "Limits",
+      "rulesTab": {
+        "title": "Pusulabet Crash is a new game allowing Gamers to place bets easily with one click and win up to",
+        "htp": "How to play?",
+        "paragraph1": "The Pusulabet Crash takes off, and the coefficient begins to rise in parallel. The Gamer needs to place a BET(s) before the round starts, otherwise, the placed bets during the started round will participate for the next round. Once the round started the Gamer should click on the Cashout button whenever wanted but before the round finishes.",
+        "paragraph2": "The Gamer can use Auto Bet and/or Auto Cashout features to place the same amount bets and make the same amount cashouts automatically until switching off the auto modes. The Gamer wins in case the Cashout is done before the chart and the coefficient stops to grow. The Gamer loses if the Cashout has not been done before the round finishes. The winning amount is calculated by multiplying the coefficient by the bet's amount. After Cashout, the won amount will be reflected on the Gamer's balance instantly."
+      },
+      "limitsTab": {
+        "title": "The Gamer can place 2 bets simultaneously during a single round.",
+        "minBet": "Minimum bet",
+        "maxBet": "Maximum bet",
+        "maxWin": "Maximum win"
+      },
+      "fairnessTab": {
+        "title": "What is Provable Fairness?",
+        "description": "This game uses Provable Fairness technology to determine game result. This tool gives you ability to change your seed and check fairness of the game",
+        "nestServerSeed": "Next server seed",
+        "nextClientSeed": "Next client seed",
+        "random": "Random on every new game",
+        "manually": "Enter manually",
+        "hex": "Hex",
+        "decimal": "Decimal",
+        "result": "Result"
+      }
+    },
+    "autoplayPopup": {
+      "stopDecrease": "Stop if cash decreases by",
+      "stopIncrease": "Stop if cash increases by",
+      "stopSingleWin": "Stop if single win exceeds"
+    },
+    "totalBets": {
+      "title": "Bets",
+      "totalWin": "Total win {{currency}}",
+      "crashValue": "Crash value",
+      "prevRound": "Prev-Round",
+      "currRound": "Curr-Round"
+    },
+    "fairnessPopup": {
+      "whatIs": "What is",
+      "provableFairness": "Provable Fairness?",
+      "roundResult": "Round Result",
+      "hashedIn": "Hashed in SHA512",
+      "description": "Above Seeds combined and converted to SHA512 Hash. This is your Game Result",
+      "hashCheck": "Correctness of Hash can be checked in any online calculator, for example",
+      "startParagraph": "<b> Pusulabet Crash </b> is based on cryptographic technology called “Provable Fairness”. This technology guarantees 100% fairness of game result. With this technology, it’s impossible for any third party to interfere in game process.",
+      "howItWorks": "How it works?",
+      "howItWorksParagraph": "Result of each round (Game’s “Fly away” coefficient ) is not generated on our servers. It’s generated with help of round players and is fully transparent. This way, it’s impossible for anyone to manipulate game output. Also, anyone can check and confirm game fairness",
+      "moreInfo": "More info",
+      "moreInfoParagraph": "Round result is generated from four independent participants of the round: game operator and first 3 betters of the round. Operator is generating server seed (random 16 symbols). Hashed version of this server seed is available publicly before round starts",
+      "roundStartParagraph": "When round starts, game merges server seed with three client seeds. From merged symbols is generated SHA512 hash, and from this hash - game result.",
+      "howToCheck": "How to check?",
+      "howToCheckParagraph": "You can check fairness of each round from game history, by clicking on green icon.",
+      "howToCheckParagraph2": "In opened window, you will see server seed, 3 pair of players seeds, combined hash and round result.",
+      "howToCheckParagraph3": "Hashed version of next rounds server seed is available publicly in settings window (In user menu, check “Provably Fair Settings” and then “Next server seed SHA256”).",
+      "howToCheckParagraph4": "If you want to participate in round result generation, make sure you are between first 3 players who make bet in that round."
+    },
+    "soundPopup": {
+      "enableSound": "Enable sound?",
+      "dontAskMeAgain": "Don't ask me again",
+      "DontAskMeAgain": "Don't ask me again"
+    }
+  }
+}
