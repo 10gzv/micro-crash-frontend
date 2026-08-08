@@ -1,36 +1,25 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import clsx from 'clsx';
 
-import {
-  notificationStore,
-  oddDataStore,
-  useTranslation,
-} from '@10gzv/crash-core';
+import { notificationStore, oddDataStore, useTranslation } from '@10gzv/crash-core';
 import { gameAsset, GAME_ASSET_PATHS } from '@lego/constants/gameAssets';
 
 import {
-  findActivePusulaNotice,
+  listActivePusulaNotices,
   parseYouWonContent,
   PUSULA_NOTICE_MS,
+  type PusulaNoticeItem,
   type PusulaPanelKey,
 } from './pusulaNoticeHelpers';
 
-/** Figma stage toasts — top-right; data from notificationStore (same as crash). */
-export const PusulaStageNotice: FC = observer(() => {
+type NoticeRowProps = {
+  item: PusulaNoticeItem;
+};
+
+const PusulaStageNoticeRow: FC<NoticeRowProps> = observer(({ item }) => {
   const { t } = useTranslation();
-  const { notificationsData } = notificationStore;
-  const active = findActivePusulaNotice(notificationsData);
-
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const panelKeyRef = useRef<PusulaPanelKey | null>(null);
-  const [cashoutOdd, setCashoutOdd] = useState(0);
-
-  useEffect(() => {
-    if (active?.kind === 'cashout') {
-      setCashoutOdd(Number(oddDataStore.odd) || 0);
-    }
-  }, [active?.key, active?.kind, active?.content]);
 
   useEffect(() => {
     if (hideTimer.current) {
@@ -38,32 +27,24 @@ export const PusulaStageNotice: FC = observer(() => {
       hideTimer.current = null;
     }
 
-    if (!active) {
-      panelKeyRef.current = null;
-      return undefined;
-    }
-
-    if (active.kind === 'cashout') {
-      setCashoutOdd(Number(oddDataStore.odd) || 0);
-    }
-
-    panelKeyRef.current = active.key;
     hideTimer.current = setTimeout(() => {
-      const key = panelKeyRef.current;
-      if (!key) return;
       notificationStore.updateNotificationsData(
         { active: false, content: '' },
-        key,
+        item.key,
       );
     }, PUSULA_NOTICE_MS);
 
     return () => {
       if (hideTimer.current) clearTimeout(hideTimer.current);
     };
-  }, [active?.key, active?.kind, active?.content]);
+  }, [item.key, item.kind, item.content]);
 
-  const visible = Boolean(active);
-  const win = active?.kind === 'cashout' ? parseYouWonContent(active.content) : null;
+  const win =
+    item.kind === 'cashout' ? parseYouWonContent(item.content) : null;
+  const cashoutOdd =
+    win?.odd != null && !Number.isNaN(win.odd)
+      ? win.odd
+      : Number(oddDataStore.odd) || 0;
   const oddLabel = new Intl.NumberFormat(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -71,14 +52,12 @@ export const PusulaStageNotice: FC = observer(() => {
 
   return (
     <div
-      className={clsx('Pusula-StageNotice', {
-        'Pusula-StageNotice_visible': visible,
-        'Pusula-StageNotice_cashout': active?.kind === 'cashout',
-        'Pusula-StageNotice_betAccepted': active?.kind === 'betAccepted',
+      className={clsx('Pusula-StageNotice', 'Pusula-StageNotice_visible', {
+        'Pusula-StageNotice_cashout': item.kind === 'cashout',
+        'Pusula-StageNotice_betAccepted': item.kind === 'betAccepted',
       })}
       role='status'
       aria-live='polite'
-      aria-hidden={!visible}
     >
       <span className='Pusula-StageNotice-IconWrap' aria-hidden>
         <img
@@ -91,13 +70,13 @@ export const PusulaStageNotice: FC = observer(() => {
         />
       </span>
 
-      {active?.kind === 'betAccepted' && (
+      {item.kind === 'betAccepted' && (
         <span className='Pusula-StageNotice-Text'>
           {t('notification.betAccepted', { defaultValue: 'Bet accepted!' })}
         </span>
       )}
 
-      {active?.kind === 'cashout' && win && (
+      {item.kind === 'cashout' && win && (
         <>
           <span className='Pusula-StageNotice-Label'>
             {t('betPanel.cashout', { defaultValue: 'Cashout' })}
@@ -115,6 +94,22 @@ export const PusulaStageNotice: FC = observer(() => {
           </span>
         </>
       )}
+    </div>
+  );
+});
+
+/** Figma stage toasts — top-right stack (first / second bet panels). */
+export const PusulaStageNotice: FC = observer(() => {
+  const { notificationsData } = notificationStore;
+  const items = listActivePusulaNotices(notificationsData);
+
+  if (!items.length) return null;
+
+  return (
+    <div className='Pusula-StageNoticeStack' aria-live='polite'>
+      {items.map(item => (
+        <PusulaStageNoticeRow key={item.key as PusulaPanelKey} item={item} />
+      ))}
     </div>
   );
 });

@@ -9,7 +9,7 @@ export function parabolaY(a: number, x: number) {
 
 export const PLAIN_VOL = isMobile() ? 20 : 80;
 export const PLAIN_HOVER_STEP = isMobile() ? 0.2 : 0.5;
-export const PLAIN_Y_STEP = isMobile() ? 0.9 : 2;
+export const PLAIN_Y_STEP = isMobile() ? 1.4 : 3.4;
 export const PLAIN_Y_KICK = isMobile() ? 70 : 0;
 
 export function parabolaCoeff(canvasW: number, canvasH: number) {
@@ -28,8 +28,8 @@ export function canClimb(
   markerH: number,
 ) {
   return (
-    pos.y < canvasW * 0.92 - markerW &&
-    pos.x < canvasH * 0.70 - markerH
+    pos.y < canvasW * 0.94 - markerW &&
+    pos.x < canvasH * 0.76 - markerH
   );
 }
 
@@ -41,7 +41,7 @@ export function chartTipFromPlain(
 ) {
   const hub = flightRayHub(canvasWidth, canvasHeight);
   const lineH = canvasHeight;
-  const tipY = lineH - plainPosition.x - 10;
+  const tipY = lineH - plainPosition.x - 18;
   const tipX = plainPosition.y + 20;
   const endY = tipY >= lineH ? lineH : tipY;
 
@@ -71,7 +71,7 @@ export function plainXUnderCompass(
   const inZone =
     nextY > cx - r * 0.65 && nextY < cx + r * 1.15;
   if (!inZone) return targetX;
-  const blend = isMobile() ? 0.34 : 0.38;
+  const blend = isMobile() ? 0.4 : 0.44;
   return prevX + (targetX - prevX) * blend;
 }
 

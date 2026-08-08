@@ -35,7 +35,24 @@ export class GameLiveConnection extends GameConnection {
     );
   }
 
-  override onBetCashouted(_data: BetCashoutedInterface): void {
-    super.onBetCashouted(_data);
+  override onBetCashouted(data: BetCashoutedInterface): void {
+    super.onBetCashouted(data);
+
+    const panelKey =
+      CONSOLE_TYPES_DEPEND_ON_PANEL[
+        data.ticket_name as keyof typeof CONSOLE_TYPES_DEPEND_ON_PANEL
+      ];
+    if (!panelKey) return;
+
+    const panel = notificationStore.notificationsData[panelKey];
+    if (!panel.active || !panel.content) return;
+
+    notificationStore.updateNotificationsData(
+      {
+        active: true,
+        content: `${panel.content}#${data.cashout_odd}`,
+      },
+      panelKey,
+    );
   }
 }

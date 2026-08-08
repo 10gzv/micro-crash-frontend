@@ -4,8 +4,7 @@
     border-radius: 10px;
     display: flex;
     align-items: center;
-    background: #0f212e;
-    // background-color: rgb(32, 32, 32);
+    background: rgba(28, 42, 74, 1);
     margin: 8px 0;
 
     &-User {
@@ -42,7 +41,7 @@
         justify-content: space-between;
         font-size: 12px;
         height: 30px;
-        background-color: #2f4454;
+        background: rgba(21, 31, 54, 1);
         border-radius: 6px;
         padding: 0 8px;
 

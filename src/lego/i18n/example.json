@@ -1,5 +1,4 @@
 {
-  "translation": {
     "shared": {
       "bet": "Bet",
       "id": "ID",
@@ -244,5 +243,4 @@
       "dontAskMeAgain": "Don't ask me again",
       "DontAskMeAgain": "Don't ask me again"
     }
-  }
 }
