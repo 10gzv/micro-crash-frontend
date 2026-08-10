@@ -75,7 +75,7 @@
   border: none;
   border-radius: 8px;
   background: rgba(101, 105, 118, 1);
-  box-shadow: none;
+  box-shadow: 0 5.2px 15.61px 5.2px rgba(112, 118, 101, 0.22);
   cursor: pointer;
   box-sizing: border-box;
 
@@ -85,9 +85,10 @@
   }
 
   &_cashout {
-    flex: 1 1 auto;
+    flex: 182 1 0;
     min-width: 0;
     width: auto;
+    max-width: none;
     height: 38px;
   }
 
@@ -101,6 +102,13 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-family: var(--font-pusula, Rogan, Clash, Helvetica, Arial, sans-serif);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: rgba(239, 255, 244, 1);
 }
 
 /* Vertical switch — Figma track 14×34 @ left 3 top 2, r30, #0B1428 */
@@ -151,7 +159,7 @@
 }
 
 .Pusula-BetPanel-CashoutRow {
-  gap: 6px;
+  gap: 0;
 }
 
 .Pusula-BetPanel-OddWrap {
@@ -159,30 +167,42 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  flex: 0 0 64px;
-  width: 64px;
+  flex: 79 0 0;
+  min-width: 56px;
   height: 38px;
-  border-radius: 8px;
-  background: rgba(11, 20, 40, 1);
+  padding: 0 6px;
+  border-radius: 0;
+  background: transparent;
   box-sizing: border-box;
+  font-family: var(--font-pusula, Rogan, Clash, Helvetica, Arial, sans-serif);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: rgba(239, 255, 244, 1);
 }
 
 .Pusula-BetPanel-OddPrefix {
-  opacity: 0.95;
+  opacity: 1;
+  flex-shrink: 0;
 }
 
 .Pusula-BetPanel-Odd {
-  width: 28px;
+  width: auto;
+  min-width: 12px;
+  max-width: 36px;
   border: none;
-  border-bottom: 2px solid #4aa3ff;
   border-radius: 0;
   background: transparent;
   outline: none;
-  padding: 0 0 1px;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: center;
 
   &:disabled {
     opacity: 0.45;
-    border-bottom-color: rgba(74, 163, 255, 0.35);
   }
 }
 
@@ -459,7 +479,6 @@
       padding: 0 4px 0 14px;
       border-radius: 4px;
       background: rgba(101, 105, 118, 1);
-      box-shadow: none;
     }
 
     &_on .Pusula-BetPanel-SwitchKnob {
@@ -485,25 +504,30 @@
   }
 
   .Pusula-BetPanel-CashoutRow {
-    gap: 4px;
+    gap: 0;
     box-shadow: none;
   }
 
-  .Pusula-BetPanel-OddWrap {
-    flex: 0 0 52px;
+  .Pusula-BetPanel-Toggle_cashout {
+    flex: 182 1 0;
     height: 32px;
-    min-width: 52px;
+    padding: 0 4px 0 14px;
+    box-shadow: 0 4px 12px 4px rgba(112, 118, 101, 0.18);
+  }
+
+  .Pusula-BetPanel-OddWrap {
+    flex: 79 0 0;
+    min-width: 48px;
+    height: 32px;
     margin: 0;
     padding: 0 4px;
-    border-radius: 4px;
-    background: rgba(11, 20, 40, 1);
     font-size: 12px;
+    background: transparent;
   }
 
   .Pusula-BetPanel-Odd {
-    width: 22px;
-    font-size: 12px;
-    border-bottom-width: 1px;
+    max-width: 28px;
+    font-size: inherit;
   }
 
   .Pusula-BetPanel-Step {
@@ -550,34 +574,5 @@
     .Lego-BetButton_cashout button {
       box-shadow: none !important;
     }
-  }
-}
-
-/* Desktop: AUTO CASHOUT — одна серая кнопка, множитель в тёмном inset справа */
-@include l {
-  .Pusula-BetPanel-CashoutRow {
-    position: relative;
-    gap: 0;
-    height: 38px;
-    flex: 0 0 38px;
-    padding: 0;
-    background: transparent;
-  }
-
-  .Pusula-BetPanel-Toggle_cashout {
-    width: 100%;
-    padding-right: 68px;
-  }
-
-  .Pusula-BetPanel-CashoutRow .Pusula-BetPanel-OddWrap {
-    position: absolute;
-    right: 2px;
-    top: 2px;
-    flex: none;
-    width: 64px;
-    height: 34px;
-    background: rgba(11, 20, 40, 1);
-    border-radius: 6px;
-    z-index: 1;
   }
 }

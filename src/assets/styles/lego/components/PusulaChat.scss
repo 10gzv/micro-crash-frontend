@@ -253,22 +253,25 @@ $pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
   .Lego-Chat-Message_share_bet {
     .Lego-Chat-Message-Body {
       padding: 0 4px;
+      background: transparent;
+      border-radius: 0;
     }
 
-    .Lego-BetCard {
+    /* Beat frontend-core chat.css share-bet defaults (#1a1a1a / #1f1f1f pills) */
+    .Lego-Chat-Message-Body .Lego-BetCard {
       margin: 0;
-      padding: 8px 10px;
+      padding: 10px 12px;
       border-radius: 10px;
       background: $pusula-chat-surface;
       border: 1px solid $pusula-chat-border;
       align-items: flex-start;
     }
 
-    .Lego-BetCard-User {
+    .Lego-Chat-Message-Body .Lego-BetCard-User {
       display: none;
     }
 
-    .Lego-BetCard-Info {
+    .Lego-Chat-Message-Body .Lego-BetCard-Info {
       flex: 1 1 auto;
       width: 100%;
       margin: 0;
@@ -276,11 +279,14 @@ $pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
       flex-direction: row;
       flex-wrap: wrap;
       align-items: center;
-      gap: 6px 14px;
+      gap: 8px 16px;
     }
 
-    .Lego-BetCard-Info-Item {
+    .Lego-Chat-Message-Body .Lego-BetCard-Info-Item {
+      display: inline-flex;
       flex: 0 1 auto;
+      align-items: center;
+      justify-content: flex-start;
       height: auto;
       min-height: 0;
       margin: 0;
@@ -295,17 +301,16 @@ $pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
         margin: 0;
         color: $pusula-chat-muted;
         font-weight: 400;
+        white-space: nowrap;
       }
 
       &-Value {
         color: $pusula-chat-text;
         font-weight: 700;
+        white-space: nowrap;
       }
 
-      &.Odd .Lego-Odd,
-      &.Odd .Lego-Badge {
-        color: $pusula-chat-green !important;
-      }
+    
 
       &.win .Lego-BetCard-Info-Item-Value {
         color: $pusula-chat-text;
