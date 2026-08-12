@@ -119,6 +119,74 @@ html[data-game-slug='hollywoodbets-crash'] {
         }
       }
     }
+
+    /* Top tab — card layout (BetCard) */
+    .Lego-BetCard {
+      padding: 8px 10px;
+      margin: 4px 0;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(124, 105, 227, 0.14);
+      color: $hw-text;
+
+      &-User-Name {
+        color: $hw-text-muted;
+        font-size: 11px;
+      }
+
+      &-Info-Item {
+        background: rgba(245, 246, 250, 1);
+        color: $hw-text;
+
+        &-Label {
+          color: $hw-text-muted;
+        }
+
+        &-Value {
+          color: $hw-text;
+          font-weight: 600;
+        }
+
+        &.Odd {
+          .Lego-Odd,
+          .Lego-Badge {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0;
+            min-width: 0;
+            height: auto;
+            font-size: 12px;
+            font-weight: 700;
+          }
+
+          .Lego-Odd_tier-low,
+          .Lego-Badge.Lego-Odd_tier-low {
+            color: #9a8fb0 !important;
+          }
+
+          .Lego-Odd_tier-mid,
+          .Lego-Badge.Lego-Odd_tier-mid {
+            color: #7c66d1 !important;
+          }
+
+          .Lego-Odd_tier-high,
+          .Lego-Badge.Lego-Odd_tier-high {
+            color: #ec2341 !important;
+          }
+
+          .Lego-Odd-Rate {
+            color: inherit;
+          }
+        }
+      }
+
+      .Lego-Svg-Share {
+        opacity: 0.7;
+        filter: brightness(0) saturate(100%) invert(40%) sepia(12%) saturate(900%)
+          hue-rotate(220deg);
+      }
+    }
   }
 
   .Lego-LeftSection.Lego-LeftSection_pusula {
