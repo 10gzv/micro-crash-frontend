@@ -1,0 +1,587 @@
+/* Hollywoodbets Crash — color skin only (same layout as Pusulabet). */
+@import '@styles/breakpoints.scss';
+
+$hw-game-border: 1px solid rgba(51, 24, 79, 1);
+$hw-page-bg: #faf9fe;
+$hw-surface: #ffffff;
+$hw-surface-soft: rgba(255, 255, 255, 0.88);
+$hw-text: #1a1a1b;
+$hw-text-muted: #5c5c66;
+
+html[data-game-slug='hollywoodbets-crash'] {
+  body,
+  #root {
+    background: $hw-page-bg;
+  }
+
+  .Lego-Core {
+    background: $hw-page-bg;
+
+    @include l {
+      background: $hw-page-bg;
+    }
+  }
+
+  .Lego-Header {
+    height: 48px;
+    border: none !important;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(248, 245, 255, 1) 100%
+    ) !important;
+    box-shadow: 0 1px 0 rgba(124, 105, 227, 0.08);
+
+    &-LogoImage {
+      height: 34px;
+      max-width: 220px;
+    }
+
+    &-BalanceAmount {
+      color: $hw-text;
+    }
+
+    &-BalanceCurrency {
+      color: #6b3fa0;
+    }
+
+    &-IconBtn {
+      color: $hw-text;
+    }
+
+    &-IconImg_list {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  @include l {
+    .Lego-GameSection,
+    .Lego-GameSection-Content {
+      background: transparent;
+    }
+
+    .Lego-GamePlay {
+      background: transparent;
+    }
+  }
+
+  .Lego-LeftSection.Lego-LeftSection_pusula {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(246, 242, 255, 0.92) 100%
+    );
+    border: none;
+    border-radius: 14px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 20px rgba(42, 18, 80, 0.06);
+
+    .Lego-Bet-List-Header-Item {
+      color: $hw-text-muted;
+    }
+
+    .Lego-Bet-List-Item {
+      color: $hw-text;
+
+      .Lego-Bet-List-Item-Cell.Win {
+        color: $hw-text;
+      }
+
+      &_won {
+        background: rgba(138, 62, 216, 0.08);
+        border: none;
+      }
+
+      &_tier-low::before {
+        background: #9a8fb0;
+      }
+
+      &_tier-mid::before {
+        background: linear-gradient(180deg, #b8a8e8 0%, #7c66d1 100%);
+      }
+
+      &_tier-high::before {
+        background: linear-gradient(180deg, #ff6b8a 0%, #ec2341 100%);
+      }
+
+      .Lego-Bet-List-Item-Cell.Odd {
+        .Lego-Odd_tier-low {
+          color: #9a8fb0;
+        }
+
+        .Lego-Odd_tier-mid {
+          color: #7c66d1;
+        }
+
+        .Lego-Odd_tier-high {
+          color: #ec2341;
+        }
+      }
+    }
+  }
+
+  .Lego-LeftSection.Lego-LeftSection_pusula {
+    .Lego-Tabs,
+    .Lego-UI-Tabs {
+      height: 36px;
+      padding: 2px;
+      border-radius: 20px;
+      background: rgba(245, 246, 250, 1);
+      border: none;
+    }
+
+    .Lego-Tabs-Highlight,
+    .Lego-UI-Tabs-Highlight {
+      top: 2px;
+      height: calc(100% - 4px);
+      border-radius: 15px;
+      background: rgba(124, 105, 227, 1);
+      border: none;
+      box-shadow: none;
+    }
+
+    .Lego-Tab,
+    .Lego-UI-Tab {
+      height: 32px;
+      padding: 4px 8px;
+      border-radius: 15px;
+      font-family: Inter, Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1;
+      color: rgba(71, 84, 103, 1);
+
+      &_active,
+      &[data-active='true'],
+      &.active {
+        color: rgba(255, 255, 255, 1);
+        font-weight: 700;
+      }
+    }
+  }
+
+  .Pusula-TotalBets {
+    background: rgba(237, 232, 248, 0.45);
+    border: none;
+    border-radius: 10px;
+    color: $hw-text;
+  }
+
+  .Pusula-TotalBets-BetsCount,
+  .Pusula-TotalBets-BetsLabel,
+  .Pusula-TotalBets-WinLabel,
+  .Pusula-TotalBets-WinValue {
+    color: $hw-text;
+  }
+
+  .Pusula-PersonAvatar,
+  .Lego-Avatar.Pusula-PersonAvatar {
+    border: none;
+  }
+
+  .Pusula-PoweredBy-Label {
+    color: $hw-text-muted;
+  }
+
+  .Pusula-PoweredBy {
+    background: transparent;
+    border-top: none;
+  }
+
+  .Lego-DrawHistory .Lego-Odd_tier-low,
+  .Lego-DrawHistory .Lego-Badge_blue.Lego-Odd_tier-low {
+    color: #9a8fb0 !important;
+  }
+
+  .Lego-DrawHistory .Lego-Odd_tier-mid,
+  .Lego-DrawHistory .Lego-Badge_yellow.Lego-Odd_tier-mid {
+    color: #7c66d1 !important;
+  }
+
+  .Lego-DrawHistory .Lego-Odd_tier-high,
+  .Lego-DrawHistory .Lego-Badge_red.Lego-Odd_tier-high {
+    color: #ec2341 !important;
+  }
+
+  .PusulaStage {
+    border: $hw-game-border;
+    background: #1a0f2e;
+  }
+
+  .PusulaStage-Canvas {
+    background: #1a0f2e;
+  }
+
+  .PusulaStage-Canvas_flat {
+    background: #12061f;
+  }
+
+  .PusulaStage-Glow {
+    background: radial-gradient(
+      ellipse 78% 72% at 18% 88%,
+      rgba(138, 62, 216, 0.55) 0%,
+      rgba(92, 45, 145, 0.3) 42%,
+      rgba(18, 6, 31, 0) 72%
+    );
+  }
+
+  .PusulaStage-Rays {
+    opacity: 0.35;
+    filter: hue-rotate(55deg) saturate(1.2);
+  }
+
+  .PusulaStage-CompassWrap {
+    display: none;
+  }
+
+  .PusulaStage-Crane {
+    position: absolute;
+    z-index: 15;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .PusulaStage-CraneBody {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .PusulaStage-Canvas_roundOver .PusulaStage-Crane {
+    transition: 1s transform cubic-bezier(0, 1.27, 0.81, 0.83);
+  }
+
+  .PusulaStage-Crane .PusulaStage-Marker_hollywood {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    object-fit: contain;
+    mix-blend-mode: screen;
+    filter: drop-shadow(0 2px 10px rgba(18, 6, 31, 0.4));
+    pointer-events: none;
+    will-change: opacity;
+  }
+
+  /* During flap — one frame at a time, no screen-blend ghosting */
+  .PusulaStage-Crane_flapping .PusulaStage-Marker_hollywood {
+    mix-blend-mode: normal;
+    filter: drop-shadow(0 2px 10px rgba(18, 6, 31, 0.4));
+  }
+
+  @for $i from 0 through 3 {
+    .PusulaStage-Crane_flapping .PusulaStage-Marker_hollywood_#{$i} {
+      animation: hw-crane-f#{$i} var(--hw-crane-cycle-ms, 600ms) step-end infinite;
+    }
+  }
+
+  /* Static — show first frame when not flapping */
+  .PusulaStage-Crane:not(.PusulaStage-Crane_flapping) .PusulaStage-Marker_hollywood_0 {
+    opacity: 1;
+  }
+
+  /* 4-frame cycle — instant swap, no crossfade overlap */
+  @keyframes hw-crane-f0 {
+    0%,
+    24.99% {
+      opacity: 1;
+    }
+
+    25%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes hw-crane-f1 {
+    0%,
+    24.99% {
+      opacity: 0;
+    }
+
+    25%,
+    49.99% {
+      opacity: 1;
+    }
+
+    50%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes hw-crane-f2 {
+    0%,
+    49.99% {
+      opacity: 0;
+    }
+
+    50%,
+    74.99% {
+      opacity: 1;
+    }
+
+    75%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes hw-crane-f3 {
+    0%,
+    74.99% {
+      opacity: 0;
+    }
+
+    75%,
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .PusulaStage-Players_hollywood {
+    height: 34px;
+    min-width: 118px;
+    padding: 0 12px 0 8px;
+    gap: 6px;
+    border-radius: 17px;
+    background: rgba(42, 18, 80, 1);
+    border: 1px solid rgba(51, 24, 79, 1);
+    box-sizing: border-box;
+
+    .Pusula-PersonAvatar {
+      margin-left: -8px;
+      border: none;
+      opacity: 0.95;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &_c {
+        background-color: rgba(95, 154, 232, 1);
+      }
+
+      &_a {
+        background-color: rgba(232, 194, 95, 1);
+      }
+
+      &_b {
+        background-color: rgba(155, 127, 232, 1);
+      }
+    }
+  }
+
+  .PusulaStage-Players_hollywood .PusulaStage-PlayersCount {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .Pusula-BetPanel {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(245, 241, 255, 0.94) 100%
+    );
+    border: none;
+    box-shadow: 0 4px 18px rgba(42, 18, 80, 0.06);
+    color: $hw-text;
+
+    button,
+    input,
+    span,
+    .Lego-BetButton,
+    .Lego-BetButton .Lego-Button-Inner,
+    .Lego-BetButton button {
+      color: $hw-text;
+    }
+  }
+
+  .Pusula-BetPanel-ToggleRow,
+  .Pusula-BetPanel-CashoutRow {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .Pusula-BetPanel-Toggle {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+
+    &_cashout {
+      background: transparent;
+      box-shadow: none;
+    }
+  }
+
+  .Pusula-BetPanel-ToggleLabel {
+    color: rgba(71, 84, 103, 1);
+  }
+
+  .Pusula-BetPanel-Toggle_on .Pusula-BetPanel-SwitchKnob {
+    background: rgba(124, 105, 227, 1);
+    top: 2px;
+  }
+
+  .Pusula-BetPanel-Switch {
+    background: rgba(228, 229, 244, 1);
+    border: 1px solid rgba(124, 105, 227, 0.38);
+    box-sizing: border-box;
+  }
+
+  .Pusula-BetPanel-SwitchKnob {
+    left: 1px;
+    top: 14px;
+    background: rgba(101, 105, 118, 1);
+  }
+
+  .Pusula-BetPanel-OddWrap {
+    background: transparent;
+    color: rgba(71, 84, 103, 1);
+  }
+
+  .Pusula-BetPanel-OddPrefix,
+  .Pusula-BetPanel-Odd {
+    color: rgba(71, 84, 103, 1);
+  }
+
+  .Pusula-BetPanel-Amount,
+  .Pusula-BetPanel-Quick {
+    background: rgba(255, 255, 255, 0.75);
+    border: none;
+  }
+
+  .Pusula-BetPanel-AmountValue {
+    color: $hw-text;
+  }
+
+  .Pusula-BetPanel-QuickBtn {
+    background: rgba(228, 229, 244, 1);
+    color: $hw-text;
+  }
+
+  .Pusula-BetPanel-BetButton {
+    .Lego-BetButton,
+    .Lego-BetButton .Lego-Button-Inner,
+    .Lego-BetButton button {
+      background: linear-gradient(
+        180deg,
+        rgba(154, 139, 238, 1) 0%,
+        rgba(124, 105, 227, 1) 50%,
+        rgba(85, 63, 192, 1) 100%
+      ) !important;
+      color: rgba(255, 255, 255, 1) !important;
+    }
+
+    .Lego-BetButton span {
+      color: rgba(255, 255, 255, 1) !important;
+    }
+
+    .Lego-BetButton_cashout,
+    .Lego-BetButton_cashout .Lego-Button-Inner,
+    .Lego-BetButton_cashout button {
+      background: linear-gradient(
+        180deg,
+        rgba(255, 210, 63, 1) 0%,
+        rgba(240, 168, 0, 1) 100%
+      ) !important;
+      color: rgba(61, 38, 0, 1) !important;
+
+      &:hover {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 220, 90, 1) 0%,
+          rgba(245, 178, 20, 1) 100%
+        ) !important;
+      }
+    }
+
+    .Lego-BetButton_cashout span {
+      color: rgba(61, 38, 0, 1) !important;
+    }
+  }
+
+  @media (max-width: #{$screen-l-min - 1px}) {
+    .Pusula-BetPanel {
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(245, 241, 255, 0.94) 100%
+      );
+      border: none;
+    }
+
+    .Pusula-BetPanel-ToggleRow,
+    .Pusula-BetPanel-CashoutRow {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .Pusula-BetPanel-Toggle {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+
+      &_cashout {
+        background: transparent;
+        box-shadow: none;
+      }
+    }
+
+    .Pusula-BetPanel-Toggle_on .Pusula-BetPanel-SwitchKnob {
+      background: rgba(124, 105, 227, 1);
+      top: 2px;
+    }
+
+    .Pusula-BetPanel-Switch {
+      border: 1px solid rgba(124, 105, 227, 0.38);
+    }
+
+    .Pusula-BetPanel-SwitchKnob {
+      left: 1px;
+      top: 11px;
+    }
+
+    .Pusula-BetPanel-OddWrap {
+      background: transparent;
+      color: rgba(71, 84, 103, 1);
+    }
+
+    .Pusula-BetPanel-Amount,
+    .Pusula-BetPanel-Quick {
+      background: rgba(245, 246, 250, 1);
+      border: none;
+    }
+
+    body,
+    #root,
+    .Lego-Core {
+      background: $hw-page-bg;
+    }
+
+    .Lego-GameSection-Content {
+      background: transparent;
+    }
+
+    .Lego-GameSection-Content-Chart {
+      background: transparent;
+    }
+
+    .Lego-LeftSection {
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(246, 242, 255, 0.92) 100%
+      );
+    }
+  }
+}

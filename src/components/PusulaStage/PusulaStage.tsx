@@ -4,7 +4,13 @@ import clsx from 'clsx';
 
 import { gameStore, userBetsStore } from '@10gzv/crash-core';
 import { useSize } from '@/lego/hooks/useSize';
-import { gameAsset, GAME_ASSET_PATHS } from '@lego/constants/gameAssets';
+import {
+  gameAsset,
+  GAME_ASSET_PATHS,
+  HOLLYWOOD_CRANE_FRAMES,
+} from '@lego/constants/gameAssets';
+import { resolvedTheme } from '@lego/helpers/applyTheme';
+import { GAME_SLUG } from '@lego/helpers/assetUrl';
 import { RoundOdd } from '@/components/RoundOdd';
 import { Timer } from '@/components/Timer';
 import { PusulaPersonAvatar } from '@/lego/components/Avatar/PusulaPersonAvatar';
@@ -23,6 +29,10 @@ import {
   parabolaCoeff,
   parabolaY,
   plainXUnderCompass,
+  HOLLYWOOD_CRANE_FIGMA,
+  hollywoodCraneSize,
+  hollywoodCraneRotate,
+  hollywoodCranePosition,
 } from './stageFlight';
 import { PusulaChart } from './PusulaChart';
 import { PusulaStageNotice } from '@/lego/components/BetAcceptedNotice';
@@ -50,20 +60,35 @@ export const PusulaStage: FC = observer(() => {
 
   const raysUrl = gameAsset(GAME_ASSET_PATHS.stage.rays);
   const compassUrl = gameAsset(GAME_ASSET_PATHS.stage.compass);
-  const markerUrl = gameAsset(GAME_ASSET_PATHS.stage.marker);
+  const markerUrl = resolvedTheme.stageMarkers[0];
 
   const canvasW = canvasSize?.width || 0;
   const canvasH = canvasSize?.height || 0;
 
-  useEffect(() => {
-    if (!canvasW) return;
-    const calculated = canvasW * 0.055;
-    setMarkerWidth(Math.min(64, Math.max(44, calculated)));
-  }, [canvasW]);
+  const isHollywood = GAME_SLUG === 'hollywoodbets-crash';
+  const markerAttachX = isHollywood
+    ? HOLLYWOOD_CRANE_FIGMA.attachX
+    : MARKER_ATTACH_X;
+  const markerAttachY = isHollywood
+    ? HOLLYWOOD_CRANE_FIGMA.attachY
+    : MARKER_ATTACH_Y;
 
   useEffect(() => {
+    if (!canvasW) return;
+    if (isHollywood && canvasH) {
+      const { width, height } = hollywoodCraneSize(canvasW, canvasH);
+      setMarkerWidth(width);
+      setMarkerHeight(height);
+      return;
+    }
+    const calculated = canvasW * 0.055;
+    setMarkerWidth(Math.min(64, Math.max(44, calculated)));
+  }, [canvasW, canvasH, isHollywood]);
+
+  useEffect(() => {
+    if (isHollywood) return;
     setMarkerHeight(markerWidth / MARKER_ASPECT);
-  }, [markerWidth]);
+  }, [markerWidth, isHollywood]);
 
   useEffect(() => {
     if (!isRoundOver) {
@@ -167,29 +192,48 @@ export const PusulaStage: FC = observer(() => {
 
   const tipGeom =
     canvasW > 0 && canvasH > 0
-      ? chartTipFromPlain(plainPosition, canvasW, canvasH)
+      ? chartTipFromPlain(plainPosition, canvasW, canvasH, { hollywood: isHollywood })
       : null;
 
   const rotateDeg = tipGeom
     ? tipGeom.rotateFromUp - MARKER_SVG_LEAN_DEG
     : 0;
 
-  const markerLeft = tipGeom
-    ? tipGeom.tipX - MARKER_ATTACH_X * markerWidth
-    : 0;
-  const markerTop = tipGeom
-    ? tipGeom.endY - MARKER_ATTACH_Y * markerHeight
-    : 0;
+  const hollywoodRotate = tipGeom ? hollywoodCraneRotate(tipGeom.rotateFromUp) : 0;
+
+  const hollywoodPos =
+    isHollywood && tipGeom
+      ? hollywoodCranePosition(
+          tipGeom.tipX,
+          tipGeom.endY,
+          markerWidth,
+          markerHeight,
+          tipGeom.curveCtrlX,
+          tipGeom.lineH,
+        )
+      : null;
+
+  const markerLeft = hollywoodPos
+    ? hollywoodPos.left
+    : tipGeom
+      ? tipGeom.tipX - markerAttachX * markerWidth
+      : 0;
+  const markerTop = hollywoodPos
+    ? hollywoodPos.top
+    : tipGeom
+      ? tipGeom.endY - markerAttachY * markerHeight
+      : 0;
 
   const markerStyle = {
     left: markerLeft,
     top: isRoundOver ? markerTop - 120 : markerTop,
     width: markerWidth,
     height: markerHeight,
-    transformOrigin: `${MARKER_ATTACH_X * 100}% ${MARKER_ATTACH_Y * 100}%`,
+    opacity: 1,
+    transformOrigin: `${markerAttachX * 100}% ${markerAttachY * 100}%`,
     transform: isRoundOver
-      ? `translateX(${canvasW + markerWidth}px) rotate(${rotateDeg + 10}deg)`
-      : `rotate(${rotateDeg + MARKER_VISUAL_PITCH_DEG}deg)`,
+      ? `translateX(${canvasW + markerWidth}px) rotate(${(isHollywood ? hollywoodRotate : rotateDeg) + 10}deg)`
+      : `rotate(${isHollywood ? hollywoodRotate : rotateDeg + MARKER_VISUAL_PITCH_DEG}deg)`,
   } as CSSProperties;
 
   const showRays = isOddStarted && !isRoundOver;
@@ -246,21 +290,58 @@ export const PusulaStage: FC = observer(() => {
           )}
         </div>
 
-        {(isOddStarted || isRoundOver) && markerHeight > 0 && (
-          <img
-            className='PusulaStage-Marker'
-            src={markerUrl}
-            alt=''
-            draggable={false}
-            style={markerStyle}
-          />
-        )}
+        {(isOddStarted || isRoundOver) && markerHeight > 0 &&
+          (isHollywood ? (
+            <div
+              className={clsx('PusulaStage-Crane', {
+                'PusulaStage-Crane_flapping': isOddStarted && !isRoundOver,
+              })}
+              style={{
+                ...markerStyle,
+                ['--hw-crane-cycle-ms' as string]: `${HOLLYWOOD_CRANE_FIGMA.flapCycleMs}ms`,
+              }}
+            >
+              <div className='PusulaStage-CraneBody'>
+                {HOLLYWOOD_CRANE_FRAMES.map((frame, index) => (
+                    <img
+                      key={`${frame}-${index}`}
+                      className={clsx(
+                        'PusulaStage-Marker',
+                        'PusulaStage-Marker_hollywood',
+                        `PusulaStage-Marker_hollywood_${index}`,
+                      )}
+                      src={gameAsset(frame)}
+                      alt=''
+                      draggable={false}
+                    />
+                  ))}
+              </div>
+            </div>
+          ) : (
+            <img
+              className='PusulaStage-Marker'
+              src={markerUrl}
+              alt=''
+              draggable={false}
+              style={markerStyle}
+            />
+          ))}
 
-        <div className='PusulaStage-Players'>
+        <div className={clsx('PusulaStage-Players', { 'PusulaStage-Players_hollywood': isHollywood })}>
           <div className='PusulaStage-PlayersAvatars'>
-            <PusulaPersonAvatar tone='a' size={16} />
-            <PusulaPersonAvatar tone='b' size={16} />
-            <PusulaPersonAvatar tone='c' size={16} />
+            {isHollywood ? (
+              <>
+                <PusulaPersonAvatar tone='c' size={22} />
+                <PusulaPersonAvatar tone='a' size={22} />
+                <PusulaPersonAvatar tone='b' size={22} />
+              </>
+            ) : (
+              <>
+                <PusulaPersonAvatar tone='a' size={16} />
+                <PusulaPersonAvatar tone='b' size={16} />
+                <PusulaPersonAvatar tone='c' size={16} />
+              </>
+            )}
           </div>
           <span className='PusulaStage-PlayersCount'>{numOfBets || 0}</span>
         </div>

@@ -1,6 +1,24 @@
 import { FC, useEffect, useRef } from 'react';
 
+import { resolvedTheme } from '@lego/helpers/applyTheme';
+import { GAME_SLUG } from '@lego/helpers/assetUrl';
+
 import { chartTipFromPlain, type PlainPosition } from './stageFlight';
+
+function hexToRgba(hex: string, alpha: number): string {
+  const normalized = hex.replace('#', '');
+  const full =
+    normalized.length === 3
+      ? normalized
+          .split('')
+          .map(c => c + c)
+          .join('')
+      : normalized;
+  const r = parseInt(full.slice(0, 2), 16);
+  const g = parseInt(full.slice(2, 4), 16);
+  const b = parseInt(full.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 
 type PusulaChartProps = {
   plainPosition: PlainPosition;
@@ -36,10 +54,12 @@ export const PusulaChart: FC<PusulaChartProps> = ({
 
     if (plainPosition.x <= 0 && plainPosition.y <= 0) return;
 
+    const isHollywood = GAME_SLUG === 'hollywoodbets-crash';
     const { hub, tipX, endY, curveCtrlX, lineH } = chartTipFromPlain(
       plainPosition,
       canvasWidth,
       canvasHeight,
+      { hollywood: isHollywood },
     );
 
     const strokePath = () => {
@@ -52,15 +72,23 @@ export const PusulaChart: FC<PusulaChartProps> = ({
     ctx.lineTo(tipX, lineH);
     ctx.lineTo(hub.x, lineH);
     ctx.closePath();
+    const { fill, stroke } = resolvedTheme.chart;
+
     const fillGrad = ctx.createLinearGradient(0, endY, 0, lineH);
-    fillGrad.addColorStop(0, 'rgba(217, 138, 24, 0.38)');
-    fillGrad.addColorStop(0.55, 'rgba(196, 122, 24, 0.12)');
-    fillGrad.addColorStop(1, 'rgba(13, 23, 48, 0)');
+    if (GAME_SLUG === 'hollywoodbets-crash') {
+      fillGrad.addColorStop(0, 'rgba(199, 125, 255, 0.3)');
+      fillGrad.addColorStop(0.55, 'rgba(122, 47, 208, 0.16)');
+      fillGrad.addColorStop(1, 'rgba(122, 47, 208, 0.02)');
+    } else {
+      fillGrad.addColorStop(0, hexToRgba(fill, 0.38));
+      fillGrad.addColorStop(0.55, hexToRgba(fill, 0.12));
+      fillGrad.addColorStop(1, 'rgba(18, 6, 31, 0)');
+    }
     ctx.fillStyle = fillGrad;
     ctx.fill();
 
     strokePath();
-    ctx.strokeStyle = 'rgba(255, 214, 138, 0.3)';
+    ctx.strokeStyle = hexToRgba(stroke, 0.3);
     ctx.lineWidth = 6;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
@@ -68,8 +96,8 @@ export const PusulaChart: FC<PusulaChartProps> = ({
 
     strokePath();
     const strokeGrad = ctx.createLinearGradient(0, lineH, tipX, endY);
-    strokeGrad.addColorStop(0, '#D98A18');
-    strokeGrad.addColorStop(1, '#FFD68A');
+    strokeGrad.addColorStop(0, fill);
+    strokeGrad.addColorStop(1, stroke);
     ctx.strokeStyle = strokeGrad;
     ctx.lineWidth = 3;
     ctx.lineCap = 'round';

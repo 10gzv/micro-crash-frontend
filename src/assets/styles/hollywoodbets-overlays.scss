@@ -1,0 +1,519 @@
+@import '@styles/breakpoints.scss';
+
+$hw-text: #1a1a1b;
+$hw-text-muted: rgba(71, 84, 103, 1);
+$hw-text-secondary: rgba(95, 108, 140, 1);
+$hw-divider: rgba(124, 105, 227, 0.22);
+$hw-purple-mid: rgba(124, 105, 227, 1);
+$hw-purple-grad: linear-gradient(
+  180deg,
+  rgba(154, 139, 238, 1) 0%,
+  rgba(124, 105, 227, 1) 50%,
+  rgba(85, 63, 192, 1) 100%
+);
+$hw-shell-grad: linear-gradient(
+  165deg,
+  rgba(244, 238, 255, 1) 0%,
+  rgba(225, 214, 248, 0.92) 38%,
+  rgba(248, 244, 255, 1) 100%
+) !important;
+$hw-header-wash: linear-gradient(
+  180deg,
+  rgba(154, 139, 238, 0.22) 0%,
+  rgba(124, 105, 227, 0.08) 100%
+) !important;
+$hw-body-wash: linear-gradient(
+  180deg,
+  rgba(237, 229, 252, 0.55) 0%,
+  rgba(248, 245, 255, 0.35) 48%,
+  rgba(241, 234, 255, 0.5) 100%
+) !important;
+$hw-tabs-wash: linear-gradient(
+  180deg,
+  rgba(214, 201, 245, 0.45) 0%,
+  rgba(232, 224, 250, 0.65) 100%
+) !important;
+$hw-card-grad: linear-gradient(
+  180deg,
+  rgba(255, 255, 255, 0.96) 0%,
+  rgba(232, 223, 252, 0.88) 100%
+) !important;
+$hw-inset-grad: linear-gradient(
+  180deg,
+  rgba(228, 218, 248, 0.75) 0%,
+  rgba(210, 196, 240, 0.55) 100%
+) !important;
+$hw-backdrop: rgba(18, 6, 31, 0.55);
+
+@mixin hw-popup-close-button {
+  position: relative;
+
+  img {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 14px;
+    height: 2px;
+    margin-left: -7px;
+    margin-top: -1px;
+    border-radius: 2px;
+    background: rgba(85, 63, 192, 1);
+    pointer-events: none;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+
+  &:hover::before,
+  &:hover::after {
+    background: rgba(62, 42, 158, 1);
+  }
+}
+
+@mixin hw-menu-icon {
+  flex-shrink: 0;
+  display: block;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  box-sizing: content-box;
+  object-fit: contain;
+}
+
+html[data-game-slug='hollywoodbets-crash'] {
+  .Lego-Popup {
+    background-color: $hw-backdrop;
+    color: $hw-text;
+  }
+
+  .Lego-Popup-Content {
+    background: $hw-shell-grad;
+    border: 1px solid $hw-divider;
+    box-shadow: 0 20px 48px rgba(42, 18, 80, 0.22);
+    color: $hw-text;
+  }
+
+  /* —— Burger / settings drawer —— */
+  .Pusula-SettingsMenu-Backdrop {
+    background: $hw-backdrop;
+  }
+
+  .Pusula-SettingsMenu {
+    background: $hw-shell-grad;
+    box-shadow: -14px 0 44px rgba(42, 18, 80, 0.2);
+  }
+
+  .Pusula-SettingsMenu-Header {
+    background: $hw-header-wash;
+    border-bottom: 1px solid $hw-divider;
+  }
+
+  .Pusula-SettingsMenu-Body {
+    background: $hw-body-wash;
+  }
+
+  .Pusula-SettingsMenu-Footer {
+    border-top: 1px solid $hw-divider;
+    background: linear-gradient(
+      180deg,
+      rgba(124, 105, 227, 0.06) 0%,
+      rgba(237, 229, 252, 0.35) 100%
+    ) !important;
+  }
+
+  .Pusula-SettingsMenu-UserRow {
+    border-color: $hw-divider;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(232, 223, 252, 0.45) 100%
+    ) !important;
+  }
+
+  .Pusula-SettingsMenu-Title,
+  .Pusula-SettingsMenu-UserName,
+  .Pusula-SettingsMenu-UserId,
+  .Pusula-SettingsMenu-RowLabel,
+  .Pusula-SettingsMenu-HomeLink {
+    color: $hw-text;
+  }
+
+  .Pusula-SettingsMenu-HomeLink:hover {
+    color: $hw-purple-mid;
+  }
+
+  .Pusula-SettingsMenu-Close,
+  .Pusula-ProvablyFairPanel-Close,
+  .Pusula-GameRulesPanel-Close,
+  .Pusula-GameLimitsPanel-Close,
+  .Pusula-FairnessCheckPanel-Close {
+    @include hw-popup-close-button;
+    border: 1px solid rgba(85, 63, 192, 0.38) !important;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(216, 201, 245, 0.75) 100%
+    ) !important;
+    box-shadow:
+      0 2px 10px rgba(42, 18, 80, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+    &:hover {
+      border-color: rgba(85, 63, 192, 0.55) !important;
+      box-shadow: 0 4px 14px rgba(42, 18, 80, 0.12);
+    }
+  }
+
+  .Pusula-ProvablyFairPanel-Title img,
+  .Pusula-GameRulesPanel-Title img,
+  .Pusula-GameLimitsPanel-Title img,
+  .Pusula-FairnessCheckPanel-Title img,
+  .Pusula-SettingsMenu-TitleIcon,
+  .Pusula-SettingsMenu-RowIcon,
+  .Pusula-SettingsMenu-UserAvatar,
+  .Pusula-GameRulesPanel-ItemToggleIcon,
+  .Pusula-ProvablyFairPanel-ItemToggleIcon {
+    @include hw-menu-icon;
+    opacity: 1;
+  }
+
+  .Pusula-GameLimitsPanel,
+  .Pusula-ProvablyFairPanel,
+  .Pusula-GameRulesPanel,
+  .Pusula-FairnessCheckPanel {
+    border-radius: 16px !important;
+  }
+
+  .Pusula-GameLimitsPanel-Body {
+    padding: 16px !important;
+  }
+
+  .Pusula-GameLimitsPanel-Frame {
+    width: 100%;
+    max-width: 361px;
+    margin: 0 auto;
+    padding: 16px !important;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(124, 105, 227, 0.18) !important;
+    background: $hw-tabs-wash;
+    box-shadow: 0 3px 14px rgba(42, 18, 80, 0.07);
+    box-sizing: border-box;
+  }
+
+  .Pusula-GameLimitsPanel-FrameInner {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(124, 105, 227, 0.12);
+    background: rgba(255, 255, 255, 0.35);
+    box-shadow: none;
+    box-sizing: border-box;
+  }
+
+  .Pusula-GameLimitsPanel-Card {
+    position: relative;
+    min-height: 118px;
+    border-radius: 12px !important;
+    overflow: hidden;
+    border: 1px solid rgba(124, 105, 227, 0.18) !important;
+    background: $hw-card-grad;
+    box-shadow: 0 3px 14px rgba(42, 18, 80, 0.07);
+
+    &::before {
+      content: none;
+    }
+  }
+
+  .Pusula-GameLimitsPanel-CardValue {
+    color: $hw-text;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: -0.03em;
+  }
+
+  .Pusula-GameLimitsPanel-CardLabel {
+    color: $hw-text-muted;
+    font-size: 14px;
+  }
+
+  .Pusula-GameLimitsPanel-Rtp {
+    flex-shrink: 0;
+    margin: 0;
+    margin-top: 8px;
+    padding: 18px 12px 10px;
+    border-top: 1px solid $hw-divider !important;
+    border-radius: 0 0 12px 12px;
+    background: rgba(255, 255, 255, 0.28) !important;
+    color: $hw-text-secondary;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .Pusula-SettingsMenu-Row {
+    border: 1px solid rgba(124, 105, 227, 0.18);
+    background: $hw-card-grad;
+    box-shadow: 0 3px 12px rgba(42, 18, 80, 0.07);
+  }
+
+  .Pusula-SettingsMenu-PoweredLabel {
+    color: $hw-text-secondary;
+  }
+
+  .Pusula-SettingsMenu-Toggle {
+    border: 1px solid $hw-divider;
+    background: $hw-inset-grad;
+
+    &::before {
+      background: $hw-purple-grad;
+    }
+  }
+
+  .Pusula-SettingsMenu-Toggle-Knob {
+    border-color: rgba(124, 105, 227, 0.28);
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  .Pusula-SettingsMenu-Toggle-KnobCore {
+    background: rgba(101, 105, 118, 1);
+    box-shadow: none;
+  }
+
+  .Pusula-SettingsMenu-Toggle_on .Pusula-SettingsMenu-Toggle-KnobCore {
+    background: #ffffff;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.85);
+  }
+
+  /* —— Centered modals —— */
+  .Pusula-ProvablyFairPanel-Backdrop,
+  .Pusula-GameRulesPanel-Backdrop,
+  .Pusula-FairnessCheckPanel-Backdrop,
+  .Pusula-GameLimitsPanel-Backdrop {
+    background: $hw-backdrop;
+  }
+
+  .Pusula-ProvablyFairPanel,
+  .Pusula-GameRulesPanel,
+  .Pusula-GameLimitsPanel,
+  .Pusula-FairnessCheckPanel {
+    background: $hw-shell-grad;
+    border: 1px solid $hw-divider;
+    box-shadow: 0 28px 64px rgba(42, 18, 80, 0.24);
+    color: $hw-text;
+  }
+
+  .Pusula-ProvablyFairPanel-Header,
+  .Pusula-FairnessCheckPanel-Header,
+  .Pusula-GameRulesPanel-Header,
+  .Pusula-GameLimitsPanel-Header {
+    background: $hw-header-wash;
+    border-bottom: none !important;
+    color: $hw-text;
+  }
+
+  .Pusula-ProvablyFairPanel-Body,
+  .Pusula-FairnessCheckPanel-Body,
+  .Pusula-GameRulesPanel-Body,
+  .Pusula-GameLimitsPanel-Body {
+    background: $hw-body-wash;
+  }
+
+  .Pusula-ProvablyFairPanel-Title,
+  .Pusula-FairnessCheckPanel-Title,
+  .Pusula-GameRulesPanel-Title,
+  .Pusula-GameLimitsPanel-Title {
+    color: $hw-text;
+  }
+
+  .Pusula-ProvablyFairPanel-Tabs {
+    border-color: $hw-divider;
+    background: $hw-tabs-wash;
+  }
+
+  .Pusula-ProvablyFairPanel-Tab {
+    color: $hw-text-muted;
+
+    &_active {
+      background: $hw-purple-grad;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+  }
+
+  .Pusula-ProvablyFairPanel-TabIndicator {
+    background: $hw-purple-grad;
+  }
+
+  .Pusula-ProvablyFairPanel-Item,
+  .Pusula-GameRulesPanel-Item {
+    border: 1px solid rgba(124, 105, 227, 0.18);
+    background: $hw-card-grad;
+    box-shadow: 0 3px 14px rgba(42, 18, 80, 0.07);
+  }
+
+  .Pusula-ProvablyFairPanel-ItemHead,
+  .Pusula-GameRulesPanel-ItemHead {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(232, 223, 252, 0.25) 100%
+    ) !important;
+  }
+
+  .Pusula-ProvablyFairPanel-ItemBody,
+  .Pusula-GameRulesPanel-ItemBody {
+    border-color: $hw-divider;
+    background: rgba(255, 255, 255, 0.28);
+  }
+
+  .Pusula-ProvablyFairPanel-ItemText,
+  .Pusula-GameRulesPanel-ItemTitle,
+  .Pusula-GameRulesPanel-ItemText {
+    color: $hw-text;
+  }
+
+  .Pusula-ProvablyFairPanel-FooterText {
+    color: $hw-text-secondary;
+  }
+
+  .Pusula-ProvablyFairPanel-FooterLink,
+  .Pusula-ProvablyFairPanel-ManualLink,
+  .Pusula-FairnessCheckPanel-FooterLink {
+    color: $hw-purple-mid;
+  }
+
+  .Pusula-ProvablyFairPanel-SeedField {
+    border-color: $hw-divider;
+    background: $hw-card-grad;
+    color: $hw-text;
+  }
+
+  .Pusula-ProvablyFairPanel-CopyBtn {
+    border: 1px solid rgba(127, 111, 244, 0.32) !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    box-shadow: 0 1px 4px rgba(42, 18, 80, 0.08);
+  }
+
+  .Pusula-ProvablyFairPanel-CopyBtnIcon {
+    filter: brightness(0) saturate(100%) invert(36%) sepia(49%) saturate(1352%)
+      hue-rotate(236deg) brightness(93%) contrast(92%);
+  }
+
+  .Pusula-FairnessCheckPanel-SectionLabel {
+    color: $hw-text !important;
+  }
+
+  .Pusula-FairnessCheckPanel-SectionLabel_muted,
+  .Pusula-FairnessCheckPanel-NoSeed {
+    color: $hw-text-secondary !important;
+  }
+
+  .Pusula-FairnessCheckPanel-SeedValue,
+  .Pusula-FairnessCheckPanel-GamerName,
+  .Pusula-FairnessCheckPanel-GamerSeed,
+  .Pusula-FairnessCheckPanel-KvValue {
+    color: $hw-text !important;
+  }
+
+  .Pusula-FairnessCheckPanel-KvLabel {
+    color: $hw-text-muted !important;
+  }
+
+  .Pusula-FairnessCheckPanel-GamerIndex {
+    border: 1px solid rgba(127, 111, 244, 0.35) !important;
+    background: linear-gradient(180deg, #7f6ff4 0%, #8250cb 100%) !important;
+    color: #fff !important;
+  }
+
+  .Pusula-FairnessCheckPanel-SeedRow,
+  .Pusula-FairnessCheckPanel-GamerRow,
+  .Pusula-FairnessCheckPanel-KvRow {
+    border: 1px solid rgba(124, 105, 227, 0.18) !important;
+    border-bottom: 1px solid rgba(124, 105, 227, 0.18) !important;
+    background: $hw-card-grad;
+    box-shadow: 0 2px 8px rgba(42, 18, 80, 0.05);
+    color: $hw-text;
+  }
+
+  .Pusula-FairnessCheckPanel-Footer,
+  .Pusula-FairnessCheckPanel-FooterText {
+    color: $hw-text-secondary !important;
+  }
+
+  .Pusula-FairnessCheckPanel-FooterLink {
+    color: $hw-purple-mid !important;
+  }
+
+  .Pusula-CopyNotice,
+  .Pusula-StageNotice {
+    border: 1px solid rgba(124, 105, 227, 0.22) !important;
+    background: $hw-shell-grad;
+    box-shadow: 0 8px 24px rgba(42, 18, 80, 0.14);
+  }
+
+  .Pusula-CopyNotice-Text,
+  .Pusula-StageNotice-Text,
+  .Pusula-StageNotice-Label {
+    color: $hw-text !important;
+  }
+
+  .Pusula-StageNotice-At {
+    color: $hw-text-muted !important;
+  }
+
+  .Pusula-StageNotice-IconWrap,
+  .Pusula-CopyNotice-IconWrap {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .Pusula-StageNotice-AmountPill {
+    border: 1px solid rgba(127, 111, 244, 0.28) !important;
+    background: rgba(255, 255, 255, 0.82) !important;
+    box-shadow: 0 2px 8px rgba(42, 18, 80, 0.08) !important;
+  }
+
+  .Pusula-StageNotice-Amount {
+    background: none !important;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    color: #8250cb !important;
+  }
+
+  .Lego-SoundConfirm-Icon {
+    background: $hw-purple-grad;
+    border-color: rgba(85, 63, 192, 1);
+  }
+
+  .Lego-SoundConfirm-Text {
+    color: $hw-text;
+  }
+}

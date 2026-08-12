@@ -1,7 +1,7 @@
 import { assetUrl } from '@lego/helpers/assetUrl';
 
 /**
- * Relative paths under `public/game_assets/pusulabet-crash/`.
+ * Relative paths under `public/game_assets/<game_slug>/`.
  * Grouped by domain — use `gameAsset()` for resolved URLs.
  */
 export const GAME_ASSET_PATHS = {
@@ -48,6 +48,22 @@ export const GAME_ASSET_PATHS = {
   stage: {
     compass: 'stage/compass.png',
     marker: 'stage/marker.svg',
+    craneA: 'stage/crane-a.png',
+    craneB: 'stage/crane-b.png',
+    craneC: 'stage/crane-c.png',
+    craneD: 'stage/crane-d.png',
+    craneASync: 'stage/crane-a-sync.png',
+    craneBSync: 'stage/crane-b-sync.png',
+    craneCSync: 'stage/crane-c-sync.png',
+    craneDSync: 'stage/crane-d-sync.png',
+    craneAb33: 'stage/crane-ab33.png',
+    craneAb66: 'stage/crane-ab66.png',
+    craneBd33: 'stage/crane-bd33.png',
+    craneBd66: 'stage/crane-bd66.png',
+    craneDc33: 'stage/crane-dc33.png',
+    craneDc66: 'stage/crane-dc66.png',
+    craneCa33: 'stage/crane-ca33.png',
+    craneCa66: 'stage/crane-ca66.png',
     rays: 'stage/rays.svg',
   },
   audio: {
@@ -65,6 +81,14 @@ export const GAME_ASSET_PATHS = {
 export function gameAsset(path: string): string {
   return assetUrl(path);
 }
+
+/** Hollywood crane — 4 leg-aligned poses, hard-cut flip (no ghost crossfade). */
+export const HOLLYWOOD_CRANE_FRAMES = [
+  GAME_ASSET_PATHS.stage.craneASync,
+  GAME_ASSET_PATHS.stage.craneBSync,
+  GAME_ASSET_PATHS.stage.craneDSync,
+  GAME_ASSET_PATHS.stage.craneCSync,
+] as const;
 
 /** @deprecated Prefer `GAME_ASSET_PATHS.icons.menu` + `gameAsset`. */
 export const PUSULA_BURGER_MENU_ICONS = {

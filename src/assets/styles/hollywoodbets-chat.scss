@@ -1,0 +1,249 @@
+@import '@styles/breakpoints.scss';
+
+$hw-chat-bg: linear-gradient(
+  165deg,
+  rgba(244, 238, 255, 1) 0%,
+  rgba(225, 214, 248, 0.92) 38%,
+  rgba(248, 244, 255, 1) 100%
+);
+$hw-chat-border: rgba(124, 105, 227, 0.22);
+$hw-chat-surface: rgba(255, 255, 255, 0.88);
+$hw-chat-text: #1a1a1b;
+$hw-chat-muted: rgba(95, 108, 140, 1);
+$hw-chat-purple: rgba(124, 105, 227, 1);
+$hw-chat-accent: #8250cb;
+$hw-chat-icon-base: '/game_assets/hollywoodbets-crash/icons/chat/';
+
+@mixin hw-chat-icon-purple {
+  filter: brightness(0) saturate(100%) invert(36%) sepia(49%) saturate(1352%)
+    hue-rotate(236deg) brightness(93%) contrast(92%);
+}
+
+html[data-game-slug='hollywoodbets-crash'] {
+  .Lego-RightSection {
+    background: $hw-chat-bg;
+
+    @include l {
+      border-left: 1px solid $hw-chat-border;
+    }
+
+    .Lego-ChatSheet,
+    .Lego-Chat,
+    .Lego-Chat-Header,
+    .Lego-Chat-Header-Main,
+    .Lego-Chat-Header-Status,
+    .Lego-Chat-Header-Online,
+    .Lego-Chat-Messages {
+      background: transparent;
+      color: $hw-chat-text;
+    }
+
+    .Lego-Chat-Header-Main,
+    .Lego-Chat-Header-Status {
+      border-bottom-color: $hw-chat-border;
+    }
+
+    .Lego-Chat-Header-Left {
+      background-image: url('#{$hw-chat-icon-base}group-bubble.png');
+      @include hw-chat-icon-purple;
+    }
+
+    .Lego-Chat-Header-Title {
+      color: $hw-chat-text;
+    }
+
+    .Lego-Chat-Header-Close {
+      background: $hw-chat-surface;
+      border-color: $hw-chat-border;
+
+      &::after {
+        color: $hw-chat-text;
+      }
+    }
+
+    .Lego-Chat-Header-Online {
+      &::before {
+        background-image: url('#{$hw-chat-icon-base}players-online.png');
+        @include hw-chat-icon-purple;
+      }
+
+      &::after {
+        color: $hw-chat-muted;
+      }
+    }
+
+    .Lego-Chat-Header-Online-Dot {
+      background: $hw-chat-purple;
+    }
+
+    .Pusula-ChatRoot .Lego-Chat-Header-Online-Text::after {
+      color: $hw-chat-text;
+    }
+
+    .Lego-Chat-Message-Nickname,
+    .Lego-Chat-Message-Date,
+    .Lego-Chat-Message-Like svg {
+      color: $hw-chat-muted;
+    }
+
+    .Lego-Chat-Message-Like svg {
+      fill: $hw-chat-muted;
+    }
+
+    .Lego-Chat-Message-SharedText,
+    .Lego-Chat-Message-Body {
+      color: $hw-chat-text;
+    }
+
+    .Lego-Chat-Message_share_bet .Lego-Chat-Message-Body .Lego-BetCard {
+      background: $hw-chat-surface;
+      border-color: $hw-chat-border;
+      color: $hw-chat-text;
+    }
+
+    .Lego-Chat-Message_share_bet .Lego-Chat-Message-Body .Lego-BetCard-Info-Item-Label {
+      color: $hw-chat-muted;
+    }
+
+    .Lego-Chat-Message_share_bet .Lego-Chat-Message-Body .Lego-BetCard-Info-Item-Value {
+      color: $hw-chat-text;
+    }
+
+    .Lego-Chat-Message_freebets_giveaway .Lego-Chat-Message-Nickname {
+      color: $hw-chat-accent;
+    }
+
+    .Lego-Chat-Message:not(.Lego-Chat-Message_freebets_giveaway) .Lego-Avatar,
+    .Pusula-PersonAvatar {
+      border: none;
+    }
+
+    .Lego-Chat-Footer {
+      background: transparent;
+      border-top-color: $hw-chat-border;
+      overflow: visible;
+      z-index: 2;
+    }
+
+    .Lego-ChatSheet:has(.Lego-Chat-Footer-EmojiWrapper),
+    .Lego-ChatSheet:has(.Lego-Giphy) {
+      overflow: visible;
+    }
+
+    .Lego-Chat-Footer-EmojiWrapper,
+    .Lego-Giphy {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: 100%;
+      margin-bottom: 8px;
+      grid-row: unset;
+      grid-column: unset;
+      z-index: 30;
+      width: auto;
+      max-height: min(320px, 40vh);
+      overflow: auto;
+    }
+
+    .Lego-Chat-Footer-GIF {
+      max-height: min(280px, 36vh);
+    }
+
+    .Lego-Chat-Footer-InputWrap {
+      background: $hw-chat-surface;
+      border-color: $hw-chat-border;
+    }
+
+    .Lego-Chat-Footer-Input {
+      color: $hw-chat-text;
+
+      &::placeholder {
+        color: $hw-chat-muted;
+      }
+    }
+
+    .Lego-Chat-Footer-InputWrap:has(.Lego-Chat-Footer-Input:placeholder-shown)::before {
+      content: none;
+    }
+
+    .Lego-Chat-Footer-ActionBtn {
+      background: $hw-chat-surface;
+      border: 1px solid $hw-chat-border;
+      color: $hw-chat-text;
+
+      &:hover {
+        color: $hw-chat-accent;
+      }
+    }
+
+    .Lego-Chat-Footer-ActionBtn.active:not(:first-child) {
+      background: rgba(127, 111, 244, 0.12);
+      border-color: rgba(127, 111, 244, 0.35);
+      color: $hw-chat-accent;
+    }
+
+    .Lego-Chat-Footer-ActionBtn:first-child {
+      position: relative;
+      background-color: transparent !important;
+      background-image: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      filter: none;
+
+      &:hover {
+        filter: none;
+      }
+
+      &::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-color: $hw-chat-accent;
+        mask-image: url('#{$hw-chat-icon-base}smile-circle.png');
+        mask-repeat: no-repeat;
+        mask-position: center;
+        mask-size: contain;
+        -webkit-mask-image: url('#{$hw-chat-icon-base}smile-circle.png');
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        -webkit-mask-size: contain;
+        pointer-events: none;
+      }
+
+      &:hover::after {
+        background-color: #7f6ff4;
+      }
+    }
+
+    .Lego-Giphy-Input {
+      border-color: $hw-chat-border;
+      background: $hw-chat-surface;
+      color: $hw-chat-text;
+
+      &::placeholder {
+        color: $hw-chat-muted;
+      }
+    }
+
+    .Lego-Chat-Magic {
+      background: $hw-chat-surface;
+      border-color: $hw-chat-border;
+    }
+
+    .Lego-Chat-MagicItem {
+      background: rgba(255, 255, 255, 0.72);
+      border-color: $hw-chat-border;
+    }
+
+    .Lego-Chat-MagicItem-ClaimButton {
+      background: linear-gradient(180deg, #7f6ff4 0%, #8250cb 100%);
+      color: #fff;
+    }
+  }
+
+  .Lego-Header-IconImg:not(.Lego-Header-IconImg_list) {
+    width: 20px;
+    height: 20px;
+  }
+}

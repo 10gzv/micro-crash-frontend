@@ -10,7 +10,6 @@ import { IHeaderProps } from "./Header.types";
 import { chatStore, freeBetStore, getDisplayPrecision, servicesStore, userDataStore, useTranslation } from "@10gzv/crash-core";
 import { MagicAlert } from "@10gzv/crash-core/chat";
 import { resolvedTheme } from "@lego/helpers/applyTheme";
-import { gameAsset, GAME_ASSET_PATHS } from "@lego/constants/gameAssets";
 import { SvgUse } from "../UI";
 
 
@@ -40,8 +39,8 @@ export const Header: FC<IHeaderProps> = observer(() => {
   }, [burgerDropdownOpened])
 
   const balanceAmount = new Decimal(userBalance ?? 0).toFixed(getDisplayPrecision());
-  const chatIconUrl = gameAsset(GAME_ASSET_PATHS.icons.header.chat);
-  const listIconUrl = gameAsset(GAME_ASSET_PATHS.icons.header.menu);
+  const chatIconUrl = resolvedTheme.headerChatIcon;
+  const listIconUrl = resolvedTheme.headerMenuIcon;
 
   return (
     <div className="Lego-Header">
