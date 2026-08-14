@@ -404,6 +404,31 @@
 }
 
 @media (max-width: #{$screen-l-min - 1px}) {
+  .PusulaStage-Rays {
+    width: 360vmax;
+    height: 360vmax;
+    object-fit: contain;
+    transform: translate(-50%, 50%) scale(1.12);
+    animation: pusula-rays-rotate-mobile 30s linear infinite;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  @keyframes pusula-rays-rotate-mobile {
+    100% {
+      transform: translate(-50%, 50%) scale(1.12) rotate(360deg);
+    }
+  }
+
+  .PusulaStage-Vignette {
+    background: radial-gradient(
+      ellipse 155% 135% at 0% 100%,
+      transparent 22%,
+      rgba(0, 0, 0, 0.12) 52%,
+      rgba(0, 0, 0, 0.42) 100%
+    );
+  }
+
   .Pusula-StageNoticeStack {
     top: 12px;
     left: 12px;
