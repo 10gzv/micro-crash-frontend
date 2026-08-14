@@ -3,7 +3,7 @@ import { FC, useEffect, useRef } from 'react';
 import { resolvedTheme } from '@lego/helpers/applyTheme';
 import { GAME_SLUG } from '@lego/helpers/assetUrl';
 
-import { chartTipFromPlain, type PlainPosition } from './stageFlight';
+import { chartTipFromPlain, chartCurveCtrl, type PlainPosition } from './stageFlight';
 
 function hexToRgba(hex: string, alpha: number): string {
   const normalized = hex.replace('#', '');
@@ -24,15 +24,18 @@ type PusulaChartProps = {
   plainPosition: PlainPosition;
   canvasWidth: number;
   canvasHeight: number;
+  markerHeight: number;
+  /** Screen point where stroke meets marker (tail attach). */
+  lineEnd?: { x: number; y: number } | null;
 };
 
-/**
- * Stage chart — single quadratic (stable), Pusula colors.
- */
+/** Stage chart — quadratic tail from bottom-left to marker attach. */
 export const PusulaChart: FC<PusulaChartProps> = ({
   plainPosition,
   canvasWidth,
   canvasHeight,
+  markerHeight,
+  lineEnd,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -52,33 +55,43 @@ export const PusulaChart: FC<PusulaChartProps> = ({
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-    if (plainPosition.x <= 0 && plainPosition.y <= 0) return;
-
     const isHollywood = GAME_SLUG === 'hollywoodbets-crash';
-    const { hub, tipX, endY, curveCtrlX, lineH } = chartTipFromPlain(
+    const flightTip = chartTipFromPlain(
       plainPosition,
       canvasWidth,
       canvasHeight,
-      { hollywood: isHollywood },
+      { hollywood: isHollywood, markerH: markerHeight },
     );
+    const tipX = lineEnd?.x ?? flightTip.tipX;
+    const endY = lineEnd?.y ?? flightTip.endY;
+    const { hub, curveCtrlX, curveCtrlY, lineH } = lineEnd
+      ? chartCurveCtrl(
+          plainPosition,
+          canvasWidth,
+          canvasHeight,
+          tipX,
+          endY,
+          isHollywood,
+        )
+      : flightTip;
 
     const strokePath = () => {
       ctx.beginPath();
       ctx.moveTo(hub.x, lineH);
-      ctx.quadraticCurveTo(curveCtrlX, lineH, tipX, endY);
+      ctx.quadraticCurveTo(curveCtrlX, curveCtrlY, tipX, endY);
     };
 
     strokePath();
     ctx.lineTo(tipX, lineH);
     ctx.lineTo(hub.x, lineH);
     ctx.closePath();
-    const { fill, stroke } = resolvedTheme.chart;
 
+    const { fill, stroke } = resolvedTheme.chart;
     const fillGrad = ctx.createLinearGradient(0, endY, 0, lineH);
     if (GAME_SLUG === 'hollywoodbets-crash') {
       fillGrad.addColorStop(0, 'rgba(199, 125, 255, 0.3)');
       fillGrad.addColorStop(0.55, 'rgba(122, 47, 208, 0.16)');
-      fillGrad.addColorStop(1, 'rgba(122, 47, 208, 0.02)');
+      fillGrad.addColorStop(1, 'rgba(18, 6, 31, 0)');
     } else {
       fillGrad.addColorStop(0, hexToRgba(fill, 0.38));
       fillGrad.addColorStop(0.55, hexToRgba(fill, 0.12));
@@ -95,7 +108,7 @@ export const PusulaChart: FC<PusulaChartProps> = ({
     ctx.stroke();
 
     strokePath();
-    const strokeGrad = ctx.createLinearGradient(0, lineH, tipX, endY);
+    const strokeGrad = ctx.createLinearGradient(hub.x, lineH, tipX, endY);
     strokeGrad.addColorStop(0, fill);
     strokeGrad.addColorStop(1, stroke);
     ctx.strokeStyle = strokeGrad;
@@ -103,7 +116,7 @@ export const PusulaChart: FC<PusulaChartProps> = ({
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.stroke();
-  }, [plainPosition, canvasWidth, canvasHeight]);
+  }, [plainPosition, canvasWidth, canvasHeight, markerHeight, lineEnd]);
 
   if (!canvasWidth || !canvasHeight) return null;
 

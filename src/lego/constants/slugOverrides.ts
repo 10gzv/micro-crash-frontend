@@ -82,7 +82,7 @@ const HOLLYWOODBETS_CRASH: SlugOverride = {
     '--color-secondary': 'rgba(124, 102, 209, 0.5)',
     '--color-main-light': '#7c66d1',
     '--color-text-main': '#1a1a1b',
-    '--header-height': '42px',
+    '--header-height': '48px',
     '--left-section-width': '301px',
     '--font-pusula': 'Helvetica, Arial, sans-serif',
     '--gradient-main':

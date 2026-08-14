@@ -13,7 +13,8 @@ pnpm dev
 
 Local assets (default in dev): `http://localhost:3000/`  
 Optional: `?game_slug=pusulabet-crash` (default slug).  
-CDN assets in dev: `?assets=cdn`
+Local assets (default): served from `/game_assets/<slug>/` (same origin, like base-crash).
+CDN assets in dev/prod: `?assets=cdn`
 
 Assets: `public/game_assets/pusulabet-crash/` — layout:
 
@@ -107,4 +108,4 @@ Avoid `--force` on shared `main` unless the team expects it.
 ### 6. After push
 
 - Update deploy URLs / launcher to point at the new repo
-- Upload or sync `public/game_assets/pusulabet-crash/` to CDN `game_assets/pusulabet-crash/` if production uses CDN
+- Production serves `game_assets` from the app bundle (nginx `dist/game_assets/`). Optional CDN: `?assets=cdn` after syncing `public/game_assets/` to `assets.abcdabra.com`.

@@ -27,10 +27,9 @@ function lerpPt(a: FlightPoint, b: FlightPoint, t: number): FlightPoint {
   return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
 }
 
-/** Ray apex at bottom-left; path tip inset so marker isn't clipped off-stage. */
-export function flightRayHub(W: number, H: number): FlightPoint {
-  const minX = Math.max(18, Math.round(W * 0.01));
-  return { x: minX, y: H };
+/** Ray apex + path origin — absolute bottom-left corner (Aviator). */
+export function flightRayHub(_W: number, H: number): FlightPoint {
+  return { x: 0, y: H };
 }
 
 /** Progress along path where climb stops (before upper-right corner). */

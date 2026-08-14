@@ -1,8 +1,8 @@
 /**
- * Asset URLs for Pusulabet Crash.
+ * Asset URLs — same-origin by default (base-crash pattern).
  *
- * Assets live under `game_assets/pusulabet-crash/` (CDN or local `public/`).
- * Optional `?game_slug=` is still read for launcher compatibility; default is pusulabet-crash.
+ * Assets live under `public/game_assets/<game_slug>/` and are served from the app origin in prod.
+ * Optional `?assets=cdn` uses CDN; `?game_slug=` selects the skin folder.
  */
 
 const ASSET_HOST = 'https://assets.abcdabra.com';
@@ -24,8 +24,8 @@ const assetsParam =
     ? new URLSearchParams(window.location.search).get('assets')
     : null;
 
-const USE_LOCAL_ASSETS =
-  assetsParam === 'local' || (import.meta.env.DEV && assetsParam !== 'cdn');
+/** Local/same-origin unless explicitly opted into CDN (?assets=cdn). */
+const USE_LOCAL_ASSETS = assetsParam !== 'cdn';
 
 export const ASSET_BASE_URL: string = USE_LOCAL_ASSETS
   ? `${import.meta.env.BASE_URL}game_assets/${ENCODED_GAME_SLUG}/`

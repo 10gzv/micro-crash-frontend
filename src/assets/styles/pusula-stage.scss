@@ -20,9 +20,10 @@
   background: #0d1730;
 }
 
-/* Figma waiting + crashed: plain navy, no decor */
-.PusulaStage-Canvas_flat {
-  background: #080f20;
+/* Between rounds / crashed — keep decor, freeze ray spin (Aviator-style) */
+.PusulaStage-Canvas_waiting .PusulaStage-Rays,
+.PusulaStage-Canvas_roundOver .PusulaStage-Rays {
+  animation-play-state: paused;
 }
 
 /*
@@ -95,7 +96,7 @@
 .PusulaStage-Marker {
   position: absolute;
   z-index: 15;
-  transition: none;
+  transition: filter 0.4s ease;
   object-fit: contain;
   pointer-events: none;
   will-change: transform;
@@ -103,7 +104,7 @@
 }
 
 .PusulaStage-Canvas_roundOver .PusulaStage-Marker {
-  transition: 1s transform cubic-bezier(0, 1.27, 0.81, 0.83);
+  transition: 1s all cubic-bezier(0, 1.27, 0.81, 0.83);
 }
 
 /* Below compass — line arcs under rings, rises on the right */

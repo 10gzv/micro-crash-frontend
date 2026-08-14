@@ -31,7 +31,7 @@ body,
 
 /* Figma Top-Bar — flat text + icons, no Button / ButtonGroup chrome */
 .Lego-Header {
-  height: 42px;
+  height: var(--header-height);
   padding: 0 16px;
   border: 0.75px solid rgba(46, 51, 80, 1);
   background: linear-gradient(180deg, #262a41 0%, #1b1e30 100%);
@@ -262,6 +262,7 @@ body,
   justify-content: center;
   z-index: 12;
   pointer-events: none;
+  overflow: visible;
 
   .Lego-RoundOdd-Text {
     text-align: center;
@@ -270,6 +271,8 @@ body,
     font-size: inherit;
     text-shadow: none;
     flex-direction: column;
+    /* Compass optical center sits above geometric 48% */
+    transform: translateY(-4%);
   }
 
   .Lego-RoundOdd-Text-Inner {
@@ -281,6 +284,7 @@ body,
     letter-spacing: -0.03em;
     color: #f0f2f5;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
+    transform: translateY(-0.05em);
   }
 }
 
@@ -288,6 +292,7 @@ body,
   .Lego-RoundOdd-Text {
     gap: 10px;
     align-items: center;
+    transform: translateY(-4.5%);
   }
 
   .Lego-RoundOdd-Text-Inner {

@@ -18,8 +18,8 @@ import { PusulaPersonAvatar } from '@/lego/components/Avatar/PusulaPersonAvatar'
 import {
   PLAIN_HOVER_STEP,
   PLAIN_VOL,
-  PLAIN_Y_KICK,
   PLAIN_Y_STEP,
+  IDLE_POSITION,
   MARKER_ATTACH_X,
   MARKER_ATTACH_Y,
   MARKER_SVG_LEAN_DEG,
@@ -28,11 +28,21 @@ import {
   chartTipFromPlain,
   parabolaCoeff,
   parabolaY,
-  plainXUnderCompass,
+  plainXNext,
   HOLLYWOOD_CRANE_FIGMA,
   hollywoodCraneSize,
   hollywoodCraneRotate,
   hollywoodCranePosition,
+  hollywoodCraneLineAttach,
+  markerWaitingNudge,
+  flightMarkerBox,
+  waitingMarkerOffset,
+  markerBoxWithWaitingOffset,
+  floorRunLength,
+  hollywoodFloorRunLength,
+  climbBlend,
+  CRASH_FLY_LIFT,
+  smoothstep01,
 } from './stageFlight';
 import { PusulaChart } from './PusulaChart';
 import { PusulaStageNotice } from '@/lego/components/BetAcceptedNotice';
@@ -40,7 +50,7 @@ import { PusulaStageNotice } from '@/lego/components/BetAcceptedNotice';
 const MARKER_ASPECT = 110 / 115;
 
 /**
- * Pusulabet stage — marker trajectory + hover (parabola, pixel wobble).
+ * Pusulabet stage — parabolic climb + hover.
  */
 export const PusulaStage: FC = observer(() => {
   const { isOddStarted, isRoundOver } = gameStore;
@@ -49,11 +59,10 @@ export const PusulaStage: FC = observer(() => {
   const canvasRef = useRef<HTMLDivElement>(null);
   const canvasSize = useSize(canvasRef);
 
-  const [plainPosition, setPlainPosition] = useState({ x: 0, y: 0 });
-  const [finalized, setFinalized] = useState<{
-    x: number;
-    y: number;
-  } | null>(null);
+  const [plainPosition, setPlainPosition] = useState(IDLE_POSITION);
+  const [finalized, setFinalized] = useState<{ x: number; y: number } | null>(
+    null,
+  );
 
   const [markerWidth, setMarkerWidth] = useState(52);
   const [markerHeight, setMarkerHeight] = useState(0);
@@ -90,46 +99,71 @@ export const PusulaStage: FC = observer(() => {
     setMarkerHeight(markerWidth / MARKER_ASPECT);
   }, [markerWidth, isHollywood]);
 
-  useEffect(() => {
-    if (!isRoundOver) {
-      setPlainPosition({ x: 0, y: 0 });
-    }
-  }, [isRoundOver]);
+  const isWaiting = !isOddStarted && !isRoundOver;
 
-  // Phase 1 — parabolic climb until cap
+  useEffect(() => {
+    if (isWaiting) {
+      setPlainPosition(IDLE_POSITION);
+      setFinalized(null);
+    }
+  }, [isWaiting]);
+
   useEffect(() => {
     let active = isOddStarted && !isRoundOver;
     if (!active || !canvasW || !markerHeight) {
-      if (!isOddStarted) setFinalized(null);
       return undefined;
     }
 
     setFinalized(null);
-    setPlainPosition({ x: 0, y: 0 });
+    setPlainPosition(IDLE_POSITION);
 
-    const coeff = parabolaCoeff(canvasW, canvasH);
+    const coeff = parabolaCoeff(canvasW, canvasH, isHollywood);
 
     const animate = () => {
       setPlainPosition(prev => {
         if (
-          canClimb(prev, canvasW, canvasH, markerWidth, markerHeight)
+          !canClimb(
+            prev,
+            canvasW,
+            canvasH,
+            markerWidth,
+            markerHeight,
+            isHollywood,
+          )
         ) {
-          const nextY = prev.y + PLAIN_Y_STEP;
-          const targetX = parabolaY(coeff, prev.y + PLAIN_Y_KICK);
-          return {
-            x: plainXUnderCompass(
-              prev.x,
-              targetX,
-              nextY,
-              canvasW,
-              canvasH,
-            ),
-            y: nextY,
-          };
+          setFinalized({ x: prev.x, y: prev.y });
+          active = false;
+          return prev;
         }
-        setFinalized({ x: prev.x, y: prev.y });
-        active = false;
-        return prev;
+
+        const floorRun = isHollywood
+          ? hollywoodFloorRunLength(canvasW)
+          : floorRunLength(canvasW);
+        const stepMul =
+          prev.y === 0 && prev.x === 0 ? (isHollywood ? 0.22 : 0.28) : 1;
+        const yStep = isHollywood ? PLAIN_Y_STEP * 1.08 : PLAIN_Y_STEP;
+        const nextY = prev.y + yStep * stepMul;
+        const onFloorRun = prev.x <= 0 && nextY < floorRun;
+        let targetX = 0;
+        if (!onFloorRun) {
+          const raw = parabolaY(coeff, nextY);
+          targetX = raw * climbBlend(nextY, canvasW);
+        } else if (isHollywood && nextY > floorRun * 0.38) {
+          const raw = parabolaY(coeff, nextY);
+          const liftT = smoothstep01((nextY - floorRun * 0.38) / (floorRun * 0.62));
+          targetX = raw * climbBlend(nextY, canvasW) * liftT;
+        }
+        return {
+          x: plainXNext(
+            prev.x,
+            targetX,
+            nextY,
+            canvasW,
+            canvasH,
+            isHollywood,
+          ),
+          y: nextY,
+        };
       });
       if (active) requestAnimationFrame(animate);
     };
@@ -146,9 +180,9 @@ export const PusulaStage: FC = observer(() => {
     canvasH,
     markerWidth,
     markerHeight,
+    isHollywood,
   ]);
 
-  // Phase 2 — hover (smooth back/forth in px, not progress jumps)
   useEffect(() => {
     let active = Boolean(
       finalized && isOddStarted && !isRoundOver && canvasW,
@@ -161,23 +195,22 @@ export const PusulaStage: FC = observer(() => {
       setPlainPosition(prev => {
         if (!finalized) return prev;
 
-        if (!reverse && prev.x > finalized.x - PLAIN_VOL) {
+        const xMin = finalized.x - PLAIN_VOL;
+        const xMax = finalized.x + PLAIN_VOL;
+
+        if (!reverse && prev.x > xMin) {
           return {
-            x: Math.min(prev.x - PLAIN_HOVER_STEP, canvasH - markerHeight),
+            x: Math.max(prev.x - PLAIN_HOVER_STEP, xMin),
             y: Math.min(prev.y + 0.1, canvasW - markerWidth),
           };
         }
-        if (
-          reverse &&
-          prev.x < finalized.x + PLAIN_VOL &&
-          markerHeight - prev.x < 0
-        ) {
+        if (reverse && prev.x < xMax) {
           return {
-            x: prev.x + PLAIN_HOVER_STEP,
-            y: Math.min(prev.y - 0.1, canvasW - markerWidth),
+            x: Math.min(prev.x + PLAIN_HOVER_STEP, xMax),
+            y: Math.min(prev.y + 0.1, canvasW - markerWidth),
           };
         }
-        reverse = !(prev.x > finalized.x - PLAIN_VOL);
+        reverse = !reverse;
         return prev;
       });
       if (active) requestAnimationFrame(animate);
@@ -188,21 +221,56 @@ export const PusulaStage: FC = observer(() => {
       active = false;
       cancelAnimationFrame(id);
     };
-  }, [finalized, isOddStarted, isRoundOver, canvasW, canvasH, markerWidth, markerHeight]);
+  }, [
+    finalized,
+    isOddStarted,
+    isRoundOver,
+    canvasW,
+    canvasH,
+    markerWidth,
+    markerHeight,
+  ]);
+
+  const layoutPosition = isWaiting ? IDLE_POSITION : plainPosition;
+
+  const chartPosition =
+    isRoundOver ? (finalized ?? plainPosition) : layoutPosition;
+  const showChart = canvasW > 0 && isOddStarted && !isRoundOver;
+  const crashClimb = (finalized ?? plainPosition).x;
+  const takeoffPhase =
+    isHollywood &&
+    isOddStarted &&
+    !isRoundOver &&
+    plainPosition.y < hollywoodFloorRunLength(canvasW);
 
   const tipGeom =
-    canvasW > 0 && canvasH > 0
-      ? chartTipFromPlain(plainPosition, canvasW, canvasH, { hollywood: isHollywood })
+    canvasW > 0 && canvasH > 0 && markerHeight > 0
+      ? chartTipFromPlain(chartPosition, canvasW, canvasH, {
+          hollywood: isHollywood,
+          markerH: markerHeight,
+        })
       : null;
 
   const rotateDeg = tipGeom
     ? tipGeom.rotateFromUp - MARKER_SVG_LEAN_DEG
     : 0;
+  const hollywoodRotate = tipGeom
+    ? hollywoodCraneRotate(tipGeom.rotateFromUp)
+    : 0;
 
-  const hollywoodRotate = tipGeom ? hollywoodCraneRotate(tipGeom.rotateFromUp) : 0;
+  const onFloor =
+    tipGeom != null &&
+    tipGeom.endY >= tipGeom.lineH - (markerHeight * (1 - markerAttachY)) - 2;
 
-  const hollywoodPos =
-    isHollywood && tipGeom
+  const waitT = markerWaitingNudge(
+    isWaiting,
+    plainPosition.y,
+    canvasW,
+    isHollywood,
+  );
+
+  const flightBox = tipGeom
+    ? isHollywood
       ? hollywoodCranePosition(
           tipGeom.tipX,
           tipGeom.endY,
@@ -211,32 +279,76 @@ export const PusulaStage: FC = observer(() => {
           tipGeom.curveCtrlX,
           tipGeom.lineH,
         )
-      : null;
+      : flightMarkerBox(
+          tipGeom.tipX,
+          tipGeom.endY,
+          markerWidth,
+          markerHeight,
+          markerAttachX,
+          markerAttachY,
+        )
+    : { left: 0, top: 0 };
 
-  const markerLeft = hollywoodPos
-    ? hollywoodPos.left
-    : tipGeom
-      ? tipGeom.tipX - markerAttachX * markerWidth
-      : 0;
-  const markerTop = hollywoodPos
-    ? hollywoodPos.top
-    : tipGeom
-      ? tipGeom.endY - markerAttachY * markerHeight
-      : 0;
+  const originTip = tipGeom
+    ? chartTipFromPlain(IDLE_POSITION, canvasW, canvasH, {
+        hollywood: isHollywood,
+        markerH: markerHeight,
+      })
+    : null;
+
+  const waitingOffset = tipGeom
+    ? waitingMarkerOffset(
+        tipGeom.lineH,
+        markerWidth,
+        markerHeight,
+        markerAttachX,
+        markerAttachY,
+        isHollywood,
+        originTip
+          ? {
+              tipX: originTip.tipX,
+              endY: originTip.endY,
+              curveCtrlX: originTip.curveCtrlX,
+            }
+          : undefined,
+      )
+    : { left: 0, top: 0 };
+
+  const { left: markerLeft, top: markerTop } = markerBoxWithWaitingOffset(
+    flightBox,
+    waitingOffset,
+    waitT,
+    isHollywood,
+    isWaiting,
+  );
+
+  const lineAttach = isHollywood
+    ? hollywoodCraneLineAttach(
+        markerLeft,
+        markerTop,
+        markerWidth,
+        markerHeight,
+      )
+    : {
+        x: markerLeft + markerAttachX * markerWidth,
+        y: markerTop + markerAttachY * markerHeight,
+      };
+
+  const pitchDeg = onFloor ? 0 : MARKER_VISUAL_PITCH_DEG;
 
   const markerStyle = {
     left: markerLeft,
-    top: isRoundOver ? markerTop - 120 : markerTop,
+    top: markerTop,
     width: markerWidth,
     height: markerHeight,
-    opacity: 1,
     transformOrigin: `${markerAttachX * 100}% ${markerAttachY * 100}%`,
     transform: isRoundOver
-      ? `translateX(${canvasW + markerWidth}px) rotate(${(isHollywood ? hollywoodRotate : rotateDeg) + 10}deg)`
-      : `rotate(${isHollywood ? hollywoodRotate : rotateDeg + MARKER_VISUAL_PITCH_DEG}deg)`,
+      ? `translateX(${canvasW + markerWidth}px) translateY(-${crashClimb + CRASH_FLY_LIFT}px) rotate(${(isHollywood ? hollywoodRotate : rotateDeg) + 10}deg)`
+      : `rotate(${isHollywood ? hollywoodRotate : rotateDeg + pitchDeg}deg)`,
   } as CSSProperties;
 
-  const showRays = isOddStarted && !isRoundOver;
+  const showMarker =
+    markerHeight > 0 && (isWaiting || isOddStarted || isRoundOver);
 
   return (
     <div className='PusulaStage'>
@@ -244,25 +356,21 @@ export const PusulaStage: FC = observer(() => {
         className={clsx('PusulaStage-Canvas', {
           'PusulaStage-Canvas_roundOver': isRoundOver,
           'PusulaStage-Canvas_oddStarted': isOddStarted,
-          'PusulaStage-Canvas_flat': !isOddStarted || isRoundOver,
+          'PusulaStage-Canvas_waiting': isWaiting,
         })}
         ref={canvasRef}
       >
         <PusulaStageNotice />
 
-        {showRays && (
-          <img
-            className='PusulaStage-Rays'
-            src={raysUrl}
-            alt=''
-            draggable={false}
-            aria-hidden
-          />
-        )}
+        <img
+          className='PusulaStage-Rays'
+          src={raysUrl}
+          alt=''
+          draggable={false}
+          aria-hidden
+        />
 
-        {isOddStarted && !isRoundOver && (
-          <div className='PusulaStage-Glow' aria-hidden />
-        )}
+        <div className='PusulaStage-Glow' aria-hidden />
 
         <div
           className={clsx('PusulaStage-CompassWrap', {
@@ -277,24 +385,28 @@ export const PusulaStage: FC = observer(() => {
           />
         </div>
 
-        {!isOddStarted && !isRoundOver && <Timer />}
+        {isWaiting && <Timer />}
         <RoundOdd />
 
         <div className='PusulaStage-Chart'>
-          {isOddStarted && !isRoundOver && canvasW > 0 && (
+          {showChart && (
             <PusulaChart
-              plainPosition={plainPosition}
+              plainPosition={chartPosition}
               canvasWidth={canvasW}
               canvasHeight={canvasH}
+              markerHeight={markerHeight}
+              lineEnd={lineAttach}
             />
           )}
         </div>
 
-        {(isOddStarted || isRoundOver) && markerHeight > 0 &&
+        {showMarker &&
           (isHollywood ? (
             <div
+              key={isWaiting ? 'hw-crane-wait' : 'hw-crane-active'}
               className={clsx('PusulaStage-Crane', {
                 'PusulaStage-Crane_flapping': isOddStarted && !isRoundOver,
+                'PusulaStage-Crane_takeoff': takeoffPhase,
               })}
               style={{
                 ...markerStyle,
@@ -303,18 +415,18 @@ export const PusulaStage: FC = observer(() => {
             >
               <div className='PusulaStage-CraneBody'>
                 {HOLLYWOOD_CRANE_FRAMES.map((frame, index) => (
-                    <img
-                      key={`${frame}-${index}`}
-                      className={clsx(
-                        'PusulaStage-Marker',
-                        'PusulaStage-Marker_hollywood',
-                        `PusulaStage-Marker_hollywood_${index}`,
-                      )}
-                      src={gameAsset(frame)}
-                      alt=''
-                      draggable={false}
-                    />
-                  ))}
+                  <img
+                    key={`${frame}-${index}`}
+                    className={clsx(
+                      'PusulaStage-Marker',
+                      'PusulaStage-Marker_hollywood',
+                      `PusulaStage-Marker_hollywood_${index}`,
+                    )}
+                    src={gameAsset(frame)}
+                    alt=''
+                    draggable={false}
+                  />
+                ))}
               </div>
             </div>
           ) : (
@@ -327,7 +439,11 @@ export const PusulaStage: FC = observer(() => {
             />
           ))}
 
-        <div className={clsx('PusulaStage-Players', { 'PusulaStage-Players_hollywood': isHollywood })}>
+        <div
+          className={clsx('PusulaStage-Players', {
+            'PusulaStage-Players_hollywood': isHollywood,
+          })}
+        >
           <div className='PusulaStage-PlayersAvatars'>
             {isHollywood ? (
               <>
