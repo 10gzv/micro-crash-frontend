@@ -645,6 +645,38 @@ html[data-game-slug='hollywoodbets-crash'] {
   }
 
   @media (max-width: #{$screen-l-min - 1px}) {
+    .PusulaStage-Glow_low {
+      background:
+        radial-gradient(
+          ellipse 82% 78% at 50% 50%,
+          rgba(48, 72, 128, 0.4) 0%,
+          rgba(26, 44, 88, 0.14) 46%,
+          transparent 72%
+        ),
+        radial-gradient(
+          ellipse 110% 95% at 50% 52%,
+          rgba(32, 58, 118, 0.58) 0%,
+          rgba(22, 40, 88, 0.24) 40%,
+          transparent 68%
+        );
+    }
+
+    .PusulaStage-Glow_high {
+      background:
+        radial-gradient(
+          ellipse 82% 78% at 50% 50%,
+          rgba(168, 88, 228, 0.38) 0%,
+          rgba(108, 48, 178, 0.16) 44%,
+          transparent 72%
+        ),
+        radial-gradient(
+          ellipse 110% 95% at 50% 52%,
+          rgba(148, 62, 220, 0.52) 0%,
+          rgba(96, 32, 168, 0.24) 40%,
+          transparent 68%
+        );
+    }
+
     .Pusula-BetPanel {
       background: linear-gradient(
         180deg,

@@ -20,6 +20,39 @@ export const PLAIN_HOVER_STEP = isMobile() ? 0.2 : 0.5;
 export const PLAIN_Y_STEP = isMobile() ? 1.4 : 3.4;
 export const CHART_TIP_OFFSET_Y = 10;
 
+/** Mobile pre-lift parabola offset for smooth takeoff. */
+export const MOBILE_TAKEOFF_OFFSET = 70;
+export const MOBILE_PLAIN_STEP = 0.9;
+export const DESKTOP_PLAIN_STEP = 2;
+export const HOLLYWOOD_MOBILE_TAKEOFF_OFFSET = 55;
+
+export function takeoffRunOffset(run: number, hollywood = false) {
+  if (!isMobile()) return 0;
+  const max = hollywood
+    ? HOLLYWOOD_MOBILE_TAKEOFF_OFFSET
+    : MOBILE_TAKEOFF_OFFSET;
+  const ramp = hollywood ? 30 : 26;
+  return max * smoothstep01(Math.min(1, run / ramp));
+}
+
+export function advancePlainStep(
+  prev: PlainPosition,
+  coeff: number,
+  hollywood = false,
+): PlainPosition {
+  const runOffset = takeoffRunOffset(prev.y, hollywood);
+  const yStep = isMobile()
+    ? MOBILE_PLAIN_STEP
+    : hollywood
+      ? PLAIN_Y_STEP * 1.08
+      : DESKTOP_PLAIN_STEP;
+  const nextY = prev.y + yStep;
+  return {
+    x: parabolaY(coeff, nextY + runOffset),
+    y: nextY,
+  };
+}
+
 export const CRASH_FLY_LIFT = 150;
 
 export function chartCurveScale(canvasW: number, canvasH: number) {
@@ -99,11 +132,14 @@ export function climbRampLength(canvasW: number) {
     : Math.round(Math.min(96, Math.max(72, canvasW * 0.14)));
 }
 
-export const MARKER_WAITING_LEFT = -19;
-export const MARKER_WAITING_LEFT_MOBILE = -13;
-
-export const MARKER_WAITING_FLOOR_NUDGE = 6;
-export const MARKER_WAITING_FLOOR_NUDGE_MOBILE = 4;
+export const MARKER_WAITING_LEFT = -37;
+export const MARKER_WAITING_LEFT_MOBILE = -31;
+export const MARKER_WAITING_GROUND_RATIO = 0.75;
+export const MARKER_WAITING_GROUND_RATIO_MOBILE = 0.79;
+export const MARKER_WAITING_PITCH_MOBILE = -4;
+export const MARKER_WAITING_ORIGIN_Y_MOBILE = 0.88;
+export const MARKER_FLIGHT_NUDGE_X_MOBILE = -3;
+export const MARKER_FLIGHT_NUDGE_Y_MOBILE = 3;
 
 export function smoothstep01(t: number) {
   const c = Math.max(0, Math.min(1, t));
@@ -130,16 +166,28 @@ export function chartTrailReveal(
   waitT: number,
   hollywood = false,
 ) {
-  if (!hollywood) return run > 0 ? 1 : 0;
-  if (waitT > 0.02) return 0;
-  const minRun = 1;
-  const fadeEnd = Math.min(
-    Math.max(hollywoodFloorRunLength(canvasW) * 0.22, 10),
-    22,
-  );
-  if (run <= minRun) return 0;
-  if (run >= fadeEnd) return 1;
-  return smoothstep01((run - minRun) / (fadeEnd - minRun));
+  if (hollywood) {
+    if (waitT > 0.72) return 0;
+    const fadeEnd = Math.round(
+      Math.min(isMobile() ? 24 : 18, Math.max(12, canvasW * 0.07)),
+    );
+    if (run <= 0.15) return 0;
+    if (run >= fadeEnd) {
+      return 1 - smoothstep01(Math.max(0, (waitT - 0.25) / 0.5)) * 0.35;
+    }
+    const runT = smoothstep01((run - 0.15) / (fadeEnd - 0.15));
+    const waitBlend = 1 - smoothstep01(Math.max(0, (waitT - 0.2) / 0.55));
+    return runT * waitBlend;
+  }
+
+  if (!isMobile()) return run > 0 ? 1 : 0;
+  if (waitT > 0.72) return 0;
+  const fadeEnd = Math.round(Math.min(18, Math.max(10, canvasW * 0.06)));
+  if (run <= 0.15) return 0;
+  if (run >= fadeEnd) return 1 - smoothstep01(Math.max(0, (waitT - 0.25) / 0.5)) * 0.35;
+  const runT = smoothstep01((run - 0.15) / (fadeEnd - 0.15));
+  const waitBlend = 1 - smoothstep01(Math.max(0, (waitT - 0.2) / 0.55));
+  return runT * waitBlend;
 }
 
 export function climbLiftEase(climb: number, hollywood = false) {
@@ -188,8 +236,10 @@ export function hollywoodFloorRunLength(canvasW: number) {
 export function hollywoodMarkerBlendSpan(canvasW: number) {
   const floor = hollywoodFloorRunLength(canvasW);
   if (floor > 0) return floor;
-  if (!isMobile()) return 0;
-  return Math.round(Math.min(32, Math.max(18, canvasW * 0.08)));
+  if (isMobile()) {
+    return Math.round(Math.min(38, Math.max(24, canvasW * 0.1)));
+  }
+  return Math.round(Math.min(28, Math.max(16, canvasW * 0.05)));
 }
 
 export function hollywoodMobileRunStepMul(run: number, canvasW: number) {
@@ -197,6 +247,10 @@ export function hollywoodMobileRunStepMul(run: number, canvasW: number) {
   const ramp = Math.round(Math.min(52, Math.max(28, canvasW * 0.11)));
   const t = smoothstep01(Math.min(1, run / ramp));
   return 0.48 + 0.52 * t;
+}
+
+export function pusulaMarkerBlendSpan(canvasW: number) {
+  return Math.round(Math.min(32, Math.max(20, canvasW * 0.085)));
 }
 
 export function markerWaitingNudge(
@@ -208,9 +262,15 @@ export function markerWaitingNudge(
   if (waiting) return 1;
   const span = hollywood
     ? hollywoodMarkerBlendSpan(canvasW)
-    : floorRunLength(canvasW);
-  const hold = hollywood ? Math.min(8, span * 0.18) : 0;
-  if (hollywood && run < hold) return 1;
+    : isMobile()
+      ? pusulaMarkerBlendSpan(canvasW)
+      : floorRunLength(canvasW);
+  const hold = hollywood
+    ? Math.min(isMobile() ? 10 : 6, span * (isMobile() ? 0.22 : 0.18))
+    : isMobile()
+      ? Math.min(6, span * 0.22)
+      : 0;
+  if (run < hold) return 1;
   const t = 1 - smoothstep01(Math.min(1, (run - hold) / Math.max(1, span - hold)));
   return smoothstep01(t);
 }
@@ -225,9 +285,16 @@ export function flightMarkerBox(
   attachX: number,
   attachY: number,
 ): MarkerBox {
+  const mobile = isMobile();
   return {
-    left: tipX - attachX * markerW,
-    top: endY - attachY * markerH,
+    left:
+      tipX -
+      attachX * markerW +
+      (mobile ? MARKER_FLIGHT_NUDGE_X_MOBILE : 0),
+    top:
+      endY -
+      attachY * markerH +
+      (mobile ? MARKER_FLIGHT_NUDGE_Y_MOBILE : 0),
   };
 }
 
@@ -262,12 +329,12 @@ export function waitingMarkerBox(
         waitingFloorNudgeY * markerH,
     };
   }
-  const floorNudge = mobile
-    ? MARKER_WAITING_FLOOR_NUDGE_MOBILE
-    : MARKER_WAITING_FLOOR_NUDGE;
   return {
     left: mobile ? MARKER_WAITING_LEFT_MOBILE : MARKER_WAITING_LEFT,
-    top: lineH - MARKER_ATTACH_Y * markerH + floorNudge,
+    top:
+      lineH -
+      markerH *
+        (mobile ? MARKER_WAITING_GROUND_RATIO_MOBILE : MARKER_WAITING_GROUND_RATIO),
   };
 }
 
@@ -370,9 +437,11 @@ export function chartTipFromPlain(
   const tipOffsetY = hollywood ? 6 : CHART_TIP_OFFSET_Y;
   const baseTipOffsetX =
     hollywood && isMobile() ? 14 : PLAIN_TIP_OFFSET_X;
-  const runEase = floorRunEase(plainPosition.y, canvasWidth, hollywood);
-  const tipOffsetX = baseTipOffsetX * runEase;
-  const liftEase = climbLiftEase(plainPosition.x, hollywood);
+  const runEase = hollywood
+    ? floorRunEase(plainPosition.y, canvasWidth, hollywood)
+    : 1;
+  const tipOffsetX = hollywood ? baseTipOffsetX * runEase : PLAIN_TIP_OFFSET_X;
+  const liftEase = hollywood ? climbLiftEase(plainPosition.x, hollywood) : 1;
 
   let tipY = lineH - plainPosition.x - tipOffsetY * liftEase;
   let tipX = plainPosition.y + tipOffsetX;
@@ -508,6 +577,12 @@ export const HOLLYWOOD_CRANE_FIGMA = {
   waitingFloorNudgeY: 0.055,
   waitingForwardX: 0.18,
   waitingForwardXMobile: 0.12,
+
+  /** Waiting tilt — less nose-down than in-flight pitch. */
+  waitingPitch: -2,
+  waitingPitchMobile: -3,
+  waitingOriginY: 0.74,
+  waitingOriginYMobile: 0.78,
 } as const;
 
 export function hollywoodCraneLevelDeg() {
@@ -602,6 +677,20 @@ export function hollywoodCranePosition(
 
 export function hollywoodCraneRotate(_rotateFromUp?: number) {
   return hollywoodCraneLevelDeg();
+}
+
+export function hollywoodCraneRotateWithWait(waitT: number) {
+  const { leanDeg, pitchDeg, waitingPitch, waitingPitchMobile } =
+    HOLLYWOOD_CRANE_FIGMA;
+  const waitingPitchDeg = isMobile() ? waitingPitchMobile : waitingPitch;
+  const pitch = waitingPitchDeg * waitT + pitchDeg * (1 - waitT);
+  return MARKER_FLOOR_ROTATE_FROM_UP - leanDeg + pitch;
+}
+
+export function hollywoodCraneOriginY(waitT: number) {
+  const { attachY, waitingOriginY, waitingOriginYMobile } = HOLLYWOOD_CRANE_FIGMA;
+  const waitingOrigin = isMobile() ? waitingOriginYMobile : waitingOriginY;
+  return waitingOrigin * waitT + attachY * (1 - waitT);
 }
 
 export function hollywoodCraneSize(canvasW: number, canvasH: number) {

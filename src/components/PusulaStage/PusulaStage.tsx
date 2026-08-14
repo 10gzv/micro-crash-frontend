@@ -11,6 +11,7 @@ import {
 } from '@lego/constants/gameAssets';
 import { resolvedTheme } from '@lego/helpers/applyTheme';
 import { GAME_SLUG } from '@lego/helpers/assetUrl';
+import { isMobile } from '@lego/helpers/isMobile';
 import { RoundOdd } from '@/components/RoundOdd';
 import { Timer } from '@/components/Timer';
 import { PusulaPersonAvatar } from '@/lego/components/Avatar/PusulaPersonAvatar';
@@ -18,7 +19,6 @@ import { PusulaPersonAvatar } from '@/lego/components/Avatar/PusulaPersonAvatar'
 import {
   PLAIN_HOVER_STEP,
   PLAIN_VOL,
-  PLAIN_Y_STEP,
   IDLE_POSITION,
   MARKER_ATTACH_X,
   MARKER_ATTACH_Y,
@@ -27,11 +27,11 @@ import {
   canClimb,
   chartTipFromPlain,
   parabolaCoeff,
-  parabolaY,
-  plainXNext,
+  advancePlainStep,
   HOLLYWOOD_CRANE_FIGMA,
   hollywoodCraneSize,
-  hollywoodCraneRotate,
+  hollywoodCraneRotateWithWait,
+  hollywoodCraneOriginY,
   hollywoodCranePosition,
   hollywoodCraneLineAttach,
   hollywoodCraneStrokeEnd,
@@ -40,14 +40,11 @@ import {
   waitingMarkerOffset,
   waitingMarkerBox,
   markerBoxWithWaitingOffset,
-  floorRunLength,
-  hollywoodFloorRunLength,
-  climbBlend,
   CRASH_FLY_LIFT,
-  smoothstep01,
   oddBackgroundBlend,
   chartTrailReveal,
-  hollywoodMobileRunStepMul,
+  MARKER_WAITING_PITCH_MOBILE,
+  MARKER_WAITING_ORIGIN_Y_MOBILE,
 } from './stageFlight';
 import { PusulaChart } from './PusulaChart';
 import { PusulaStageNotice } from '@/lego/components/BetAcceptedNotice';
@@ -141,36 +138,7 @@ export const PusulaStage: FC = observer(() => {
           return prev;
         }
 
-        const floorRun = isHollywood
-          ? hollywoodFloorRunLength(canvasW)
-          : floorRunLength(canvasW);
-        const stepMul =
-          prev.y === 0 && prev.x === 0 ? (isHollywood ? 0.32 : 0.28) : 1;
-        const yStep = isHollywood ? PLAIN_Y_STEP * 1.08 : PLAIN_Y_STEP;
-        const runStepMul =
-          isHollywood ? hollywoodMobileRunStepMul(prev.y, canvasW) : 1;
-        const nextY = prev.y + yStep * stepMul * runStepMul;
-        const onFloorRun = prev.x <= 0 && nextY < floorRun;
-        let targetX = 0;
-        if (!onFloorRun) {
-          const raw = parabolaY(coeff, nextY);
-          targetX = raw * climbBlend(nextY, canvasW, isHollywood);
-        } else if (isHollywood && nextY > floorRun * 0.38) {
-          const raw = parabolaY(coeff, nextY);
-          const liftT = smoothstep01((nextY - floorRun * 0.38) / (floorRun * 0.62));
-          targetX = raw * climbBlend(nextY, canvasW, isHollywood) * liftT;
-        }
-        return {
-          x: plainXNext(
-            prev.x,
-            targetX,
-            nextY,
-            canvasW,
-            canvasH,
-            isHollywood,
-          ),
-          y: nextY,
-        };
+        return advancePlainStep(prev, coeff, isHollywood);
       });
       if (active) requestAnimationFrame(animate);
     };
@@ -251,8 +219,8 @@ export const PusulaStage: FC = observer(() => {
   );
 
   const chartReveal =
-    isHollywood && isOddStarted && !isRoundOver
-      ? chartTrailReveal(plainPosition.y, canvasW, waitT, true)
+    isOddStarted && !isRoundOver
+      ? chartTrailReveal(plainPosition.y, canvasW, waitT, isHollywood)
       : 1;
 
   const showChart =
@@ -270,7 +238,7 @@ export const PusulaStage: FC = observer(() => {
   const rotateDeg = tipGeom
     ? tipGeom.rotateFromUp - MARKER_SVG_LEAN_DEG
     : 0;
-  const hollywoodRotate = hollywoodCraneRotate();
+  const hollywoodRotate = hollywoodCraneRotateWithWait(waitT);
 
   const onFloor =
     tipGeom != null &&
@@ -363,14 +331,28 @@ export const PusulaStage: FC = observer(() => {
         y: markerTop + markerAttachY * markerHeight,
       };
 
-  const pitchDeg = onFloor ? 0 : MARKER_VISUAL_PITCH_DEG;
+  const flightPitch = onFloor ? 0 : MARKER_VISUAL_PITCH_DEG;
+  const pitchDeg =
+    !isHollywood && isMobile()
+      ? MARKER_WAITING_PITCH_MOBILE * waitT + flightPitch * (1 - waitT)
+      : onFloor
+        ? 0
+        : MARKER_VISUAL_PITCH_DEG;
+  const originY = isHollywood
+    ? hollywoodCraneOriginY(waitT)
+    : !isHollywood && isMobile()
+      ? MARKER_WAITING_ORIGIN_Y_MOBILE * waitT + markerAttachY * (1 - waitT)
+      : markerAttachY;
 
   const markerStyle = {
     left: markerLeft,
     top: markerTop,
     width: markerWidth,
     height: markerHeight,
-    transformOrigin: `${markerAttachX * 100}% ${markerAttachY * 100}%`,
+    transformOrigin:
+      isHollywood || (!isHollywood && isMobile())
+        ? `${markerAttachX * 100}% ${originY * 100}%`
+        : `${markerAttachX * 100}% ${markerAttachY * 100}%`,
     transform: isRoundOver
       ? `translateX(${canvasW + markerWidth}px) translateY(-${crashClimb + CRASH_FLY_LIFT}px) rotate(${(isHollywood ? hollywoodRotate : rotateDeg) + 10}deg)`
       : `rotate(${isHollywood ? hollywoodRotate : rotateDeg + pitchDeg}deg)`,
