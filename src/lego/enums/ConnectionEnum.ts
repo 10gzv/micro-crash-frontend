@@ -1,8 +1,8 @@
 export enum ConnectionStatus {
-  CONNECTING = 0, // The connection is not yet open.
-  OPEN, // The connection is open and ready to communicate.
-  CLOSING, // The connection is in the process of closing.
-  CLOSED, // The connection is closed or couldn't be opened.
+  CONNECTING = 0,
+  OPEN,
+  CLOSING,
+  CLOSED,
 }
 
 export enum ConnectionDefaultEvents {

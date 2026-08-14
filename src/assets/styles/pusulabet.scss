@@ -1,4 +1,4 @@
-/* Pusulabet skin — Figma Crash file, Pusulabet Crash */
+
 @import '@styles/breakpoints.scss';
 
 :root {
@@ -8,7 +8,7 @@
   --header-height: 42px;
   --left-section-width: 301px;
   --right-section-width: 393px;
-  /* bet panel 160px + GamePlay gap to bets (8px) */
+
   --pusula-chat-clearance-bottom: 168px;
   --radius-section: 14px;
   --radius-button: 8px;
@@ -29,7 +29,6 @@ body,
   }
 }
 
-/* Figma Top-Bar — flat text + icons, no Button / ButtonGroup chrome */
 .Lego-Header {
   height: var(--header-height);
   padding: 0 16px;
@@ -64,7 +63,6 @@ body,
     gap: 20px;
   }
 
-  /* Balance: 14/700 #FFAC2C + USD 10/400 #93A0BE — no pill */
   &-Balance {
     display: inline-flex;
     align-items: baseline;
@@ -142,7 +140,6 @@ body,
   }
 }
 
-/* Desktop: history → stage → bets inside game-play (jugu game-play column) */
 @include l {
   .Lego-GameSection {
     background: rgba(26, 41, 71, 1);
@@ -158,7 +155,7 @@ body,
     min-height: 0;
     border-radius: 0;
     overflow: hidden;
-    // background: #1a2947;
+
   }
 
   .Lego-GamePlay .Lego-DrawHistory {
@@ -233,7 +230,6 @@ body,
   letter-spacing: -0.2px;
 }
 
-/* Figma coefficient tiers: <2 gray / <10 gold / ≥10 coral */
 .Lego-DrawHistory .Lego-Odd_tier-low,
 .Lego-DrawHistory .Lego-Badge_blue.Lego-Odd_tier-low {
   color: #7b88a8 !important;
@@ -271,7 +267,7 @@ body,
     font-size: inherit;
     text-shadow: none;
     flex-direction: column;
-    /* Compass optical center sits above geometric 48% */
+
     transform: translateY(-4%);
   }
 
@@ -296,7 +292,7 @@ body,
   }
 
   .Lego-RoundOdd-Text-Inner {
-    /* Figma: белая заливка + красный контур букв (не box-border) */
+
     display: inline-block;
     padding: 0;
     border: none;
@@ -312,7 +308,7 @@ body,
   }
 
   .Lego-RoundOdd-Crashed {
-    /* Figma: Inter 500 / 24 / 150% / -3% / red gradient */
+
     font-family: Inter, Helvetica, Arial, sans-serif;
     font-weight: 500;
     font-size: clamp(18px, 2.4vw, 24px);
@@ -334,6 +330,40 @@ body,
 
 .Lego-Timer {
   z-index: 12;
+}
+
+html[data-game-slug='pusulabet-crash'] {
+  .PusulaStage-Canvas_oddStarted {
+    --stage-bg-low: #0d1730;
+    --stage-bg-high: #151028;
+    background: color-mix(
+      in srgb,
+      var(--stage-bg-high) calc(var(--stage-odd-blend, 0) * 100%),
+      var(--stage-bg-low)
+    );
+    transition: background 0.45s ease-out;
+  }
+
+  .PusulaStage-Glow_high {
+    background:
+      radial-gradient(
+        ellipse 78% 70% at 50% 44%,
+        rgba(168, 88, 228, 0.36) 0%,
+        rgba(108, 48, 178, 0.14) 46%,
+        transparent 72%
+      ),
+      radial-gradient(
+        ellipse 150% 118% at 0% 100%,
+        rgba(98, 58, 188, 0.82) 0%,
+        rgba(62, 32, 128, 0.38) 38%,
+        transparent 66%
+      );
+  }
+
+  .PusulaStage-Rays_high {
+    filter: hue-rotate(58deg) saturate(1.15) brightness(0.98);
+    opacity: calc(var(--stage-odd-blend, 0) * 0.92);
+  }
 }
 
 .Lego-Popup-Content {

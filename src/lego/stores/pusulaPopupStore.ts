@@ -1,6 +1,5 @@
 import { makeAutoObservable } from 'mobx';
 
-/** Pusulabet-only full-screen panels (no HowToPlay tabs). */
 class PusulaPopupStore {
   gameLimitsOpen = false;
   gameRulesOpen = false;

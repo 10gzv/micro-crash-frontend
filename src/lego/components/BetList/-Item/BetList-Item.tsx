@@ -1,5 +1,5 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
+
+
 import { FC } from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';

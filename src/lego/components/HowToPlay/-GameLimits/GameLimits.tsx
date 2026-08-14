@@ -41,7 +41,7 @@ export const GameLimits: FC = observer(() => {
           {userConfigsStore.maxWin} {userDataStore.currency}
         </span>
       </div>
-      {rtp && (  
+      {rtp && (
         <div className='Lego-HowToPlay-Text'>
           {t('burgerMenu.limitsTab.rtp', {
             defaultValue: 'RTP',

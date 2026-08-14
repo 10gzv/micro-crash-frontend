@@ -7,13 +7,12 @@
     width: 100%;
     height: 100dvh;
     background: black;
-    // background: linear-gradient(180deg, #2A2347 0%, #231F2F 100%);
+
     color: var(--color-text-main);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
 
     &-ABCD {
       height: 190px;

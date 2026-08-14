@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-/** Prevent background scroll while a full-height Pusula overlay is open (mobile). */
 export function useBodyScrollLock(locked: boolean): void {
   useEffect(() => {
     if (!locked || typeof document === 'undefined') return;

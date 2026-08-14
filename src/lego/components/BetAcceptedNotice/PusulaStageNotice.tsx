@@ -98,7 +98,6 @@ const PusulaStageNoticeRow: FC<NoticeRowProps> = observer(({ item }) => {
   );
 });
 
-/** Figma stage toasts — top-right stack (first / second bet panels). */
 export const PusulaStageNotice: FC = observer(() => {
   const { notificationsData } = notificationStore;
   const items = listActivePusulaNotices(notificationsData);

@@ -10,7 +10,7 @@ export const Badge: FC<PropsWithChildren<IBadgeProps>> = ({
   onClick,
 }) => {
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+
     <div
       className={clsx(
         'Lego-Badge',

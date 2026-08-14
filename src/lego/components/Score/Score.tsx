@@ -31,7 +31,7 @@ export const Score: FC = observer(() => {
         'Lego-Score',
         isPopupVisible && odd && 'Lego-Score_startAnimation',
       )}>
-      {/* <SvgUse id='score' className='Lego-Score-Svg' /> */}
+      {}
       <div className='Lego-Score-Content'>
         <div className='Lego-Score-Odd'>x{Number(odd)?.toFixed(2)}</div>
       </div>

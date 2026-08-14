@@ -1,9 +1,4 @@
-/**
- * Asset URLs — same-origin by default (base-crash pattern).
- *
- * Assets live under `public/game_assets/<game_slug>/` and are served from the app origin in prod.
- * Optional `?assets=cdn` uses CDN; `?game_slug=` selects the skin folder.
- */
+
 
 const ASSET_HOST = 'https://assets.abcdabra.com';
 
@@ -24,7 +19,6 @@ const assetsParam =
     ? new URLSearchParams(window.location.search).get('assets')
     : null;
 
-/** Local/same-origin unless explicitly opted into CDN (?assets=cdn). */
 const USE_LOCAL_ASSETS = assetsParam !== 'cdn';
 
 export const ASSET_BASE_URL: string = USE_LOCAL_ASSETS

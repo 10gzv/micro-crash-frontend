@@ -13,7 +13,6 @@ export function useDebouncedCallback<A extends unknown[]>(
     }
   }
 
-  // Убеждаемся, что таймаут очистится, когда компонент размонтируется
   useEffect(() => cleanup, []);
 
   return function debouncedCallback(...args: A) {

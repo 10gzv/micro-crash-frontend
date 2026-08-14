@@ -19,7 +19,7 @@ export const PLAIN_VOL = isMobile() ? 20 : 80;
 export const PLAIN_HOVER_STEP = isMobile() ? 0.2 : 0.5;
 export const PLAIN_Y_STEP = isMobile() ? 1.4 : 3.4;
 export const CHART_TIP_OFFSET_Y = 10;
-/** jugu PlayBoard — extra upward lift when plane flies away on crash. */
+
 export const CRASH_FLY_LIFT = 150;
 
 export function chartCurveScale(canvasW: number, canvasH: number) {
@@ -68,9 +68,7 @@ export const PLAIN_TIP_OFFSET_X = 20;
 
 export function floorRunLength(canvasW: number, hollywood = false) {
   if (hollywood) {
-    if (!isMobile()) return 0;
-    if (!canvasW) return 48;
-    return Math.round(Math.min(72, Math.max(40, canvasW * 0.17)));
+    return 0;
   }
   if (!canvasW) return isMobile() ? 64 : 80;
   return isMobile()
@@ -78,21 +76,18 @@ export function floorRunLength(canvasW: number, hollywood = false) {
     : Math.round(Math.min(100, Math.max(72, canvasW * 0.11)));
 }
 
-/** Vertical climb — ease-in so the round does not snap upward. */
 export function hollywoodClimbStepEase(climb: number, canvasW: number) {
   const ramp = climbRampLength(canvasW) * 0.72;
   const t = smoothstep01(Math.min(1, climb / ramp));
   return 0.28 + 0.72 * (t * t);
 }
 
-/** Horizontal drift — stays near zero until climb is well underway. */
 export function hollywoodRunBlend(climb: number, canvasW: number) {
   const ramp = climbRampLength(canvasW) * (isMobile() ? 2.55 : 1.85);
   const t = smoothstep01(Math.min(1, climb / ramp));
   return isMobile() ? t * t * t : t * t * t * t;
 }
 
-/** @deprecated use hollywoodRunBlend — kept for climbBlend alias */
 export function hollywoodClimbBlend(nextRun: number, canvasW: number) {
   return hollywoodRunBlend(nextRun, canvasW);
 }
@@ -103,15 +98,48 @@ export function climbRampLength(canvasW: number) {
     ? Math.round(Math.min(150, Math.max(90, canvasW * 0.34)))
     : Math.round(Math.min(96, Math.max(72, canvasW * 0.14)));
 }
-/** Waiting marker — raised above floor, tucked into bottom-left corner. */
+
 export const MARKER_WAITING_LEFT = -19;
 export const MARKER_WAITING_LEFT_MOBILE = -13;
-export const MARKER_WAITING_VISIBLE = 0.72;
-export const MARKER_WAITING_VISIBLE_MOBILE = 0.77;
+
+export const MARKER_WAITING_FLOOR_NUDGE = 6;
+export const MARKER_WAITING_FLOOR_NUDGE_MOBILE = 4;
 
 export function smoothstep01(t: number) {
   const c = Math.max(0, Math.min(1, t));
   return c * c * (3 - 2 * c);
+}
+
+export const ODD_BG_BLEND_START = 1.72;
+export const ODD_BG_BLEND_END = 2.28;
+
+export function oddBackgroundBlend(
+  odd: number | string | null | undefined,
+): number {
+  const n = Number(odd);
+  if (!Number.isFinite(n) || n <= 0) return 0;
+  if (n <= ODD_BG_BLEND_START) return 0;
+  if (n >= ODD_BG_BLEND_END) return 1;
+  const t = (n - ODD_BG_BLEND_START) / (ODD_BG_BLEND_END - ODD_BG_BLEND_START);
+  return smoothstep01(t);
+}
+
+export function chartTrailReveal(
+  run: number,
+  canvasW: number,
+  waitT: number,
+  hollywood = false,
+) {
+  if (!hollywood) return run > 0 ? 1 : 0;
+  if (waitT > 0.02) return 0;
+  const minRun = 1;
+  const fadeEnd = Math.min(
+    Math.max(hollywoodFloorRunLength(canvasW) * 0.22, 10),
+    22,
+  );
+  if (run <= minRun) return 0;
+  if (run >= fadeEnd) return 1;
+  return smoothstep01((run - minRun) / (fadeEnd - minRun));
 }
 
 export function climbLiftEase(climb: number, hollywood = false) {
@@ -157,6 +185,20 @@ export function hollywoodFloorRunLength(canvasW: number) {
   return Math.round(floorRunLength(canvasW) * 0.55);
 }
 
+export function hollywoodMarkerBlendSpan(canvasW: number) {
+  const floor = hollywoodFloorRunLength(canvasW);
+  if (floor > 0) return floor;
+  if (!isMobile()) return 0;
+  return Math.round(Math.min(32, Math.max(18, canvasW * 0.08)));
+}
+
+export function hollywoodMobileRunStepMul(run: number, canvasW: number) {
+  if (!isMobile()) return 1;
+  const ramp = Math.round(Math.min(52, Math.max(28, canvasW * 0.11)));
+  const t = smoothstep01(Math.min(1, run / ramp));
+  return 0.48 + 0.52 * t;
+}
+
 export function markerWaitingNudge(
   waiting: boolean,
   run: number,
@@ -164,8 +206,12 @@ export function markerWaitingNudge(
   hollywood = false,
 ) {
   if (waiting) return 1;
-  const span = hollywood ? hollywoodFloorRunLength(canvasW) : floorRunLength(canvasW);
-  const t = 1 - smoothstep01(Math.min(1, run / Math.max(1, span)));
+  const span = hollywood
+    ? hollywoodMarkerBlendSpan(canvasW)
+    : floorRunLength(canvasW);
+  const hold = hollywood ? Math.min(8, span * 0.18) : 0;
+  if (hollywood && run < hold) return 1;
+  const t = 1 - smoothstep01(Math.min(1, (run - hold) / Math.max(1, span - hold)));
   return smoothstep01(t);
 }
 
@@ -189,24 +235,39 @@ export function waitingMarkerBox(
   lineH: number,
   markerH: number,
   hollywood = false,
+  markerW = 0,
 ): MarkerBox {
   const mobile = isMobile();
   if (hollywood) {
-    const { attachY, attachNudgeY, waitingLiftY } = HOLLYWOOD_CRANE_FIGMA;
+    const { attachY, attachNudgeY, waitingForwardX, waitingForwardXMobile, waitingFloorNudgeY } =
+      HOLLYWOOD_CRANE_FIGMA;
+    const legsLeft =
+      markerW > 0
+        ? markerW * (mobile ? 0.3 : 0.36)
+        : mobile
+          ? 52
+          : 84;
+    const forward =
+      markerW > 0
+        ? markerW * (mobile ? waitingForwardXMobile : waitingForwardX)
+        : mobile
+          ? 24
+          : 32;
     return {
-      left: mobile
-        ? HOLLYWOOD_CRANE_FIGMA.waitingLeftMobile
-        : HOLLYWOOD_CRANE_FIGMA.waitingLeft,
+      left: -legsLeft + forward,
       top:
         lineH -
         attachY * markerH +
-        attachNudgeY * markerH -
-        waitingLiftY * markerH,
+        attachNudgeY * markerH +
+        waitingFloorNudgeY * markerH,
     };
   }
+  const floorNudge = mobile
+    ? MARKER_WAITING_FLOOR_NUDGE_MOBILE
+    : MARKER_WAITING_FLOOR_NUDGE;
   return {
     left: mobile ? MARKER_WAITING_LEFT_MOBILE : MARKER_WAITING_LEFT,
-    top: lineH - markerH * (mobile ? MARKER_WAITING_VISIBLE_MOBILE : MARKER_WAITING_VISIBLE),
+    top: lineH - MARKER_ATTACH_Y * markerH + floorNudge,
   };
 }
 
@@ -229,7 +290,7 @@ export function waitingMarkerOffset(
         lineH,
       )
     : flightMarkerBox(0, lineH, markerW, markerH, attachX, attachY);
-  const waiting = waitingMarkerBox(lineH, markerH, hollywood);
+  const waiting = waitingMarkerBox(lineH, markerH, hollywood, markerW);
   return {
     left: waiting.left - flightAtOrigin.left,
     top: waiting.top - flightAtOrigin.top,
@@ -242,11 +303,13 @@ export function markerBoxWithWaitingOffset(
   waitT: number,
   hollywood = false,
   waiting = false,
+  waitingBox?: MarkerBox,
 ): MarkerBox {
-  if (hollywood && !waiting) {
+  if (hollywood && waitingBox) {
+    const t = waiting ? 1 : waitT;
     return {
-      left: flight.left + offset.left * waitT,
-      top: flight.top,
+      left: flight.left + (waitingBox.left - flight.left) * t,
+      top: flight.top + (waitingBox.top - flight.top) * t,
     };
   }
   return {
@@ -255,7 +318,6 @@ export function markerBoxWithWaitingOffset(
   };
 }
 
-/** Shared quadratic control for hollywood vs default stage chart. */
 function chartCurveControl(
   plainPosition: PlainPosition,
   canvasWidth: number,
@@ -292,7 +354,6 @@ function chartCurveControl(
   };
 }
 
-/** Chart quadratic — M(0,H) Q(climb·scale,H) (run+20, H−climb−10). */
 export function chartTipFromPlain(
   plainPosition: PlainPosition,
   canvasWidth: number,
@@ -307,7 +368,8 @@ export function chartTipFromPlain(
     : MARKER_ATTACH_Y;
 
   const tipOffsetY = hollywood ? 6 : CHART_TIP_OFFSET_Y;
-  const baseTipOffsetX = PLAIN_TIP_OFFSET_X;
+  const baseTipOffsetX =
+    hollywood && isMobile() ? 14 : PLAIN_TIP_OFFSET_X;
   const runEase = floorRunEase(plainPosition.y, canvasWidth, hollywood);
   const tipOffsetX = baseTipOffsetX * runEase;
   const liftEase = climbLiftEase(plainPosition.x, hollywood);
@@ -347,7 +409,6 @@ export function chartTipFromPlain(
   return { hub, tipX, endY, curveCtrlX, curveCtrlY, lineH, rotateFromUp };
 }
 
-/** Quadratic control for a tail ending at an arbitrary screen point. */
 export function chartCurveCtrl(
   plainPosition: PlainPosition,
   canvasWidth: number,
@@ -407,7 +468,6 @@ export function plainXUnderCompass(
   return prevX + (targetX - prevX) * blend;
 }
 
-/** Smooth hollywood horizontal chase — no snap forward at round start. */
 export function plainYNext(
   prevY: number,
   targetY: number,
@@ -426,23 +486,37 @@ export const HOLLYWOOD_CRANE_FIGMA = {
   width: 231.98332503678895,
   height: 186.26167529663883,
   leanDeg: 88,
-  pitchDeg: 2,
-  /** Pivot + stroke end — tail root / «попа» (560×526 PNG). */
+  pitchDeg: -5,
+
   attachX: 0.26,
   attachY: 0.63,
-  /** PNG padding — butt meets gold stroke (positive = lower on line). */
-  attachNudgeY: 0.008,
+
+  attachNudgeY: -0.068,
+  attachNudgeX: 0.098,
+  strokeAttachX: 0.105,
+  strokeAttachY: 0.668,
+  strokeAttachNudgeY: 0.016,
+  strokeInset: 0.032,
+  strokeInsetMobile: 0.024,
   tipOffsetX: -32,
   tipOffsetY: 0,
-  /** Body ahead of stroke end — line trails from tail (× marker width). */
-  pathBack: 0.15,
+
+  pathBack: 0.13,
   flapCycleMs: 600,
-  /** Waiting — 0 = feet on floor line (same as takeoff origin). */
+
   waitingLiftY: 0,
-  /** Waiting — tucked into bottom-left. */
-  waitingLeft: -28,
-  waitingLeftMobile: -15,
+  waitingFloorNudgeY: 0.055,
+  waitingForwardX: 0.18,
+  waitingForwardXMobile: 0.12,
 } as const;
+
+export function hollywoodCraneLevelDeg() {
+  return (
+    MARKER_FLOOR_ROTATE_FROM_UP -
+    HOLLYWOOD_CRANE_FIGMA.leanDeg +
+    HOLLYWOOD_CRANE_FIGMA.pitchDeg
+  );
+}
 
 export function hollywoodCraneLineAttach(
   left: number,
@@ -457,7 +531,43 @@ export function hollywoodCraneLineAttach(
   };
 }
 
-/** Anchor crane PNG — stroke exits at tail root; body sits ahead on curve. */
+export function hollywoodCraneStrokeEnd(
+  left: number,
+  top: number,
+  markerW: number,
+  markerH: number,
+  curveCtrlX: number,
+  lineH: number,
+  endY: number,
+  tipX: number,
+) {
+  const {
+    strokeAttachX,
+    strokeAttachY,
+    strokeAttachNudgeY,
+    strokeInset,
+    strokeInsetMobile,
+  } = HOLLYWOOD_CRANE_FIGMA;
+  const base = {
+    x: left + strokeAttachX * markerW,
+    y:
+      top +
+      strokeAttachY * markerH +
+      strokeAttachNudgeY * markerH,
+  };
+  const tanX = tipX - curveCtrlX;
+  const tanY = endY - lineH;
+  const len = Math.hypot(tanX, tanY) || 1;
+  const inset = (isMobile() ? strokeInsetMobile : strokeInset) * markerW;
+  const onFloor = lineH != null && endY >= lineH - 1;
+  const tailDrop = markerH * 0.01;
+  const tail = {
+    x: base.x - (onFloor ? 1 : tanX / len) * inset,
+    y: onFloor ? lineH! : base.y - (tanY / len) * inset + tailDrop,
+  };
+  return tail;
+}
+
 export function hollywoodCranePosition(
   tipX: number,
   endY: number,
@@ -466,7 +576,8 @@ export function hollywoodCranePosition(
   curveCtrlX?: number,
   lineH?: number,
 ): MarkerBox {
-  const { attachX, attachY, attachNudgeY, pathBack } = HOLLYWOOD_CRANE_FIGMA;
+  const { attachX, attachY, attachNudgeY, attachNudgeX, pathBack, waitingFloorNudgeY } =
+    HOLLYWOOD_CRANE_FIGMA;
 
   let anchorX = tipX;
   let anchorY = endY;
@@ -480,18 +591,17 @@ export function hollywoodCranePosition(
     anchorY -= (tanY / len) * back;
   }
 
+  const onFloor = lineH != null && endY >= lineH - 1;
+  const floorNudgeY = onFloor ? waitingFloorNudgeY * markerH : 0;
+
   return {
-    left: anchorX - attachX * markerW,
-    top: anchorY - attachY * markerH + attachNudgeY * markerH,
+    left: anchorX - attachX * markerW + attachNudgeX * markerW,
+    top: anchorY - attachY * markerH + attachNudgeY * markerH + floorNudgeY,
   };
 }
 
-export function hollywoodCraneRotate(rotateFromUp: number) {
-  return (
-    rotateFromUp -
-    HOLLYWOOD_CRANE_FIGMA.leanDeg +
-    HOLLYWOOD_CRANE_FIGMA.pitchDeg
-  );
+export function hollywoodCraneRotate(_rotateFromUp?: number) {
+  return hollywoodCraneLevelDeg();
 }
 
 export function hollywoodCraneSize(canvasW: number, canvasH: number) {

@@ -1,7 +1,6 @@
 @import '@styles/breakpoints.scss';
 @import '@styles/mixins.scss';
 
-/* Left panel — Figma visuals; layout width from LeftSection (in-flow, jugu bets-widget) */
 .Lego-LeftSection.Lego-LeftSection_pusula {
   background-color: #101c38;
   box-shadow: none;
@@ -216,7 +215,6 @@
   }
 }
 
-/* Figma tabs track */
 .Lego-Tabs,
 .Lego-UI-Tabs {
   --tabs-gap: 10px;
@@ -444,8 +442,6 @@
   flex-shrink: 0;
 }
 
-
-/* Waiting timer — Figma style linear bar */
 .Lego-Timer {
   inset: 0;
   display: flex;
@@ -461,7 +457,6 @@
   display: none;
 }
 
-/* Waiting — centered on flat stage (Figma), no dim overlay */
 .Pusula-Timer {
   position: absolute;
   inset: 0;

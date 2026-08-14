@@ -1,6 +1,5 @@
 @import '@styles/breakpoints.scss';
 
-/* jugu-like shell: game-container (row) → game-play (column: history, stage, bets) */
 .Lego-GameContainer {
   display: flex;
   flex-direction: column;
@@ -33,7 +32,6 @@
     overflow: hidden;
     background: rgba(19, 33, 59, 1);
 
-    // Chat overlays history + stage; ends above the bet panel (see --pusula-chat-clearance-bottom).
     > .Lego-RightSection {
       position: absolute;
       top: 0;

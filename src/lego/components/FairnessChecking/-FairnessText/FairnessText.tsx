@@ -10,7 +10,7 @@ import { IFairnessTextProps } from './FairnessText.types';
 export const FairnessText: FC<IFairnessTextProps> = observer(
   ({ caption, horizontal = false, copiable = false, text, onCopy }) => {
     const FixedCopyToClipboard =
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     CopyToClipboard as unknown as React.ComponentType<any>;
     const copyComp = copiable ? (
       <div className='Lego-FairnessText-Copy'>

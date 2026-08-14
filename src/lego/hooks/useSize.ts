@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import useResizeObserver from '@react-hook/resize-observer';
 import { RefObject, useLayoutEffect, useState } from 'react';
 
@@ -11,7 +11,6 @@ export const useSize = (target: RefObject<HTMLElement>) => {
     }
   }, [target]);
 
-  // Where the magic happens
   useResizeObserver(target, entry => setSize(entry.contentRect));
   return size;
 };

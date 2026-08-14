@@ -12,7 +12,6 @@ import { MagicAlert } from "@10gzv/crash-core/chat";
 import { resolvedTheme } from "@lego/helpers/applyTheme";
 import { SvgUse } from "../UI";
 
-
 const AlertBadge = ({ alertsCount }: { alertsCount: number }) => {
   if (!alertsCount) return <></>;
 

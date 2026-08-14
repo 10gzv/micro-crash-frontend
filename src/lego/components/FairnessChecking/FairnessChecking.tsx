@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
+
 import { FC, useEffect } from 'react';
 import hexEncoder from 'crypto-js/enc-hex';
 import sha512 from 'crypto-js/sha512';

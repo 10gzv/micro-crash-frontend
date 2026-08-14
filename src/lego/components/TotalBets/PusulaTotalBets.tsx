@@ -11,10 +11,6 @@ import {
 } from '@10gzv/crash-core';
 import { PusulaPersonAvatar } from '@/lego/components/Avatar/PusulaPersonAvatar';
 
-/**
- * Figma left-panel stats card (23:10027):
- * avatars + "99/325 Bets" | "16,159.29 Total win USD" + progress.
- */
 export const PusulaTotalBets: FC<{ className?: string }> = observer(
   ({ className }) => {
     const { t } = useTranslation();

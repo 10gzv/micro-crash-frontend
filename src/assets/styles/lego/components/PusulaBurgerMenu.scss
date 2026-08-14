@@ -213,7 +213,6 @@
     border-color 0.32s ease,
     box-shadow 0.32s ease;
 
-  /* ON track — crossfade (gradients do not interpolate on `background`) */
   &::before {
     content: '';
     position: absolute;
@@ -240,7 +239,6 @@
   }
 }
 
-/* OFF: 28×28 ring left + gold core; ON: slides right + light core on orange track */
 .Pusula-SettingsMenu-Toggle-Knob {
   position: absolute;
   top: 50%;
@@ -273,7 +271,7 @@
     box-shadow 0.32s ease,
     transform 0.32s cubic-bezier(0.33, 1, 0.68, 1);
   transform: scale(1);
-  /* OFF — gold ellipse inside dark ring */
+
   background: linear-gradient(
     180deg,
     rgba(255, 214, 138, 1) 0%,

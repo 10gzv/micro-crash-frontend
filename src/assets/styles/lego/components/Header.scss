@@ -40,14 +40,11 @@
     }
 
     &-ChatAnchor {
-      // Anchor for the MagicAlert banner (absolutely positioned). The banner
-      // stays out of the normal flow so it never shifts the chat button when
-      // it appears/disappears.
+
       position: relative;
       display: flex;
       overflow: visible;
 
-      // Drop the core MagicAlert banner below the chat button, right-aligned.
       .Lego-MagicAlert {
         top: calc(100% + 12px);
         right: 2px;

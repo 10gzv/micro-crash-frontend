@@ -1,9 +1,5 @@
 @import '@styles/breakpoints.scss';
 
-/*
- * Mobile: layout/size/placement like base Crash (GameSection.scss, LeftSection.scss, core.scss).
- * Colors, tabs, bet list — Pusula (PusulaLeftPanel.scss + tokens below).
- */
 @media (max-width: #{$screen-l-min - 1px}) {
   body,
   #root {
@@ -13,7 +9,7 @@
   .Lego-Core {
     background: rgba(11, 20, 40, 1);
     box-sizing: border-box;
-    /* Header offset lives on sticky GameSection (base-crash), not here — keeps scroll collapse in sync. */
+
     padding: 0 12px 20px;
   }
 
@@ -25,7 +21,7 @@
   }
 
   .Lego-GameSection {
-    /* Match base-crash: -1px + IntersectionObserver sticky detection; height shrinks via GameSection.tsx */
+
     position: sticky;
     top: -1px;
     left: auto;
@@ -92,7 +88,6 @@
     overflow: hidden;
   }
 
-  /* Pusula left header (not Crash 14px / #202020 border) */
   .Lego-LeftSection-Header {
     padding: 10px 10px 8px;
     border-bottom: none;

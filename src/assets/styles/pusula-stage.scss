@@ -9,6 +9,7 @@
   border-radius: 14px;
   border: 1px solid #2a3a5c;
   background: #0d1730;
+  box-sizing: border-box;
 }
 
 .PusulaStage-Canvas {
@@ -18,17 +19,52 @@
   overflow: hidden;
   border-radius: 14px;
   background: #0d1730;
+  transition: background-color 0.55s ease;
 }
 
-/* Between rounds / crashed — keep decor, freeze ray spin (Aviator-style) */
 .PusulaStage-Canvas_waiting .PusulaStage-Rays,
 .PusulaStage-Canvas_roundOver .PusulaStage-Rays {
   animation-play-state: paused;
 }
 
-/*
- * Stage rays — circular sun burst, pivot at stage bottom-left.
- */
+.PusulaStage-Canvas_waiting .PusulaStage-GlowStack,
+.PusulaStage-Canvas_roundOver .PusulaStage-GlowStack,
+.PusulaStage-Canvas_waiting .PusulaStage-Vignette,
+.PusulaStage-Canvas_roundOver .PusulaStage-Vignette {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.PusulaStage-RaysStack,
+.PusulaStage-GlowStack {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.PusulaStage-RaysStack {
+  z-index: 0;
+}
+
+.PusulaStage-GlowStack {
+  z-index: 1;
+  transition: opacity 0.45s ease;
+}
+
+.PusulaStage-Vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+  background: radial-gradient(
+    ellipse 82% 74% at 50% 44%,
+    transparent 32%,
+    rgba(0, 0, 0, 0.22) 62%,
+    rgba(0, 0, 0, 0.52) 100%
+  );
+}
+
 .PusulaStage-Rays {
   position: absolute;
   top: -300%;
@@ -41,8 +77,16 @@
   transform-origin: 50% 50%;
   transform: scale(0.92);
   pointer-events: none;
-  z-index: 0;
   animation: pusula-rays-rotate 30s linear infinite;
+  transition: opacity 0.45s ease-out;
+}
+
+.PusulaStage-Rays_low {
+  opacity: calc(1 - var(--stage-odd-blend, 0));
+}
+
+.PusulaStage-Rays_high {
+  opacity: var(--stage-odd-blend, 0);
 }
 
 @keyframes pusula-rays-rotate {
@@ -51,21 +95,47 @@
   }
 }
 
-/* Figma Canvas-Glow — cool blue radial wash */
 .PusulaStage-Glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse 72% 68% at 46% 42%,
-    rgba(31, 60, 122, 0.75) 0%,
-    rgba(23, 43, 88, 0.38) 40%,
-    rgba(13, 23, 48, 0) 70%
-  );
   pointer-events: none;
-  z-index: 1;
+  transition: opacity 0.45s ease-out;
 }
 
-/* Above Flight-Line — curve passes under the rings (Figma) */
+.PusulaStage-Glow_low {
+  opacity: calc(1 - var(--stage-odd-blend, 0));
+  background:
+    radial-gradient(
+      ellipse 78% 70% at 50% 44%,
+      rgba(52, 78, 138, 0.38) 0%,
+      rgba(28, 48, 92, 0.14) 46%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 145% 115% at 0% 100%,
+      rgba(32, 58, 118, 0.82) 0%,
+      rgba(20, 36, 78, 0.32) 36%,
+      transparent 66%
+    );
+}
+
+.PusulaStage-Glow_high {
+  opacity: var(--stage-odd-blend, 0);
+  background:
+    radial-gradient(
+      ellipse 78% 70% at 50% 44%,
+      rgba(118, 72, 188, 0.34) 0%,
+      rgba(72, 40, 132, 0.12) 46%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 145% 115% at 0% 100%,
+      rgba(98, 58, 188, 0.78) 0%,
+      rgba(62, 32, 128, 0.36) 38%,
+      transparent 66%
+    );
+}
+
 .PusulaStage-CompassWrap {
   position: absolute;
   left: 50%;
@@ -88,7 +158,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  /* Figma: cooler / subtler than raw bronze PNG */
+
   opacity: 0.78;
   filter: saturate(0.75) brightness(0.92);
 }
@@ -107,7 +177,6 @@
   transition: 1s all cubic-bezier(0, 1.27, 0.81, 0.83);
 }
 
-/* Below compass — line arcs under rings, rises on the right */
 .PusulaStage-Chart {
   position: absolute;
   inset: 0;
@@ -160,7 +229,6 @@
   line-height: 1;
 }
 
-/* Figma stage toasts — top-right; notificationStore (crash) */
 .Pusula-StageNoticeStack {
   position: absolute;
   top: 12px;
@@ -336,7 +404,7 @@
 }
 
 @media (max-width: #{$screen-l-min - 1px}) {
-  /* Mobile: both toasts — inset pill like Bet accepted (Figma) */
+
   .Pusula-StageNoticeStack {
     top: 12px;
     left: 12px;
@@ -410,7 +478,6 @@
   }
 }
 
-/* Copy toast — portal to body; top/right from JS (stage anchor), above Pusula modals */
 .Pusula-CopyNotice {
   position: fixed;
   z-index: calc(var(--z-index-dropdown) + 50);

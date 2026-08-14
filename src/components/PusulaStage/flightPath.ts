@@ -1,10 +1,3 @@
-/**
- * Figma Flight-Line — плавно по полу → чуть круглится под компасом → вверх.
- * tip + chart делят одну cubic (pusulabet-crash).
- *
- * Screen: x → right, y → down. tipFromProgress: y from bottom.
- */
-
 export type FlightPoint = { x: number; y: number };
 
 export type FlightCubic = {
@@ -14,7 +7,6 @@ export type FlightCubic = {
   p3: FlightPoint;
 };
 
-/** Must match `.PusulaStage-CompassWrap` (left 50%, top 48%, width min(340px,42%)) */
 export function compassLayout(W: number, H: number) {
   const size = Math.min(340, W * 0.42);
   const cx = W * 0.5;
@@ -27,25 +19,16 @@ function lerpPt(a: FlightPoint, b: FlightPoint, t: number): FlightPoint {
   return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
 }
 
-/** Ray apex + path origin — absolute bottom-left corner (Aviator). */
 export function flightRayHub(_W: number, H: number): FlightPoint {
   return { x: 0, y: H };
 }
 
-/** Progress along path where climb stops (before upper-right corner). */
 export const FLIGHT_CRUISE_PROGRESS = 0.86;
 
-/**
- * Shape:
- * 1) long flat along the floor
- * 2) round belly under the compass rings
- * 3) rise toward upper-right (p3 = max extent; marker cruises below that)
- */
 export function flightCubic(W: number, H: number): FlightCubic {
   const { cx, cy, r } = compassLayout(W, H);
   const origin = flightRayHub(W, H);
 
-  // Farthest point toward corner — line may not reach here during cruise
   const tip = {
     x: Math.min(W * 0.92, cx + r * 1.78),
     y: Math.max(H * 0.1, cy - r * 0.78),
@@ -54,7 +37,6 @@ export function flightCubic(W: number, H: number): FlightCubic {
   return {
     p0: origin,
     p1: { x: W * 0.62, y: origin.y },
-    // Round under compass rings
     p2: { x: cx + r * 0.28, y: cy + r + Math.max(12, r * 0.2) },
     p3: tip,
   };
@@ -92,7 +74,6 @@ export function cubicTangent(c: FlightCubic, t: number): FlightPoint {
   };
 }
 
-/** Left segment [0, t] — smooth partial stroke via De Casteljau */
 export function cubicLeft(c: FlightCubic, t: number): FlightCubic {
   const tt = Math.min(1, Math.max(0, t));
   const { p0, p1, p2, p3 } = c;

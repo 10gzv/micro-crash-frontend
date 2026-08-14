@@ -1,4 +1,4 @@
-/** @format */
+
 
 import {
   FC,
@@ -17,7 +17,6 @@ import { useStickyDetector } from "@/lego/hooks/useStickyDetector";
 import { IGameSectionProps } from "./GameSection.types";
 import { PusulaStage } from "@/components/PusulaStage";
 
-/** Base crash: 322px section minus ~73px padding-top (see GameSection.scss). */
 const CONTENT_MAX_HEIGHT = 250;
 const CONTENT_MIN_HEIGHT = 120;
 

@@ -15,9 +15,6 @@ const MAX_SEED_LENGTH = 20;
 export const FairnessSettings: FC = observer(() => {
   const { t } = useTranslation();
 
-  // The seed is committed to the round the moment it starts, so it must not be
-  // changed while a round is running (odd climbing) — only during the
-  // betting/waiting window.
   const isGameActive = gameStore.isOddStarted && !gameStore.isRoundOver;
 
   const onCopy = () => {
@@ -58,7 +55,7 @@ export const FairnessSettings: FC = observer(() => {
   }, [betStore.betSeed.seed, isFocused]);
 
   const FixedCopyToClipboard =
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     CopyToClipboard as unknown as React.ComponentType<any>;
 
   return (

@@ -52,7 +52,6 @@ function readStageAnchor(): CSSProperties {
   };
 }
 
-/** Copy success — aligned to stage, rendered above modals (portal + z-index). */
 export const PusulaCopyNotice: FC = observer(() => {
   const { t } = useTranslation();
   const visible = pusulaCopyNoticeStore.visible;

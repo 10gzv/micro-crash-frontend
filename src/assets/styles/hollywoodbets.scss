@@ -1,4 +1,4 @@
-/* Hollywoodbets Crash — color skin only (same layout as Pusulabet). */
+
 @import '@styles/breakpoints.scss';
 
 $hw-game-border: 1px solid rgba(51, 24, 79, 1);
@@ -120,7 +120,6 @@ html[data-game-slug='hollywoodbets-crash'] {
       }
     }
 
-    /* Top tab — card layout (BetCard) */
     .Lego-BetCard {
       padding: 8px 10px;
       margin: 4px 0;
@@ -281,34 +280,90 @@ html[data-game-slug='hollywoodbets-crash'] {
     background: #1a0f2e;
   }
 
-  /* Purple fill lives under the flight line (canvas), not in the corner wash */
-  .PusulaStage-Glow {
-    background: radial-gradient(
-      ellipse 70% 65% at 48% 40%,
-      rgba(35, 22, 58, 0.2) 0%,
-      rgba(18, 6, 31, 0) 68%
+  .PusulaStage-Canvas_oddStarted {
+    --stage-bg-low: #12182e;
+    --stage-bg-high: #2a1248;
+    background: color-mix(
+      in srgb,
+      var(--stage-bg-high) calc(var(--stage-odd-blend, 0) * 100%),
+      var(--stage-bg-low)
     );
+    transition: background 0.45s ease-out;
   }
 
-  .PusulaStage-Canvas_waiting .PusulaStage-Glow,
-  .PusulaStage-Canvas_roundOver .PusulaStage-Glow {
-    opacity: 0;
+  .PusulaStage-Glow_low {
+    background:
+      radial-gradient(
+        ellipse 78% 70% at 50% 44%,
+        rgba(48, 72, 128, 0.4) 0%,
+        rgba(26, 44, 88, 0.14) 46%,
+        transparent 72%
+      ),
+      radial-gradient(
+        ellipse 145% 115% at 0% 100%,
+        rgba(32, 58, 118, 0.82) 0%,
+        rgba(22, 40, 88, 0.34) 36%,
+        transparent 66%
+      );
   }
 
-  .PusulaStage-Rays {
-    opacity: 0.28;
-    filter: hue-rotate(40deg) saturate(0.9);
+  .PusulaStage-Glow_high {
+    background:
+      radial-gradient(
+        ellipse 80% 72% at 50% 42%,
+        rgba(168, 88, 228, 0.38) 0%,
+        rgba(108, 48, 178, 0.16) 44%,
+        transparent 72%
+      ),
+      radial-gradient(
+        ellipse 150% 118% at 0% 100%,
+        rgba(148, 62, 220, 0.68) 0%,
+        rgba(96, 32, 168, 0.32) 40%,
+        transparent 66%
+      );
   }
 
-  .PusulaStage-Canvas_waiting .PusulaStage-Rays,
-  .PusulaStage-Canvas_roundOver .PusulaStage-Rays {
+  .PusulaStage-Rays_low {
+    filter: hue-rotate(-12deg) saturate(0.82) brightness(0.94);
+    opacity: calc((1 - var(--stage-odd-blend, 0)) * 0.4);
+  }
+
+  .PusulaStage-Rays_high {
+    filter: hue-rotate(72deg) saturate(1.35) brightness(1.06);
+    opacity: calc(var(--stage-odd-blend, 0) * 0.46);
+  }
+
+  .PusulaStage-Canvas_waiting .PusulaStage-Rays_low,
+  .PusulaStage-Canvas_roundOver .PusulaStage-Rays_low {
     animation-play-state: paused;
     opacity: 0.22;
     filter: hue-rotate(35deg) saturate(0.75);
   }
 
+  .PusulaStage-Canvas_waiting .PusulaStage-Rays_high,
+  .PusulaStage-Canvas_roundOver .PusulaStage-Rays_high {
+    animation-play-state: paused;
+    opacity: 0;
+  }
+
   .PusulaStage-CompassWrap {
     display: none;
+  }
+
+  .Pusula-Timer-Seconds,
+  .Pusula-Timer-Label {
+    color: rgba(248, 244, 255, 0.96);
+  }
+
+  .Pusula-Timer-Bar {
+    background: rgba(42, 18, 72, 0.92);
+    border: 1px solid rgba(124, 105, 227, 0.28);
+    box-sizing: border-box;
+  }
+
+  .Pusula-Timer-BarFill {
+    background: linear-gradient(90deg, #9b7fe8 0%, #c9a8ff 55%, #ffe566 100%);
+    box-shadow: 0 0 10px rgba(201, 168, 255, 0.42);
   }
 
   .PusulaStage-Crane {
@@ -322,13 +377,7 @@ html[data-game-slug='hollywoodbets-crash'] {
     transition: none;
   }
 
-  .PusulaStage-Crane_takeoff {
-    transition:
-      top 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-      left 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .PusulaStage-Canvas_oddStarted .PusulaStage-Crane:not(.PusulaStage-Crane_takeoff) {
+  .PusulaStage-Canvas_oddStarted .PusulaStage-Crane {
     transition: none;
   }
 
@@ -356,7 +405,6 @@ html[data-game-slug='hollywoodbets-crash'] {
     will-change: opacity;
   }
 
-  /* During flap — one frame at a time, no screen-blend ghosting */
   .PusulaStage-Crane_flapping .PusulaStage-Marker_hollywood {
     mix-blend-mode: normal;
     filter: drop-shadow(0 2px 10px rgba(18, 6, 31, 0.4));
@@ -368,12 +416,10 @@ html[data-game-slug='hollywoodbets-crash'] {
     }
   }
 
-  /* Static — show first frame when not flapping */
   .PusulaStage-Crane:not(.PusulaStage-Crane_flapping) .PusulaStage-Marker_hollywood_0 {
     opacity: 1;
   }
 
-  /* 4-frame cycle — instant swap, no crossfade overlap */
   @keyframes hw-crane-f0 {
     0%,
     24.99% {

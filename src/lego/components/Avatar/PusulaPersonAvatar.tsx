@@ -5,7 +5,6 @@ import { gameAsset, GAME_ASSET_PATHS } from '@lego/constants/gameAssets';
 
 const PERSON_URL = gameAsset(GAME_ASSET_PATHS.icons.avatars.person);
 
-/** a/b/c = decorative stack; low/mid/high = Figma coefficient tiers */
 export type PusulaPersonTone = 'a' | 'b' | 'c' | 'd' | 'low' | 'mid' | 'high' | 'pending';
 
 type PusulaPersonAvatarProps = {
@@ -14,10 +13,6 @@ type PusulaPersonAvatarProps = {
   size?: number;
 };
 
-/**
- * Figma person avatar — colored circle + person.svg silhouette.
- * Used in stage players pill, total bets, and bet list (pusulabet only).
- */
 export const PusulaPersonAvatar: FC<PusulaPersonAvatarProps> = ({
   tone = 'a',
   className,

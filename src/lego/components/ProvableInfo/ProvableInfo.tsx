@@ -1,4 +1,4 @@
-/** @format */
+
 
 import { FC } from 'react';
 
@@ -103,11 +103,7 @@ export const ProvableInfo: FC<IProvableInfoProps> = ({ onClose }) => {
           </h4>
           <div className="popup-validity__check-top">
             <div className="popup-validity__check-left">
-              {/* <img
-                src={layer1}
-                alt='Layer'
-                className='popup-validity__check-img'
-              /> */}
+              {}
             </div>
             <div className="popup-validity__check-right">
               <p className="popup-validity__body-text">
@@ -140,11 +136,7 @@ export const ProvableInfo: FC<IProvableInfoProps> = ({ onClose }) => {
               </div>
             </div>
             <div className="popup-validity__check-left">
-              {/* <img
-                src={layer2}
-                alt='Layer'
-                className='popup-validity__check-img'
-              /> */}
+              {}
             </div>
           </div>
         </div>

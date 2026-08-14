@@ -1,6 +1,4 @@
-/**
- * Per–game-slug presentation tokens (boot-time CSS vars, chart, assets).
- */
+
 import { DEFAULT_GAME_SLUG, GAME_SLUG } from '@lego/helpers/assetUrl';
 import type { CrashStage } from './gameTheme';
 
@@ -54,7 +52,6 @@ const PUSULABET_CRASH: SlugOverride = {
   },
 };
 
-/** Hollywoodbets Crash — Figma Canvas-Glow / purple shell, gold flight line. */
 const HOLLYWOODBETS_CRASH: SlugOverride = {
   documentTitle: 'Hollywoodbets Crash',
   logo: 'brand/logo.png',
@@ -99,5 +96,4 @@ export function getSlugOverride(slug: string = GAME_SLUG): SlugOverride {
   return SLUG_OVERRIDES[slug] ?? SLUG_OVERRIDES[DEFAULT_GAME_SLUG];
 }
 
-/** Active slug override (from `?game_slug=` or default). */
 export const slugOverride = getSlugOverride();

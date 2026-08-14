@@ -1,4 +1,4 @@
-/* Figma person avatars — colored disc + icons/avatars/person.svg */
+
 .Pusula-PersonAvatar {
   display: inline-flex;
   align-items: center;
@@ -34,7 +34,6 @@
     background-color: #e08f4b;
   }
 
-  /* Coefficient tiers (bet list + cashout) */
   &_pending {
     background-color: #4aa3ff;
   }
@@ -60,7 +59,6 @@
   pointer-events: none;
 }
 
-/* Pending rows — decorative cycle when no cashout yet */
 .Lego-Bet-List-Item_pending:nth-child(3n + 1) .Pusula-PersonAvatar_pending {
   background-color: #e0b13a;
 }

@@ -47,7 +47,6 @@ $pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
     background: $pusula-chat-bg;
   }
 
-  /* —— Header: group chat cont 393×72 —— */
   .Lego-Chat-Header {
     flex-shrink: 0;
     background: $pusula-chat-bg;
@@ -110,7 +109,6 @@ $pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
     }
   }
 
-  /* —— Players online cont 393×60 —— */
   .Lego-Chat-Header-Status {
     padding: 0;
     background: $pusula-chat-bg;
@@ -161,7 +159,6 @@ $pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
     box-shadow: none;
   }
 
-  /* Core: "{count} / Players" — Figma: only the number on the right */
   .Pusula-ChatRoot .Lego-Chat-Header-Online-Text {
     order: 4;
     flex: 0 0 auto;
@@ -182,7 +179,6 @@ $pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
     }
   }
 
-  /* —— Messages —— */
   .Lego-Chat-Messages {
     flex: 1 1 auto;
     min-height: 0;
@@ -257,7 +253,6 @@ $pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
       border-radius: 0;
     }
 
-    /* Beat frontend-core chat.css share-bet defaults (#1a1a1a / #1f1f1f pills) */
     .Lego-Chat-Message-Body .Lego-BetCard {
       margin: 0;
       padding: 10px 12px;
@@ -310,8 +305,6 @@ $pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
         white-space: nowrap;
       }
 
-    
-
       &.win .Lego-BetCard-Info-Item-Value {
         color: $pusula-chat-text;
       }
@@ -329,12 +322,11 @@ $pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
     }
   }
 
-  /* —— Footer: chat cont 393×72 —— */
   .Lego-Chat-Footer {
     position: relative;
     flex-shrink: 0;
     display: grid;
-    /* Input + GIF only (no third “magic” slot from Figma) */
+
     grid-template-columns: minmax(0, 1fr) 40px;
     grid-template-rows: auto auto;
     column-gap: 6px;
@@ -387,7 +379,7 @@ $pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
     }
 
     &:placeholder-shown {
-      /* Figma copy when core/i18n still serves the default string */
+
       &::placeholder {
         color: transparent;
       }
@@ -461,7 +453,6 @@ $pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
     }
   }
 
-  /* Emoji — inside input (right), Figma 24×24 */
   .Lego-Chat-Footer-ActionBtn:first-child {
     grid-column: 1;
     grid-row: 1;
@@ -484,7 +475,6 @@ $pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
     }
   }
 
-  /* GIF — 40×40 @ col 2 */
   .Lego-Chat-Footer-ActionBtn:last-child {
     grid-column: 2;
     grid-row: 1;
@@ -494,7 +484,6 @@ $pusula-chat-icon-base: '/game_assets/pusulabet-crash/icons/chat/';
     display: none;
   }
 
-  /* Giphy root is `.Lego-Giphy`; `Lego-Chat-Footer-GIF` is only on the inner grid */
   .Lego-Chat-Footer-EmojiWrapper,
   .Lego-Giphy {
     grid-column: 1 / -1;

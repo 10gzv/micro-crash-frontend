@@ -2,6 +2,7 @@ import { FC, useEffect, useRef } from 'react';
 
 import { resolvedTheme } from '@lego/helpers/applyTheme';
 import { GAME_SLUG } from '@lego/helpers/assetUrl';
+import { isMobile } from '@lego/helpers/isMobile';
 
 import { chartTipFromPlain, chartCurveCtrl, type PlainPosition } from './stageFlight';
 
@@ -25,17 +26,17 @@ type PusulaChartProps = {
   canvasWidth: number;
   canvasHeight: number;
   markerHeight: number;
-  /** Screen point where stroke meets marker (tail attach). */
-  lineEnd?: { x: number; y: number } | null;
+  lineStart?: { x: number; y: number } | null;
+  reveal?: number;
 };
 
-/** Stage chart — quadratic tail from bottom-left to marker attach. */
 export const PusulaChart: FC<PusulaChartProps> = ({
   plainPosition,
   canvasWidth,
   canvasHeight,
   markerHeight,
-  lineEnd,
+  lineStart,
+  reveal = 1,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -55,6 +56,8 @@ export const PusulaChart: FC<PusulaChartProps> = ({
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
+    if (reveal <= 0) return;
+
     const isHollywood = GAME_SLUG === 'hollywoodbets-crash';
     const flightTip = chartTipFromPlain(
       plainPosition,
@@ -62,9 +65,9 @@ export const PusulaChart: FC<PusulaChartProps> = ({
       canvasHeight,
       { hollywood: isHollywood, markerH: markerHeight },
     );
-    const tipX = lineEnd?.x ?? flightTip.tipX;
-    const endY = lineEnd?.y ?? flightTip.endY;
-    const { hub, curveCtrlX, curveCtrlY, lineH } = lineEnd
+    const tipX = flightTip.tipX;
+    const endY = flightTip.endY;
+    const { hub, curveCtrlX, curveCtrlY, lineH } = lineStart
       ? chartCurveCtrl(
           plainPosition,
           canvasWidth,
@@ -75,48 +78,103 @@ export const PusulaChart: FC<PusulaChartProps> = ({
         )
       : flightTip;
 
-    const strokePath = () => {
+    const onChartFloor = endY >= lineH - 1;
+    const climbCtrlX = Math.max(
+      hub.x + 2,
+      Math.min(curveCtrlX, tipX - 1),
+    );
+
+    const pathSpan = onChartFloor
+      ? tipX - hub.x
+      : Math.hypot(tipX - hub.x, endY - lineH);
+    if (isHollywood && pathSpan < 4) return;
+
+    let fillLeft = hub.x;
+
+    const drawFillPath = () => {
       ctx.beginPath();
+      if (isHollywood && onChartFloor) {
+        fillLeft = hub.x;
+        ctx.moveTo(hub.x, lineH);
+        ctx.lineTo(tipX, lineH);
+        return;
+      }
+      if (isHollywood) {
+        fillLeft = hub.x;
+        ctx.moveTo(hub.x, lineH);
+        ctx.quadraticCurveTo(climbCtrlX, curveCtrlY, tipX, endY);
+        return;
+      }
+      fillLeft = hub.x;
       ctx.moveTo(hub.x, lineH);
       ctx.quadraticCurveTo(curveCtrlX, curveCtrlY, tipX, endY);
     };
 
-    strokePath();
-    ctx.lineTo(tipX, lineH);
-    ctx.lineTo(hub.x, lineH);
+    const drawStrokePath = () => {
+      ctx.beginPath();
+      if (isHollywood && onChartFloor) {
+        ctx.moveTo(hub.x, lineH);
+        ctx.lineTo(tipX, lineH);
+        return;
+      }
+      if (isHollywood) {
+        ctx.moveTo(hub.x, lineH);
+        ctx.quadraticCurveTo(climbCtrlX, curveCtrlY, tipX, endY);
+        return;
+      }
+      ctx.moveTo(hub.x, lineH);
+      ctx.quadraticCurveTo(curveCtrlX, curveCtrlY, tipX, endY);
+    };
+
+    const floorBleed = 8;
+    const floorY = lineH + floorBleed;
+
+    drawFillPath();
+    ctx.lineTo(tipX, floorY);
+    ctx.lineTo(fillLeft, floorY);
     ctx.closePath();
 
     const { fill, stroke } = resolvedTheme.chart;
-    const fillGrad = ctx.createLinearGradient(0, endY, 0, lineH);
+    const fillGrad = ctx.createLinearGradient(0, endY, 0, floorY);
+    const fillScale = isHollywood ? reveal : 1;
     if (GAME_SLUG === 'hollywoodbets-crash') {
-      fillGrad.addColorStop(0, 'rgba(199, 125, 255, 0.3)');
-      fillGrad.addColorStop(0.55, 'rgba(122, 47, 208, 0.16)');
-      fillGrad.addColorStop(1, 'rgba(18, 6, 31, 0)');
+      fillGrad.addColorStop(0, `rgba(199, 125, 255, ${0.3 * fillScale})`);
+      fillGrad.addColorStop(0.55, `rgba(122, 47, 208, ${0.16 * fillScale})`);
+      fillGrad.addColorStop(0.92, `rgba(122, 47, 208, ${0.14 * fillScale})`);
+      fillGrad.addColorStop(1, `rgba(122, 47, 208, ${0.18 * fillScale})`);
     } else {
-      fillGrad.addColorStop(0, hexToRgba(fill, 0.38));
-      fillGrad.addColorStop(0.55, hexToRgba(fill, 0.12));
-      fillGrad.addColorStop(1, 'rgba(18, 6, 31, 0)');
+      fillGrad.addColorStop(0, hexToRgba(fill, 0.38 * fillScale));
+      fillGrad.addColorStop(0.55, hexToRgba(fill, 0.12 * fillScale));
+      fillGrad.addColorStop(0.92, hexToRgba(fill, 0.16 * fillScale));
+      fillGrad.addColorStop(1, hexToRgba(fill, 0.22 * fillScale));
     }
     ctx.fillStyle = fillGrad;
     ctx.fill();
 
-    strokePath();
-    ctx.strokeStyle = hexToRgba(stroke, 0.3);
-    ctx.lineWidth = 6;
-    ctx.lineCap = 'round';
+    const mobile = isMobile();
+    const glowWidth = mobile ? (isHollywood ? 2.5 : 4) : 6;
+    const coreWidth = mobile ? (isHollywood ? 1.5 : 2) : 3;
+    const glowAlpha = (mobile && isHollywood ? 0.18 : 0.3) * reveal;
+
+    drawStrokePath();
+    ctx.globalAlpha = reveal;
+    ctx.strokeStyle = hexToRgba(stroke, glowAlpha);
+    ctx.lineWidth = glowWidth;
+    ctx.lineCap = isHollywood && onChartFloor ? 'butt' : 'round';
     ctx.lineJoin = 'round';
     ctx.stroke();
 
-    strokePath();
-    const strokeGrad = ctx.createLinearGradient(hub.x, lineH, tipX, endY);
+    drawStrokePath();
+    const strokeGrad = ctx.createLinearGradient(fillLeft, lineH, tipX, endY);
     strokeGrad.addColorStop(0, fill);
     strokeGrad.addColorStop(1, stroke);
     ctx.strokeStyle = strokeGrad;
-    ctx.lineWidth = 3;
-    ctx.lineCap = 'round';
+    ctx.lineWidth = coreWidth;
+    ctx.lineCap = isHollywood && onChartFloor ? 'butt' : 'round';
     ctx.lineJoin = 'round';
     ctx.stroke();
-  }, [plainPosition, canvasWidth, canvasHeight, markerHeight, lineEnd]);
+    ctx.globalAlpha = 1;
+  }, [plainPosition, canvasWidth, canvasHeight, markerHeight, lineStart, reveal]);
 
   if (!canvasWidth || !canvasHeight) return null;
 

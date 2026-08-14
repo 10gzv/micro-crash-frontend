@@ -22,7 +22,6 @@ export function isCashoutNotice(content: string) {
   return /you won|kazand/i.test(content.toLowerCase());
 }
 
-/** Parses core `notification.youWon` store line: "You won 0.64 EUR!" optional "#1.17" odd suffix. */
 export function parseYouWonContent(content: string) {
   const withoutMeta = content.split('#')[0];
   const oddMatch = content.match(/#([\d.]+)\s*$/);
@@ -43,7 +42,6 @@ export type PusulaNoticeItem = {
   content: string;
 };
 
-/** All active panel toasts — first panel on top, second below. */
 export function listActivePusulaNotices(
   notificationsData: INotificationsData,
 ): PusulaNoticeItem[] {
@@ -60,7 +58,6 @@ export function listActivePusulaNotices(
   return items;
 }
 
-/** @deprecated single-notice picker — use listActivePusulaNotices */
 export function findActivePusulaNotice(
   notificationsData: INotificationsData,
 ): PusulaNoticeItem | null {

@@ -1,6 +1,5 @@
 @import '@styles/breakpoints.scss';
 
-/* Figma Bet part — Pusulabet Crash */
 .Lego-BettingSection {
   display: flex;
   gap: 10px;
@@ -63,7 +62,6 @@
   }
 }
 
-/* AUTOPLAY / AUTO CASHOUT — Figma 182×38 (in row), #656976, r8, shadow */
 .Pusula-BetPanel-Toggle {
   position: relative;
   display: flex;
@@ -111,7 +109,6 @@
   color: rgba(239, 255, 244, 1);
 }
 
-/* Vertical switch — Figma track 14×34 @ left 3 top 2, r30, #0B1428 */
 .Pusula-BetPanel-Switch {
   position: absolute;
   left: 3px;
@@ -124,7 +121,6 @@
   pointer-events: none;
 }
 
-/* Knob — 10×16, r5.2 @ left 5 top 4 (on); off at bottom of track */
 .Pusula-BetPanel-SwitchKnob {
   position: absolute;
   left: 2px;
@@ -137,7 +133,6 @@
     background 0.32s ease;
 }
 
-/* Dark inset row — AUTOPLAY / AUTO CASHOUT (Figma 263×42, #0B1428, r10) */
 .Pusula-BetPanel-ToggleRow,
 .Pusula-BetPanel-CashoutRow {
   display: flex;
@@ -206,7 +201,6 @@
   }
 }
 
-/* Amount − value + — Figma 263×42, #0B1428, r10 */
 .Pusula-BetPanel-Amount {
   display: flex;
   align-items: center;
@@ -267,7 +261,6 @@
   }
 }
 
-/* 1/2 · X2 — Figma frame 263×44 #0B1428; buttons 123×40 #656976 */
 .Pusula-BetPanel-Quick {
   display: flex;
   align-items: center;
@@ -316,7 +309,6 @@
   }
 }
 
-/* PLACE BET / CASHOUT / CANCEL — fills remaining (~93px), r8 */
 .Pusula-BetPanel-BetButton {
   flex: 1 1 auto;
   min-height: 0;
@@ -347,7 +339,6 @@
     box-shadow: none !important;
   }
 
-  /* CASHOUT — green */
   .Lego-BetButton_cashout,
   .Lego-BetButton_cashout .Lego-Button-Inner,
   .Lego-BetButton_cashout button {
@@ -359,7 +350,6 @@
     }
   }
 
-  /* CANCEL — bright cyan → blue */
   .Lego-BetButton_cancel,
   .Lego-BetButton_cancel .Lego-Button-Inner,
   .Lego-BetButton_cancel button {
@@ -394,7 +384,6 @@
     gap: 10px;
   }
 
-  /* Figma mobile Bet part — 373×126, pad 6, row gap 6, each row 36px (6+36×3+6×3+6=126) */
   .Pusula-BetPanel {
     width: 100%;
     max-width: none;

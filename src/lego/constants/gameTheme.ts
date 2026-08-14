@@ -1,6 +1,5 @@
 import { gameAsset, GAME_ASSET_PATHS } from './gameAssets';
 
-/** Pusulabet Crash — single-game presentation config. */
 export const GAME_THEME = {
   documentTitle: 'Pusulabet Crash',
   logo: gameAsset(GAME_ASSET_PATHS.brand.logo),

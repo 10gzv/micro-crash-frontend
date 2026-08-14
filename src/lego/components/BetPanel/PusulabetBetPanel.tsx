@@ -22,9 +22,6 @@ import { gameAsset, GAME_ASSET_PATHS } from '@lego/constants/gameAssets';
 const BET_AMOUNT_MINUS_ICON = gameAsset(GAME_ASSET_PATHS.icons.betPanel.minus);
 const BET_AMOUNT_PLUS_ICON = gameAsset(GAME_ASSET_PATHS.icons.betPanel.plus);
 
-/**
- * Pusulabet BetPanel — Figma "Bet part".
- */
 export const PusulabetBetPanel: FC<IBetPanelProps> = observer(
   ({ betPanelIndex }) => {
     const { t } = useTranslation();

@@ -1,70 +1,62 @@
-// smartphones, iPhone, portrait 480x320 phones
+
 $screen-min: 320px;
-// portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide.
+
 $screen-xs-min: 481px;
-// portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones
+
 $screen-s-min: 641px;
-// tablet, landscape iPad, lo-res laptops ands desktops
+
 $screen-m-min: 961px;
-// big landscape tablets, laptops, and desktops
+
 $screen-l-min: 1025px;
-// hi-res laptops and desktops
+
 $screen-xl-min: 1281px;
-// large desktops
+
 $screen-xxl-min: 1441px;
-// extra large desktops
+
 $screen-xxxl-min: 1921px;
 
-// min-width 320px
 @mixin min {
    @media (min-width: #{$screen-min}) {
        @content;
    }
 }
 
-// min-width 481px
 @mixin xs {
    @media (min-width: #{$screen-xs-min}) {
        @content;
    }
 }
 
-// min-width 641px
 @mixin s {
    @media (min-width: #{$screen-s-min}) {
        @content;
    }
 }
 
-// min-width 961px
 @mixin m {
    @media (min-width: #{$screen-m-min}) {
        @content;
    }
 }
 
-// min-width 1025px
 @mixin l {
    @media (min-width: #{$screen-l-min}) {
        @content;
    }
 }
 
-// min-width 1281px
 @mixin xl {
    @media (min-width: #{$screen-xl-min}) {
        @content;
    }
 }
 
-// min-width 1441px
 @mixin xxl {
    @media (min-width: #{$screen-xxl-min}) {
        @content;
    }
 }
 
-// min-width 1921px
 @mixin xxxl {
    @media (min-width: #{$screen-xxxl-min}) {
        @content;
@@ -89,13 +81,3 @@ $screen-xxxl-min: 1921px;
    }
 }
 
-// usage
-
-// @include sm {
-//   padding: 0 20px;
-// }
-
-// @include breakpoint(1400) {
-//     margin-bottom: 20px;
-//     margin-top: 20px;
-// }

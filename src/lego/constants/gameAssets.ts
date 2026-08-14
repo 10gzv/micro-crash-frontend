@@ -1,9 +1,5 @@
 import { assetUrl } from '@lego/helpers/assetUrl';
 
-/**
- * Relative paths under `public/game_assets/<game_slug>/`.
- * Grouped by domain — use `gameAsset()` for resolved URLs.
- */
 export const GAME_ASSET_PATHS = {
   brand: {
     logo: 'brand/logo.svg',
@@ -82,7 +78,6 @@ export function gameAsset(path: string): string {
   return assetUrl(path);
 }
 
-/** Hollywood crane — 4 leg-aligned poses, hard-cut flip (no ghost crossfade). */
 export const HOLLYWOOD_CRANE_FRAMES = [
   GAME_ASSET_PATHS.stage.craneASync,
   GAME_ASSET_PATHS.stage.craneBSync,
@@ -90,7 +85,6 @@ export const HOLLYWOOD_CRANE_FRAMES = [
   GAME_ASSET_PATHS.stage.craneCSync,
 ] as const;
 
-/** @deprecated Prefer `GAME_ASSET_PATHS.icons.menu` + `gameAsset`. */
 export const PUSULA_BURGER_MENU_ICONS = {
   settingsGear: GAME_ASSET_PATHS.icons.menu.settings,
   close: GAME_ASSET_PATHS.icons.menu.close,
