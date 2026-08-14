@@ -67,15 +67,15 @@
 
 .PusulaStage-Rays {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200vmax;
-  height: 200vmax;
+  bottom: 0;
+  left: 0;
+  width: 240vmax;
+  height: 240vmax;
   max-width: none;
   object-fit: cover;
   object-position: center center;
-  transform: translate(-50%, -50%) scale(0.92);
-  transform-origin: center center;
+  transform-origin: 50% 50%;
+  transform: translate(-50%, 50%) scale(0.92);
   pointer-events: none;
   animation: pusula-rays-rotate 30s linear infinite;
   transition: opacity 0.45s ease-out;
@@ -91,7 +91,7 @@
 
 @keyframes pusula-rays-rotate {
   100% {
-    transform: translate(-50%, -50%) scale(0.92) rotate(360deg);
+    transform: translate(-50%, 50%) scale(0.92) rotate(360deg);
   }
 }
 
@@ -404,47 +404,6 @@
 }
 
 @media (max-width: #{$screen-l-min - 1px}) {
-  .PusulaStage-Vignette {
-    background: radial-gradient(
-      ellipse 92% 88% at 50% 50%,
-      transparent 30%,
-      rgba(0, 0, 0, 0.2) 60%,
-      rgba(0, 0, 0, 0.48) 100%
-    );
-  }
-
-  .PusulaStage-Glow_low {
-    background:
-      radial-gradient(
-        ellipse 82% 78% at 50% 50%,
-        rgba(52, 78, 138, 0.38) 0%,
-        rgba(28, 48, 92, 0.14) 46%,
-        transparent 72%
-      ),
-      radial-gradient(
-        ellipse 110% 95% at 50% 52%,
-        rgba(32, 58, 118, 0.55) 0%,
-        rgba(20, 36, 78, 0.22) 40%,
-        transparent 68%
-      );
-  }
-
-  .PusulaStage-Glow_high {
-    background:
-      radial-gradient(
-        ellipse 82% 78% at 50% 50%,
-        rgba(118, 72, 188, 0.34) 0%,
-        rgba(72, 40, 132, 0.12) 46%,
-        transparent 72%
-      ),
-      radial-gradient(
-        ellipse 110% 95% at 50% 52%,
-        rgba(98, 58, 188, 0.55) 0%,
-        rgba(62, 32, 128, 0.28) 40%,
-        transparent 68%
-      );
-  }
-
   .Pusula-StageNoticeStack {
     top: 12px;
     left: 12px;

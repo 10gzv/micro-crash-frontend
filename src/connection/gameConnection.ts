@@ -5,6 +5,8 @@ import {
   CONSOLE_TYPES_DEPEND_ON_PANEL,
   GameConnection,
   notificationStore,
+  SOUND_IDS,
+  soundStore,
   translationStore,
 } from '@10gzv/crash-core';
 
@@ -37,6 +39,7 @@ export class GameLiveConnection extends GameConnection {
 
   override onBetCashouted(data: BetCashoutedInterface): void {
     super.onBetCashouted(data);
+    soundStore.setActiveSoundId(SOUND_IDS.WIN);
 
     const panelKey =
       CONSOLE_TYPES_DEPEND_ON_PANEL[

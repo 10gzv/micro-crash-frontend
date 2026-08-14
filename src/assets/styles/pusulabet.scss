@@ -364,24 +364,6 @@ html[data-game-slug='pusulabet-crash'] {
     filter: hue-rotate(58deg) saturate(1.15) brightness(0.98);
     opacity: calc(var(--stage-odd-blend, 0) * 0.92);
   }
-
-  @media (max-width: #{$screen-l-min - 1px}) {
-    .PusulaStage-Glow_high {
-      background:
-        radial-gradient(
-          ellipse 82% 78% at 50% 50%,
-          rgba(168, 88, 228, 0.36) 0%,
-          rgba(108, 48, 178, 0.14) 46%,
-          transparent 72%
-        ),
-        radial-gradient(
-          ellipse 110% 95% at 50% 52%,
-          rgba(98, 58, 188, 0.62) 0%,
-          rgba(62, 32, 128, 0.28) 40%,
-          transparent 68%
-        );
-    }
-  }
 }
 
 .Lego-Popup-Content {

@@ -27,6 +27,7 @@ export const useSound = () => {
     },
   });
   const [win] = useLibSound(SOUNDS.win, {
+    volume: 0.85,
     onload: () => {
       setLoadedSoundCount(prev => prev + 1);
     },
