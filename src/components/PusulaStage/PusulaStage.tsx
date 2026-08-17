@@ -43,6 +43,7 @@ import {
   CRASH_FLY_LIFT,
   oddBackgroundBlend,
   chartTrailReveal,
+  hollywoodCraneWaitT,
   MARKER_WAITING_PITCH_MOBILE,
   MARKER_WAITING_ORIGIN_Y_MOBILE,
 } from './stageFlight';
@@ -217,6 +218,7 @@ export const PusulaStage: FC = observer(() => {
     canvasW,
     isHollywood,
   );
+  const craneWaitT = isHollywood ? hollywoodCraneWaitT(waitT) : waitT;
 
   const chartReveal =
     isOddStarted && !isRoundOver
@@ -238,7 +240,7 @@ export const PusulaStage: FC = observer(() => {
   const rotateDeg = tipGeom
     ? tipGeom.rotateFromUp - MARKER_SVG_LEAN_DEG
     : 0;
-  const hollywoodRotate = hollywoodCraneRotateWithWait(waitT);
+  const hollywoodRotate = hollywoodCraneRotateWithWait(craneWaitT);
 
   const onFloor =
     tipGeom != null &&
@@ -302,7 +304,7 @@ export const PusulaStage: FC = observer(() => {
   const { left: markerLeft, top: markerTop } = markerBoxWithWaitingOffset(
     flightBox,
     waitingOffset,
-    waitT,
+    craneWaitT,
     isHollywood,
     isWaiting,
     hollywoodWaitingBox ?? undefined,
@@ -339,7 +341,7 @@ export const PusulaStage: FC = observer(() => {
         ? 0
         : MARKER_VISUAL_PITCH_DEG;
   const originY = isHollywood
-    ? hollywoodCraneOriginY(waitT)
+    ? hollywoodCraneOriginY(craneWaitT)
     : !isHollywood && isMobile()
       ? MARKER_WAITING_ORIGIN_Y_MOBILE * waitT + markerAttachY * (1 - waitT)
       : markerAttachY;
@@ -429,7 +431,8 @@ export const PusulaStage: FC = observer(() => {
           (isHollywood ? (
             <div
               className={clsx('PusulaStage-Crane', {
-                'PusulaStage-Crane_flapping': isOddStarted && !isRoundOver,
+                'PusulaStage-Crane_flapping':
+                  isOddStarted && !isRoundOver && craneWaitT < 1,
               })}
               style={{
                 ...markerStyle,

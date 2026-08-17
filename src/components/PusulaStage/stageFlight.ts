@@ -237,7 +237,7 @@ export function hollywoodMarkerBlendSpan(canvasW: number) {
   const floor = hollywoodFloorRunLength(canvasW);
   if (floor > 0) return floor;
   if (isMobile()) {
-    return Math.round(Math.min(38, Math.max(24, canvasW * 0.1)));
+    return Math.round(Math.min(56, Math.max(36, canvasW * 0.14)));
   }
   return Math.round(Math.min(28, Math.max(16, canvasW * 0.05)));
 }
@@ -251,6 +251,19 @@ export function hollywoodMobileRunStepMul(run: number, canvasW: number) {
 
 export function pusulaMarkerBlendSpan(canvasW: number) {
   return Math.round(Math.min(32, Math.max(20, canvasW * 0.085)));
+}
+
+/** Keep the crane parked until the trail is allowed to show (`chartTrailReveal` waitT > 0.72). */
+export const HOLLYWOOD_TRAIL_WAIT_T = 0.72;
+
+export function hollywoodCraneWaitT(waitT: number) {
+  if (isMobile()) {
+    if (waitT >= 0.9) return 1;
+    return waitT / 0.9;
+  }
+  if (waitT >= HOLLYWOOD_TRAIL_WAIT_T) return 1;
+  const t = waitT / HOLLYWOOD_TRAIL_WAIT_T;
+  return t * t;
 }
 
 export function markerWaitingNudge(
@@ -306,7 +319,7 @@ export function waitingMarkerBox(
 ): MarkerBox {
   const mobile = isMobile();
   if (hollywood) {
-    const { attachY, attachNudgeY, waitingForwardX, waitingForwardXMobile, waitingFloorNudgeY } =
+    const { attachY, attachNudgeY, attachNudgeYMobile, waitingForwardX, waitingForwardXMobile, waitingFloorNudgeY } =
       HOLLYWOOD_CRANE_FIGMA;
     const legsLeft =
       markerW > 0
@@ -325,7 +338,7 @@ export function waitingMarkerBox(
       top:
         lineH -
         attachY * markerH +
-        attachNudgeY * markerH +
+        (mobile ? attachNudgeYMobile : attachNudgeY) * markerH +
         waitingFloorNudgeY * markerH,
     };
   }
@@ -560,8 +573,9 @@ export const HOLLYWOOD_CRANE_FIGMA = {
   attachX: 0.26,
   attachY: 0.63,
 
-  attachNudgeY: -0.068,
-  attachNudgeX: 0.098,
+  attachNudgeY: -0.02,
+  attachNudgeYMobile: -0.07,
+  attachNudgeX: -0.08,
   strokeAttachX: 0.105,
   strokeAttachY: 0.668,
   strokeAttachNudgeY: 0.016,
@@ -571,12 +585,12 @@ export const HOLLYWOOD_CRANE_FIGMA = {
   tipOffsetY: 0,
 
   pathBack: 0.13,
-  flapCycleMs: 600,
+  flapCycleMs: 420,
 
   waitingLiftY: 0,
-  waitingFloorNudgeY: 0.055,
-  waitingForwardX: 0.18,
-  waitingForwardXMobile: 0.12,
+  waitingFloorNudgeY: 0.022,
+  waitingForwardX: 0,
+  waitingForwardXMobile: -0.02,
 
   /** Waiting tilt — less nose-down than in-flight pitch. */
   waitingPitch: -2,
@@ -651,7 +665,7 @@ export function hollywoodCranePosition(
   curveCtrlX?: number,
   lineH?: number,
 ): MarkerBox {
-  const { attachX, attachY, attachNudgeY, attachNudgeX, pathBack, waitingFloorNudgeY } =
+  const { attachX, attachY, attachNudgeY, attachNudgeYMobile, attachNudgeX, pathBack, waitingFloorNudgeY } =
     HOLLYWOOD_CRANE_FIGMA;
 
   let anchorX = tipX;
@@ -666,12 +680,15 @@ export function hollywoodCranePosition(
     anchorY -= (tanY / len) * back;
   }
 
-  const onFloor = lineH != null && endY >= lineH - 1;
-  const floorNudgeY = onFloor ? waitingFloorNudgeY * markerH : 0;
+  const floorDist = lineH != null ? Math.max(0, lineH - endY) : 0;
+  const floorSpan = isMobile() ? 56 : 28;
+  const floorT = 1 - smoothstep01(Math.min(1, floorDist / floorSpan));
+  const floorNudgeY = waitingFloorNudgeY * markerH * floorT;
+  const nudgeY = isMobile() ? attachNudgeYMobile : attachNudgeY;
 
   return {
     left: anchorX - attachX * markerW + attachNudgeX * markerW,
-    top: anchorY - attachY * markerH + attachNudgeY * markerH + floorNudgeY,
+    top: anchorY - attachY * markerH + nudgeY * markerH + floorNudgeY,
   };
 }
 

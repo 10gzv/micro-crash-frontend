@@ -1,9 +1,10 @@
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import Decimal from 'decimal.js';
 
 import {
+  gameStore,
   getDisplayPrecision,
   userBetsStore,
   userDataStore,
@@ -16,21 +17,22 @@ export const PusulaTotalBets: FC<{ className?: string }> = observer(
     const { t } = useTranslation();
     const { bets, numOfBets } = userBetsStore;
     const { currency } = userDataStore;
+    const { isOddStarted, isRoundOver } = gameStore;
 
-    const cashedOutCount = useMemo(
-      () => bets.filter(b => !!b.cashout_odd).length,
-      [bets],
-    );
-
+    const isLive = isOddStarted && !isRoundOver;
     const totalCount = Math.max(numOfBets || 0, bets.length);
 
-    const totalWin = useMemo(() => {
-      return bets.reduce((sum, bet) => {
-        if (!bet.cashout_amount) return sum;
-        return sum.plus(bet.cashout_amount);
-      }, new Decimal(0));
-    }, [bets]);
+    let cashedOutCount = 0;
+    const totalWin = bets.reduce((sum, bet) => {
+      if (bet.cashout_odd) cashedOutCount += 1;
+      if (bet.cashout_amount) return sum.plus(bet.cashout_amount);
+      if (bet.cashout_odd) {
+        return sum.plus(new Decimal(bet.amount).times(bet.cashout_odd));
+      }
+      return sum;
+    }, new Decimal(0));
 
+    const remaining = Math.max(0, totalCount - cashedOutCount);
     const progress = totalCount
       ? Math.min(100, (cashedOutCount / totalCount) * 100)
       : 0;
@@ -48,7 +50,7 @@ export const PusulaTotalBets: FC<{ className?: string }> = observer(
             </div>
             <div className='Pusula-TotalBets-BetsMeta'>
               <span className='Pusula-TotalBets-BetsCount'>
-                {cashedOutCount}/{totalCount || 0}
+                {remaining}/{totalCount || 0}
               </span>
               <span className='Pusula-TotalBets-BetsLabel'>
                 {t('totalBets.title', { defaultValue: 'Bets' })}
@@ -67,7 +69,9 @@ export const PusulaTotalBets: FC<{ className?: string }> = observer(
         </div>
         <div className='Pusula-TotalBets-Progress' aria-hidden>
           <div
-            className='Pusula-TotalBets-ProgressFill'
+            className={clsx('Pusula-TotalBets-ProgressFill', {
+              'Pusula-TotalBets-ProgressFill_loading': isLive,
+            })}
             style={{ width: `${progress}%` }}
           />
         </div>
