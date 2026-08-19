@@ -30,7 +30,7 @@
     "betPanel": {
       "autoBet": "AUTOPLAY",
       "autoplay": "Auto play",
-      "stopAutoplay": "Stop Autoplay ({{count}})",
+      "stopAutoplay": "STOP AUTOPLAY ({{count}})",
       "cashout": "Cashout",
       "cancel": "Cancel",
       "next": "Bet for next",
@@ -208,9 +208,13 @@
       }
     },
     "autoplayPopup": {
+      "title": "Auto play",
+      "numberOfRounds": "Number of Rounds",
       "stopDecrease": "Stop if cash decreases by",
       "stopIncrease": "Stop if cash increases by",
-      "stopSingleWin": "Stop if single win exceeds"
+      "stopSingleWin": "Stop if single win exceeds",
+      "reset": "Reset",
+      "start": "Start"
     },
     "totalBets": {
       "title": "Bets",

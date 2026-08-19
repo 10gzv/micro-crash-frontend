@@ -584,6 +584,10 @@ html[data-game-slug='hollywoodbets-crash'] {
     color: rgba(71, 84, 103, 1);
   }
 
+  .Pusula-BetPanel-Toggle_on .Pusula-BetPanel-ToggleLabel {
+    color: $hw-text;
+  }
+
   .Pusula-BetPanel-Toggle_on .Pusula-BetPanel-SwitchKnob {
     background: rgba(124, 105, 227, 1);
     top: 2px;
@@ -596,7 +600,6 @@ html[data-game-slug='hollywoodbets-crash'] {
   }
 
   .Pusula-BetPanel-SwitchKnob {
-    left: 1px;
     top: 14px;
     background: rgba(101, 105, 118, 1);
   }
@@ -706,7 +709,6 @@ html[data-game-slug='hollywoodbets-crash'] {
     }
 
     .Pusula-BetPanel-SwitchKnob {
-      left: 1px;
       top: 11px;
     }
 

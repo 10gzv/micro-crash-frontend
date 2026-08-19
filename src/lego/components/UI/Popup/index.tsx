@@ -3,6 +3,7 @@ import { FC, lazy, Suspense } from 'react';
 import { popupStore } from '@10gzv/crash-core';
 
 import {
+  PusulaAutoPlayPanel,
   PusulaGameLimitsPanel,
   PusulaGameRulesPanel,
   PusulaProvablyFairPanel,
@@ -42,6 +43,10 @@ export const PopupsList: FC = observer(() => {
     popupStore.setSoundConfirm(false);
   };
 
+  const onCloseAutoPlay = () => {
+    popupStore.setAutoplay(null);
+  };
+
   return (
     <Suspense fallback={null}>
       {popupStore.checkingProvableFairness && (
@@ -51,6 +56,11 @@ export const PopupsList: FC = observer(() => {
         <ProvableInfo onClose={onCloseProvableInfo} />
       )}
       {popupStore.howToPlay && <HowToPlay onClose={onCloseHowToPlay} />}
+      <PusulaAutoPlayPanel
+        opened={popupStore.autoplay !== null}
+        betPanelIndex={popupStore.autoplay ?? 0}
+        onClose={onCloseAutoPlay}
+      />
       <PusulaGameLimitsPanel
         opened={pusulaPopupStore.gameLimitsOpen}
         onClose={() => pusulaPopupStore.closeGameLimits()}

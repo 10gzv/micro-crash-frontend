@@ -1,6 +1,7 @@
 import { FC, PropsWithChildren, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useMediaQuery } from 'react-responsive';
+import { Toaster } from 'react-hot-toast';
 import { chatStore } from '@10gzv/crash-core';
 import { Freebets } from '@10gzv/crash-core/freebets';
 
@@ -13,6 +14,7 @@ import { BettingSection } from './sections/BettingSection';
 import { PopupsList } from './components/UI';
 import { PusulaCopyNotice } from './components/BetAcceptedNotice';
 import { useSound } from './hooks/useSound';
+import { toastStyle } from './constants/toast.const';
 
 export const GameCore: FC<PropsWithChildren> = observer(({ children }) => {
   const { isChatEnabled } = chatStore;
@@ -57,6 +59,7 @@ export const GameCore: FC<PropsWithChildren> = observer(({ children }) => {
       <PopupsList />
       <Freebets />
       <PusulaCopyNotice />
+      <Toaster position='top-center' toastOptions={toastStyle} />
     </>
   );
 });

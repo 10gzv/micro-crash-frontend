@@ -166,7 +166,8 @@ html[data-game-slug='hollywoodbets-crash'] {
   .Pusula-ProvablyFairPanel-Close,
   .Pusula-GameRulesPanel-Close,
   .Pusula-GameLimitsPanel-Close,
-  .Pusula-FairnessCheckPanel-Close {
+  .Pusula-FairnessCheckPanel-Close,
+  .Pusula-AutoPlayPanel-Close {
     @include hw-popup-close-button;
     border: 1px solid rgba(85, 63, 192, 0.38) !important;
     background: linear-gradient(
@@ -200,7 +201,8 @@ html[data-game-slug='hollywoodbets-crash'] {
   .Pusula-GameLimitsPanel,
   .Pusula-ProvablyFairPanel,
   .Pusula-GameRulesPanel,
-  .Pusula-FairnessCheckPanel {
+  .Pusula-FairnessCheckPanel,
+  .Pusula-AutoPlayPanel {
     border-radius: 16px !important;
   }
 
@@ -311,14 +313,16 @@ html[data-game-slug='hollywoodbets-crash'] {
   .Pusula-ProvablyFairPanel-Backdrop,
   .Pusula-GameRulesPanel-Backdrop,
   .Pusula-FairnessCheckPanel-Backdrop,
-  .Pusula-GameLimitsPanel-Backdrop {
+  .Pusula-GameLimitsPanel-Backdrop,
+  .Pusula-AutoPlayPanel-Backdrop {
     background: $hw-backdrop;
   }
 
   .Pusula-ProvablyFairPanel,
   .Pusula-GameRulesPanel,
   .Pusula-GameLimitsPanel,
-  .Pusula-FairnessCheckPanel {
+  .Pusula-FairnessCheckPanel,
+  .Pusula-AutoPlayPanel {
     background: $hw-shell-grad;
     border: 1px solid $hw-divider;
     box-shadow: 0 28px 64px rgba(42, 18, 80, 0.24);
@@ -328,7 +332,8 @@ html[data-game-slug='hollywoodbets-crash'] {
   .Pusula-ProvablyFairPanel-Header,
   .Pusula-FairnessCheckPanel-Header,
   .Pusula-GameRulesPanel-Header,
-  .Pusula-GameLimitsPanel-Header {
+  .Pusula-GameLimitsPanel-Header,
+  .Pusula-AutoPlayPanel-Header {
     background: $hw-header-wash;
     border-bottom: none !important;
     color: $hw-text;
@@ -337,14 +342,17 @@ html[data-game-slug='hollywoodbets-crash'] {
   .Pusula-ProvablyFairPanel-Body,
   .Pusula-FairnessCheckPanel-Body,
   .Pusula-GameRulesPanel-Body,
-  .Pusula-GameLimitsPanel-Body {
+  .Pusula-GameLimitsPanel-Body,
+  .Pusula-AutoPlayPanel-Body,
+  .Pusula-AutoPlayPanel-Footer {
     background: $hw-body-wash;
   }
 
   .Pusula-ProvablyFairPanel-Title,
   .Pusula-FairnessCheckPanel-Title,
   .Pusula-GameRulesPanel-Title,
-  .Pusula-GameLimitsPanel-Title {
+  .Pusula-GameLimitsPanel-Title,
+  .Pusula-AutoPlayPanel-Title {
     color: $hw-text;
   }
 
@@ -513,5 +521,56 @@ html[data-game-slug='hollywoodbets-crash'] {
 
   .Lego-SoundConfirm-Text {
     color: $hw-text;
+  }
+
+  .Pusula-AutoPlayPanel-Section {
+    background: $hw-card-grad;
+    border: 1px solid rgba(124, 105, 227, 0.18);
+    box-shadow: 0 3px 14px rgba(42, 18, 80, 0.07);
+  }
+
+  .Pusula-AutoPlayPanel-RoundsTitle,
+  .Pusula-AutoPlayPanel-SectionTitle,
+  .Pusula-AutoPlayPanel-AmountValue {
+    color: $hw-text;
+  }
+
+  .Pusula-AutoPlayPanel-Currency {
+    color: $hw-text-muted;
+  }
+
+  .Pusula-AutoPlayPanel-RoundButton {
+    background: rgba(228, 229, 244, 1);
+    color: $hw-text;
+
+    &_active {
+      background: $hw-purple-grad;
+      color: #fff;
+    }
+  }
+
+  .Pusula-AutoPlayPanel-Switch {
+    background: rgba(228, 229, 244, 1);
+    border: 1px solid rgba(124, 105, 227, 0.38);
+
+    &_on {
+      background: $hw-purple-grad;
+      border-color: transparent;
+    }
+  }
+
+  .Pusula-AutoPlayPanel-Amount {
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(124, 105, 227, 0.18);
+  }
+
+  .Pusula-AutoPlayPanel-Reset {
+    background: rgba(228, 229, 244, 1);
+    color: $hw-text;
+  }
+
+  .Pusula-AutoPlayPanel-Start {
+    background: $hw-purple-grad;
+    color: #fff;
   }
 }

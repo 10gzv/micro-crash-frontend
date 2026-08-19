@@ -69,13 +69,14 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 240vmax;
-  height: 240vmax;
+  width: 320%;
+  aspect-ratio: 1 / 1;
+  height: auto;
   max-width: none;
   object-fit: cover;
   object-position: center center;
   transform-origin: 50% 50%;
-  transform: translate(-50%, 50%) scale(0.92);
+  transform: translate3d(-50%, 50%, 0) scale(0.92);
   pointer-events: none;
   animation: pusula-rays-rotate 30s linear infinite;
   transition: opacity 0.45s ease-out;
@@ -91,7 +92,7 @@
 
 @keyframes pusula-rays-rotate {
   100% {
-    transform: translate(-50%, 50%) scale(0.92) rotate(360deg);
+    transform: translate3d(-50%, 50%, 0) scale(0.92) rotate(360deg);
   }
 }
 
@@ -405,10 +406,9 @@
 
 @media (max-width: #{$screen-l-min - 1px}) {
   .PusulaStage-Rays {
-    width: 360vmax;
-    height: 360vmax;
-    object-fit: contain;
-    transform: translate(-50%, 50%) scale(1.12);
+    width: 360%;
+    object-fit: cover;
+    transform: translate3d(-50%, 50%, 0) scale(1.08);
     animation: pusula-rays-rotate-mobile 30s linear infinite;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
@@ -416,7 +416,7 @@
 
   @keyframes pusula-rays-rotate-mobile {
     100% {
-      transform: translate(-50%, 50%) scale(1.12) rotate(360deg);
+      transform: translate3d(-50%, 50%, 0) scale(1.08) rotate(360deg);
     }
   }
 

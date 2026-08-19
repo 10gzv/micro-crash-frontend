@@ -109,26 +109,33 @@
   color: rgba(239, 255, 244, 1);
 }
 
+.Pusula-BetPanel-Toggle_stopping .Pusula-BetPanel-ToggleLabel {
+  font-size: 14px;
+  letter-spacing: -0.02em;
+}
+
 .Pusula-BetPanel-Switch {
   position: absolute;
-  left: 3px;
-  top: 2px;
+  left: 4px;
+  top: 50%;
   width: 14px;
   height: 34px;
   border-radius: 30px;
   background: rgba(11, 20, 40, 1);
   box-sizing: border-box;
   pointer-events: none;
+  transform: translateY(-50%);
 }
 
 .Pusula-BetPanel-SwitchKnob {
   position: absolute;
-  left: 2px;
+  left: 50%;
   top: 16px;
   width: 10px;
   height: 16px;
   border-radius: 5.2px;
   background: rgba(101, 105, 118, 1);
+  transform: translateX(-50%);
   transition: top 0.32s cubic-bezier(0.33, 1, 0.68, 1),
     background 0.32s ease;
 }
@@ -477,15 +484,13 @@
   }
 
   .Pusula-BetPanel-Switch {
-    left: 1.82px;
-    top: 2px;
+    left: 2px;
     width: 12px;
     height: 28px;
     border-radius: 26px;
   }
 
   .Pusula-BetPanel-SwitchKnob {
-    left: 2px;
     top: 13px;
     width: 8px;
     height: 13px;

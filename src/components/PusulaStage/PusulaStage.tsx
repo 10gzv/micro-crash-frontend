@@ -74,8 +74,23 @@ export const PusulaStage: FC = observer(() => {
 
   const canvasW = canvasSize?.width || 0;
   const canvasH = canvasSize?.height || 0;
+  const stageReady = canvasW > 0 && markerHeight > 0;
 
   const isHollywood = GAME_SLUG === 'hollywoodbets-crash';
+  const layoutRef = useRef({
+    canvasW,
+    canvasH,
+    markerWidth,
+    markerHeight,
+    isHollywood,
+  });
+  layoutRef.current = {
+    canvasW,
+    canvasH,
+    markerWidth,
+    markerHeight,
+    isHollywood,
+  };
   const markerAttachX = isHollywood
     ? HOLLYWOOD_CRANE_FIGMA.attachX
     : MARKER_ATTACH_X;
@@ -112,34 +127,28 @@ export const PusulaStage: FC = observer(() => {
   }, [isWaiting]);
 
   useEffect(() => {
-    let active = isOddStarted && !isRoundOver;
-    if (!active || !canvasW || !markerHeight) {
-      return undefined;
-    }
+    if (!isOddStarted || isRoundOver || !stageReady) return undefined;
 
     setFinalized(null);
     setPlainPosition(IDLE_POSITION);
 
-    const coeff = parabolaCoeff(canvasW, canvasH, isHollywood);
-
+    let active = true;
     const animate = () => {
+      const {
+        canvasW: w,
+        canvasH: h,
+        markerWidth: mw,
+        markerHeight: mh,
+        isHollywood: hw,
+      } = layoutRef.current;
+      const coeff = parabolaCoeff(w, h, hw);
       setPlainPosition(prev => {
-        if (
-          !canClimb(
-            prev,
-            canvasW,
-            canvasH,
-            markerWidth,
-            markerHeight,
-            isHollywood,
-          )
-        ) {
+        if (!canClimb(prev, w, h, mw, mh, hw)) {
           setFinalized({ x: prev.x, y: prev.y });
           active = false;
           return prev;
         }
-
-        return advancePlainStep(prev, coeff, isHollywood);
+        return advancePlainStep(prev, coeff, hw);
       });
       if (active) requestAnimationFrame(animate);
     };
@@ -149,41 +158,30 @@ export const PusulaStage: FC = observer(() => {
       active = false;
       cancelAnimationFrame(id);
     };
-  }, [
-    isOddStarted,
-    isRoundOver,
-    canvasW,
-    canvasH,
-    markerWidth,
-    markerHeight,
-    isHollywood,
-  ]);
+  }, [isOddStarted, isRoundOver, stageReady]);
 
   useEffect(() => {
-    let active = Boolean(
-      finalized && isOddStarted && !isRoundOver && canvasW,
-    );
-    if (!active) return undefined;
+    if (!finalized || !isOddStarted || isRoundOver) return undefined;
 
+    let active = true;
     let reverse = true;
 
     const animate = () => {
+      const { canvasW: w, markerWidth: mw } = layoutRef.current;
       setPlainPosition(prev => {
-        if (!finalized) return prev;
-
         const xMin = finalized.x - PLAIN_VOL;
         const xMax = finalized.x + PLAIN_VOL;
 
         if (!reverse && prev.x > xMin) {
           return {
             x: Math.max(prev.x - PLAIN_HOVER_STEP, xMin),
-            y: Math.min(prev.y + 0.1, canvasW - markerWidth),
+            y: Math.min(prev.y + 0.1, w - mw),
           };
         }
         if (reverse && prev.x < xMax) {
           return {
             x: Math.min(prev.x + PLAIN_HOVER_STEP, xMax),
-            y: Math.min(prev.y + 0.1, canvasW - markerWidth),
+            y: Math.min(prev.y + 0.1, w - mw),
           };
         }
         reverse = !reverse;
@@ -197,15 +195,7 @@ export const PusulaStage: FC = observer(() => {
       active = false;
       cancelAnimationFrame(id);
     };
-  }, [
-    finalized,
-    isOddStarted,
-    isRoundOver,
-    canvasW,
-    canvasH,
-    markerWidth,
-    markerHeight,
-  ]);
+  }, [finalized, isOddStarted, isRoundOver]);
 
   const layoutPosition = isWaiting ? IDLE_POSITION : plainPosition;
 

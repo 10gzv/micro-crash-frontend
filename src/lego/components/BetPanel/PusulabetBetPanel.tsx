@@ -4,12 +4,12 @@ import Decimal from 'decimal.js';
 import clsx from 'clsx';
 
 import { checkIsValidAmount, checkIsValidOdd, getDisplayPrecision } from '@/lego/helpers';
-import { AutoBetDefaultCounts } from '@/lego/enums';
 import {
   BetButton,
   betStore,
   freeBetStore,
   MIN_AUTO_CASHOUT_ODD,
+  popupStore,
   servicesStore,
   useTranslation,
   userConfigsStore,
@@ -30,16 +30,17 @@ export const PusulabetBetPanel: FC<IBetPanelProps> = observer(
       setAmount: setAmountAction,
       setIsAutoCashoutChecked: setIsAutoCashoutCheckedAction,
       setAutoCashoutOdd: setAutoCashoutOddAction,
-      setAutoBetCount,
     } = betStore;
 
     const {
       autoBetCount,
+      autoplay,
       betForNextData,
       betId,
       amount,
       isAutoCashoutChecked,
       autoCashoutOdd,
+      isBetPending,
     } = betPanels[betPanelIndex];
 
     const anotherBetPanelIndex = betPanelIndex ? 0 : 1;
@@ -61,10 +62,13 @@ export const PusulabetBetPanel: FC<IBetPanelProps> = observer(
         (totalFreebetCount - 1 === playedFreebetCount &&
           isAnotherBetPanelPlaceBetForNext));
 
+    const autoPlayCount = autoplay?.count || autoBetCount || 0;
+    const isAutoplayOn = autoPlayCount > 0;
+
     const isDisabled =
       Boolean(betId) ||
       Boolean(betForNextData) ||
-      Boolean(autoBetCount) ||
+      isAutoplayOn ||
       isFreebetActiveButNotRemaining;
 
     const isDisabledForFreeBet = !!activeFreeBet;
@@ -149,15 +153,17 @@ export const PusulabetBetPanel: FC<IBetPanelProps> = observer(
       setSpeed(400);
     };
 
-    const isAutoplayOn = autoBetCount > 0;
+    const isAutoPlayDisabled =
+      isBetPending || isFreebetActiveButNotRemaining;
 
     const onAutoplayToggle = () => {
-      if (controlsDisabled && !isAutoplayOn) return;
       if (isAutoplayOn) {
-        setAutoBetCount(betPanelIndex, 0, true);
-      } else {
-        setAutoBetCount(betPanelIndex, AutoBetDefaultCounts[0], true);
+        betStore.resetAutoPlay(betPanelIndex);
+        betStore.resetAutoBetCount(betPanelIndex);
+        return;
       }
+      if (isAutoPlayDisabled) return;
+      popupStore.setAutoplay(betPanelIndex);
     };
 
     const onAutoCashoutToggle = () => {
@@ -189,15 +195,21 @@ export const PusulabetBetPanel: FC<IBetPanelProps> = observer(
               type='button'
               className={clsx('Pusula-BetPanel-Toggle', {
                 'Pusula-BetPanel-Toggle_on': isAutoplayOn,
+                'Pusula-BetPanel-Toggle_stopping': isAutoplayOn,
               })}
-              disabled={controlsDisabled && !isAutoplayOn}
+              disabled={isAutoPlayDisabled && !isAutoplayOn}
               onClick={onAutoplayToggle}
             >
               <span className='Pusula-BetPanel-Switch' aria-hidden>
                 <span className='Pusula-BetPanel-SwitchKnob' />
               </span>
               <span className='Pusula-BetPanel-ToggleLabel'>
-                {t('betPanel.autoBet', { defaultValue: 'AUTOPLAY' })}
+                {isAutoplayOn
+                  ? t('betPanel.stopAutoplay', {
+                      count: autoPlayCount,
+                      defaultValue: 'STOP AUTOPLAY ({{count}})',
+                    })
+                  : t('betPanel.autoBet', { defaultValue: 'AUTOPLAY' })}
               </span>
             </button>
           </div>

@@ -6,6 +6,11 @@
     border-radius: 14px;
   }
 
+  .Pusula-AutoPlayPanel {
+    width: min(393px, calc(100vw - 16px));
+    border-radius: 14px;
+  }
+
   .Pusula-GameRulesPanel {
     width: min(393px, calc(100vw - 16px));
     max-height: calc(
