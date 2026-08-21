@@ -5,6 +5,7 @@ export const GAME_ASSET_PATHS = {
     logo: 'brand/logo.svg',
     abraMark: 'brand/abra-mark.png',
     abraText: 'brand/abra-text.svg',
+    abraLogo: 'brand/abra-logo.png',
   },
   icons: {
     header: {
@@ -60,7 +61,8 @@ export const GAME_ASSET_PATHS = {
     craneDc66: 'stage/crane-dc66.png',
     craneCa33: 'stage/crane-ca33.png',
     craneCa66: 'stage/crane-ca66.png',
-    rays: 'stage/rays.svg',
+    craneWait: 'stage/crane-wait.png',
+    rays: 'stage/rays.svg?v=narrow2',
   },
   audio: {
     background: 'audio/background.mp3',

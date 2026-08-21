@@ -55,6 +55,17 @@ export function advancePlainStep(
 
 export const CRASH_FLY_LIFT = 150;
 
+export function crashFlyTranslate(
+  canvasW: number,
+  markerLeft: number,
+  markerWidth: number,
+) {
+  return {
+    x: canvasW + markerWidth - markerLeft,
+    y: -CRASH_FLY_LIFT,
+  };
+}
+
 export function chartCurveScale(canvasW: number, canvasH: number) {
   if (!canvasW) return isMobile() ? 0.9 : 1.4;
   return Math.min(canvasW, canvasH) / Math.max(canvasW, canvasH);
@@ -193,7 +204,7 @@ export function chartTrailReveal(
 export function climbLiftEase(climb: number, hollywood = false) {
   if (climb <= 0) return 0;
   const span =
-    hollywood && isMobile() ? 52 : hollywood ? 20 : isMobile() ? 24 : 16;
+    hollywood && isMobile() ? 52 : hollywood ? 38 : isMobile() ? 24 : 16;
   const t = smoothstep01(Math.min(1, climb / span));
   if (hollywood && isMobile()) return t;
   return isMobile() ? t * t : t;
@@ -576,6 +587,8 @@ export const HOLLYWOOD_CRANE_FIGMA = {
   attachNudgeY: -0.02,
   attachNudgeYMobile: -0.07,
   attachNudgeX: -0.08,
+  flightNudgeX: -0.035,
+  flightNudgeY: -0.04,
   strokeAttachX: 0.105,
   strokeAttachY: 0.668,
   strokeAttachNudgeY: 0.016,
@@ -597,7 +610,16 @@ export const HOLLYWOOD_CRANE_FIGMA = {
   waitingPitchMobile: -3,
   waitingOriginY: 0.74,
   waitingOriginYMobile: 0.78,
+  mobileSizeBoost: 1.32,
 } as const;
+
+function hollywoodFloorBlend(endY: number, lineH?: number) {
+  if (lineH == null) return { floorT: 0, airT: 1 };
+  const floorDist = Math.max(0, lineH - endY);
+  const floorSpan = isMobile() ? 56 : 48;
+  const floorT = 1 - smoothstep01(Math.min(1, floorDist / floorSpan));
+  return { floorT, airT: 1 - floorT };
+}
 
 export function hollywoodCraneLevelDeg() {
   return (
@@ -636,13 +658,17 @@ export function hollywoodCraneStrokeEnd(
     strokeAttachNudgeY,
     strokeInset,
     strokeInsetMobile,
+    flightNudgeX,
+    flightNudgeY,
   } = HOLLYWOOD_CRANE_FIGMA;
+  const { airT } = hollywoodFloorBlend(endY, lineH);
   const base = {
-    x: left + strokeAttachX * markerW,
+    x: left + strokeAttachX * markerW - flightNudgeX * markerW * airT,
     y:
       top +
       strokeAttachY * markerH +
-      strokeAttachNudgeY * markerH,
+      strokeAttachNudgeY * markerH -
+      flightNudgeY * markerH * airT,
   };
   const tanX = tipX - curveCtrlX;
   const tanY = endY - lineH;
@@ -665,8 +691,17 @@ export function hollywoodCranePosition(
   curveCtrlX?: number,
   lineH?: number,
 ): MarkerBox {
-  const { attachX, attachY, attachNudgeY, attachNudgeYMobile, attachNudgeX, pathBack, waitingFloorNudgeY } =
-    HOLLYWOOD_CRANE_FIGMA;
+  const {
+    attachX,
+    attachY,
+    attachNudgeY,
+    attachNudgeYMobile,
+    attachNudgeX,
+    flightNudgeX,
+    flightNudgeY,
+    pathBack,
+    waitingFloorNudgeY,
+  } = HOLLYWOOD_CRANE_FIGMA;
 
   let anchorX = tipX;
   let anchorY = endY;
@@ -680,15 +715,22 @@ export function hollywoodCranePosition(
     anchorY -= (tanY / len) * back;
   }
 
-  const floorDist = lineH != null ? Math.max(0, lineH - endY) : 0;
-  const floorSpan = isMobile() ? 56 : 28;
-  const floorT = 1 - smoothstep01(Math.min(1, floorDist / floorSpan));
+  const { floorT, airT } = hollywoodFloorBlend(endY, lineH);
   const floorNudgeY = waitingFloorNudgeY * markerH * floorT;
   const nudgeY = isMobile() ? attachNudgeYMobile : attachNudgeY;
 
   return {
-    left: anchorX - attachX * markerW + attachNudgeX * markerW,
-    top: anchorY - attachY * markerH + nudgeY * markerH + floorNudgeY,
+    left:
+      anchorX -
+      attachX * markerW +
+      attachNudgeX * markerW +
+      flightNudgeX * markerW * airT,
+    top:
+      anchorY -
+      attachY * markerH +
+      nudgeY * markerH +
+      flightNudgeY * markerH * airT +
+      floorNudgeY,
   };
 }
 
@@ -715,8 +757,9 @@ export function hollywoodCraneSize(canvasW: number, canvasH: number) {
     canvasW / HOLLYWOOD_CRANE_FIGMA.frameW,
     canvasH / HOLLYWOOD_CRANE_FIGMA.frameH,
   );
+  const boost = isMobile() ? HOLLYWOOD_CRANE_FIGMA.mobileSizeBoost : 1;
   return {
-    width: HOLLYWOOD_CRANE_FIGMA.width * scale,
-    height: HOLLYWOOD_CRANE_FIGMA.height * scale,
+    width: HOLLYWOOD_CRANE_FIGMA.width * scale * boost,
+    height: HOLLYWOOD_CRANE_FIGMA.height * scale * boost,
   };
 }

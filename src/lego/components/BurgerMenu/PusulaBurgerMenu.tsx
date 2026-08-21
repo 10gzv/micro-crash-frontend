@@ -264,22 +264,14 @@ export const PusulaBurgerMenu: FC<PusulaBurgerMenuProps> = observer(
 
         <footer className="Pusula-SettingsMenu-Footer">
           <div className="Pusula-SettingsMenu-Powered">
-            <img
-              src={pusulaBurgerMenuIcon(PUSULA_BURGER_MENU_ICONS.poweredBadge)}
-              alt=""
-              className="Pusula-SettingsMenu-PoweredBadge"
-              width={26}
-              height={26}
-              draggable={false}
-            />
             <span className="Pusula-SettingsMenu-PoweredLabel">
               {t('pusula.settings.poweredBy', { defaultValue: 'Powered by' })}
             </span>
             <img
-              src={gameAsset(GAME_ASSET_PATHS.brand.abraText)}
-              alt="AbraCadabra"
+              src={gameAsset(GAME_ASSET_PATHS.brand.abraLogo)}
+              alt="Abra Cadabra"
               className="Pusula-SettingsMenu-PoweredBrand"
-              height={12}
+              height={28}
               draggable={false}
             />
           </div>

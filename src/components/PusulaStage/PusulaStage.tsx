@@ -2,7 +2,7 @@ import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import clsx from 'clsx';
 
-import { gameStore, oddDataStore, userBetsStore } from '@10gzv/crash-core';
+import { gameStore, userBetsStore } from '@10gzv/crash-core';
 import { useSize } from '@/lego/hooks/useSize';
 import {
   gameAsset,
@@ -40,21 +40,20 @@ import {
   waitingMarkerOffset,
   waitingMarkerBox,
   markerBoxWithWaitingOffset,
-  CRASH_FLY_LIFT,
-  oddBackgroundBlend,
+  crashFlyTranslate,
   chartTrailReveal,
   hollywoodCraneWaitT,
   MARKER_WAITING_PITCH_MOBILE,
   MARKER_WAITING_ORIGIN_Y_MOBILE,
 } from './stageFlight';
 import { PusulaChart } from './PusulaChart';
+import { StageRays } from './StageRays';
 import { PusulaStageNotice } from '@/lego/components/BetAcceptedNotice';
 
 const MARKER_ASPECT = 110 / 115;
 
 export const PusulaStage: FC = observer(() => {
   const { isOddStarted, isRoundOver } = gameStore;
-  const { odd } = oddDataStore;
   const { numOfBets } = userBetsStore;
 
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -68,7 +67,6 @@ export const PusulaStage: FC = observer(() => {
   const [markerWidth, setMarkerWidth] = useState(52);
   const [markerHeight, setMarkerHeight] = useState(0);
 
-  const raysUrl = gameAsset(GAME_ASSET_PATHS.stage.rays);
   const compassUrl = gameAsset(GAME_ASSET_PATHS.stage.compass);
   const markerUrl = resolvedTheme.stageMarkers[0];
 
@@ -91,6 +89,13 @@ export const PusulaStage: FC = observer(() => {
     markerHeight,
     isHollywood,
   };
+  const crashPoseRef = useRef<{
+    left: number;
+    top: number;
+    x: number;
+    y: number;
+    rotate: number;
+  } | null>(null);
   const markerAttachX = isHollywood
     ? HOLLYWOOD_CRANE_FIGMA.attachX
     : MARKER_ATTACH_X;
@@ -116,13 +121,13 @@ export const PusulaStage: FC = observer(() => {
   }, [markerWidth, isHollywood]);
 
   const isWaiting = !isOddStarted && !isRoundOver;
-  const oddBlend =
-    isOddStarted && !isRoundOver ? oddBackgroundBlend(odd) : 0;
+  const oddBlend = 0;
 
   useEffect(() => {
     if (isWaiting) {
       setPlainPosition(IDLE_POSITION);
       setFinalized(null);
+      crashPoseRef.current = null;
     }
   }, [isWaiting]);
 
@@ -217,7 +222,6 @@ export const PusulaStage: FC = observer(() => {
 
   const showChart =
     canvasW > 0 && isOddStarted && !isRoundOver && chartReveal > 0;
-  const crashClimb = (finalized ?? plainPosition).x;
 
   const tipGeom =
     canvasW > 0 && canvasH > 0 && markerHeight > 0
@@ -336,18 +340,33 @@ export const PusulaStage: FC = observer(() => {
       ? MARKER_WAITING_ORIGIN_Y_MOBILE * waitT + markerAttachY * (1 - waitT)
       : markerAttachY;
 
+  const liveRotate = isHollywood ? hollywoodRotate : rotateDeg + pitchDeg;
+  if (!isRoundOver) {
+    crashPoseRef.current = null;
+  } else if (!crashPoseRef.current && canvasW > 0) {
+    const fly = crashFlyTranslate(canvasW, markerLeft, markerWidth);
+    crashPoseRef.current = {
+      left: markerLeft,
+      top: markerTop,
+      x: fly.x,
+      y: fly.y,
+      rotate: liveRotate,
+    };
+  }
+  const crashPose = crashPoseRef.current;
+
   const markerStyle = {
-    left: markerLeft,
-    top: markerTop,
+    left: crashPose?.left ?? markerLeft,
+    top: crashPose?.top ?? markerTop,
     width: markerWidth,
     height: markerHeight,
     transformOrigin:
       isHollywood || (!isHollywood && isMobile())
         ? `${markerAttachX * 100}% ${originY * 100}%`
         : `${markerAttachX * 100}% ${markerAttachY * 100}%`,
-    transform: isRoundOver
-      ? `translateX(${canvasW + markerWidth}px) translateY(-${crashClimb + CRASH_FLY_LIFT}px) rotate(${(isHollywood ? hollywoodRotate : rotateDeg) + 10}deg)`
-      : `rotate(${isHollywood ? hollywoodRotate : rotateDeg + pitchDeg}deg)`,
+    transform: crashPose
+      ? `translate(${crashPose.x}px, ${crashPose.y}px) rotate(${crashPose.rotate}deg)`
+      : `rotate(${liveRotate}deg)`,
   } as CSSProperties;
 
   const showMarker =
@@ -367,18 +386,8 @@ export const PusulaStage: FC = observer(() => {
         <PusulaStageNotice />
 
         <div className='PusulaStage-RaysStack' aria-hidden>
-          <img
-            className='PusulaStage-Rays PusulaStage-Rays_low'
-            src={raysUrl}
-            alt=''
-            draggable={false}
-          />
-          <img
-            className='PusulaStage-Rays PusulaStage-Rays_high'
-            src={raysUrl}
-            alt=''
-            draggable={false}
-          />
+          <StageRays className='PusulaStage-Rays_low' />
+          <StageRays className='PusulaStage-Rays_high' />
         </div>
 
         <div className='PusulaStage-GlowStack' aria-hidden>
@@ -421,6 +430,7 @@ export const PusulaStage: FC = observer(() => {
           (isHollywood ? (
             <div
               className={clsx('PusulaStage-Crane', {
+                'PusulaStage-Crane_waiting': isWaiting,
                 'PusulaStage-Crane_flapping':
                   isOddStarted && !isRoundOver && craneWaitT < 1,
               })}
@@ -430,6 +440,16 @@ export const PusulaStage: FC = observer(() => {
               }}
             >
               <div className='PusulaStage-CraneBody'>
+                <img
+                  className={clsx(
+                    'PusulaStage-Marker',
+                    'PusulaStage-Marker_hollywood',
+                    'PusulaStage-Marker_hollywood_wait',
+                  )}
+                  src={gameAsset(GAME_ASSET_PATHS.stage.craneWait)}
+                  alt=''
+                  draggable={false}
+                />
                 {HOLLYWOOD_CRANE_FRAMES.map((frame, index) => (
                   <img
                     key={`${frame}-${index}`}

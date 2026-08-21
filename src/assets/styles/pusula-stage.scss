@@ -51,6 +51,17 @@
   transition: opacity 0.45s ease;
 }
 
+.PusulaStage-Canvas .Lego-RoundOdd {
+  z-index: 12;
+}
+
+.PusulaStage-Canvas .Lego-RoundOdd-Text-Inner {
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+  opacity: 1;
+  mix-blend-mode: normal;
+}
+
 .PusulaStage-Vignette {
   position: absolute;
   inset: 0;
@@ -73,8 +84,8 @@
   aspect-ratio: 1 / 1;
   height: auto;
   max-width: none;
-  object-fit: cover;
-  object-position: center center;
+  display: block;
+  overflow: visible;
   transform-origin: 50% 50%;
   transform: translate3d(-50%, 50%, 0) scale(0.92);
   pointer-events: none;
@@ -174,8 +185,8 @@
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
 }
 
-.PusulaStage-Canvas_roundOver .PusulaStage-Marker {
-  transition: 1s all cubic-bezier(0, 1.27, 0.81, 0.83);
+.PusulaStage-Canvas.PusulaStage-Canvas_roundOver .PusulaStage-Marker {
+  transition: transform 1s cubic-bezier(0, 1.27, 0.81, 0.83);
 }
 
 .PusulaStage-Chart {
@@ -407,7 +418,6 @@
 @media (max-width: #{$screen-l-min - 1px}) {
   .PusulaStage-Rays {
     width: 360%;
-    object-fit: cover;
     transform: translate3d(-50%, 50%, 0) scale(1.08);
     animation: pusula-rays-rotate-mobile 30s linear infinite;
     -webkit-backface-visibility: hidden;

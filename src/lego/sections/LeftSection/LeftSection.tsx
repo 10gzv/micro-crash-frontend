@@ -94,18 +94,10 @@ export const LeftSection: FC<ILeftSectionProps> = observer(
             })}
           </span>
           <img
-            className="Pusula-PoweredBy-Mark"
-            src={gameAsset(GAME_ASSET_PATHS.brand.abraMark)}
-            alt=""
-            width={16}
-            height={16}
-            draggable={false}
-          />
-          <img
-            className="Pusula-PoweredBy-Brand"
-            src={gameAsset(GAME_ASSET_PATHS.brand.abraText)}
-            alt="AbraCadabra"
-            height={12}
+            className="Pusula-PoweredBy-Logo"
+            src={gameAsset(GAME_ASSET_PATHS.brand.abraLogo)}
+            alt="Abra Cadabra"
+            height={24}
             draggable={false}
           />
         </div>
